@@ -30,10 +30,14 @@ class StreamingOutput(object):
 class StreamingHandler(server.BaseHTTPRequestHandler):
         def do_GET(self):
                 if "/?" in self.path:
-                        params = parse_qs(self.path[2:])
-                        print("GOT : ", params)
+                        global params
+                        PAGE = "{'status': ok}"
+                        try:
+                                params = parse_qs(self.path[2:])
+                                print("GOT : ", params)
+                        except Exception as e:
+                                PAGE = "{'status': 'not ok', 'error': '" + str(e) + "' }"
                         self.send_response(200)
-                        PAGE = "{'status': 'ok'}"
                         self.send_header('Content-Type', 'text/json')
                         content = PAGE.encode('utf-8')
                         self.send_header('Content-Length', len(content))

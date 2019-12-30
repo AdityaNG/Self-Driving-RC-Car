@@ -7,6 +7,13 @@ function supportsGamepads() {
 
 last_press = new Date().getTime();
 
+function httpGet(theUrl) {
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
+    xmlHttp.send( null );
+    return xmlHttp.responseText;
+}
+
 function checkAvailable (argument) {
 	if (supportsGamepads()) {
 		// Get the state of all gamepads
@@ -48,7 +55,7 @@ function checkAvailable (argument) {
 
 function selectGamepad(id) {
 	PAD_ID = id;
-	
+
 	$('<div></div>').html(gamepads[PAD_ID].id).dialog({
 		title: 'Selected Gamepad',
 		buttons: {
@@ -59,7 +66,7 @@ function selectGamepad(id) {
 	});
 
 	$( "#gamepads_table_dialog" ).dialog('close');
-	
+
 	// Kick off the rendering
 	requestAnimationFrame(handleFrame);
 }
@@ -113,7 +120,7 @@ function invertChange (context) {
 			DIGITAL_INVERT.append(false);
 		}
 	}
-	
+
 	if (context.value == 'analog') {
 		ANALOG_INVERT[id] = context.checked;
 	} else {
@@ -184,7 +191,7 @@ function handleFrame(timestamp) {
 
 	if (STEER_ID!=-1) {
 		steering_wheel = document.getElementById('steering_wheel');
-		
+
 		invert = 1;
 		if (ANALOG_INVERT[STEER_ID])
 			invert = -1;
