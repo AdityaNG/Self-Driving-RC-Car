@@ -31,7 +31,14 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
     def do_GET(self):
         if "/?" in self.path:
             params = parse_qs(self.path[2:])
-            
+            print("GOT : ", params)
+            self.send_response(200)
+            PAGE = "{'status': 'ok'}"
+            self.send_header('Content-Type', 'text/json')
+            content = PAGE.encode('utf-8')
+            self.send_header('Content-Length', len(content))
+            self.end_headers()
+            self.wfile.write(content)
         elif self.path == '/':
             self.send_response(301)
             self.send_header('Location', '/index.html')
