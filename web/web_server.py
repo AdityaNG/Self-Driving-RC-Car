@@ -56,6 +56,7 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
                     self.client_address, str(e))
         else:
             try:
+                print('Opening file : ', self.path[1:])
                 f = open(self.path[1:])
                 PAGE = f.read()
                 content = PAGE.encode('utf-8')
