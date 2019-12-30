@@ -4,7 +4,7 @@ import logging
 import socketserver
 from threading import Condition
 from http import server
-
+from os import curdir, sep
 
 #f = open('index.html')
 #PAGE=f.read()
@@ -56,8 +56,8 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
                     self.client_address, str(e))
         else:
             try:
-                print('Opening file : ', self.path[1:])
-                f = open(self.path[1:])
+                print('Opening file : ', curdir + sep + self.path)
+                f = open(curdir + sep + self.path)
                 PAGE = f.read()
                 content = PAGE.encode('utf-8')
                 self.send_response(200)
