@@ -5,6 +5,7 @@ import socketserver
 from threading import Condition
 from http import server
 from os import curdir, sep
+from urllib.parse import parse_qs
 
 #f = open('index.html')
 #PAGE=f.read()
@@ -28,7 +29,10 @@ class StreamingOutput(object):
 
 class StreamingHandler(server.BaseHTTPRequestHandler):
     def do_GET(self):
-        if self.path == '/':
+        if "/?" in self.path:
+            params = parse_qs(self.path[2:])
+            
+        elif self.path == '/':
             self.send_response(301)
             self.send_header('Location', '/index.html')
             self.end_headers()
@@ -56,18 +60,27 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
                     self.client_address, str(e))
         else:
             try:
-                print('Opening file : ', curdir + sep + self.path)
-                f = open(curdir + sep + self.path)
-                PAGE = f.read()
-                content = PAGE.encode('utf-8')
+                print('Opening file : ', self.path[1:])
+                PAGE = ""
                 self.send_response(200)
-                self.send_header('Content-Type', 'text/html')
+                if self.path.endswith('.png'):
+                        print('Inside IF')
+                        f = open(self.path[1:], 'rb')
+                        PAGE = f.read()
+                        self.send_header('Content-Type', 'image/png')
+                        content = PAGE
+                else:
+                        f = open(self.path[1:], 'r')
+                        PAGE = f.read()
+                        self.send_header('Content-Type', 'text/html')
+                        content = PAGE.encode('utf-8')
                 self.send_header('Content-Length', len(content))
                 self.end_headers()
                 self.wfile.write(content)
-            except:
+            except Exception as e:
                 self.send_error(404)
                 self.end_headers()
+                print(e)
 
 class StreamingServer(socketserver.ThreadingMixIn, server.HTTPServer):
     allow_reuse_address = True
