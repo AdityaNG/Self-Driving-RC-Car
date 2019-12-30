@@ -6,8 +6,8 @@ from threading import Condition
 from http import server
 
 
-f = open('index.html')
-PAGE=f.read()
+#f = open('index.html')
+#PAGE=f.read()
 
 class StreamingOutput(object):
     def __init__(self):
@@ -32,13 +32,6 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
             self.send_response(301)
             self.send_header('Location', '/index.html')
             self.end_headers()
-        elif self.path == '/index.html':
-            content = PAGE.encode('utf-8')
-            self.send_response(200)
-            self.send_header('Content-Type', 'text/html')
-            self.send_header('Content-Length', len(content))
-            self.end_headers()
-            self.wfile.write(content)
         elif self.path == '/stream.mjpg':
             self.send_response(200)
             self.send_header('Age', 0)
@@ -62,8 +55,18 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
                     'Removed streaming client %s: %s',
                     self.client_address, str(e))
         else:
-            self.send_error(404)
-            self.end_headers()
+            try:
+                f = open(self.path[1:])
+                PAGE = f.read()
+                content = PAGE.encode('utf-8')
+                self.send_response(200)
+                self.send_header('Content-Type', 'text/html')
+                self.send_header('Content-Length', len(content))
+                self.end_headers()
+                self.wfile.write(content)
+            except:
+                self.send_error(404)
+                self.end_headers()
 
 class StreamingServer(socketserver.ThreadingMixIn, server.HTTPServer):
     allow_reuse_address = True
