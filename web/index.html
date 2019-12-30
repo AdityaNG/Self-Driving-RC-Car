@@ -1,0 +1,62 @@
+<html>
+	<head>
+		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+		<link rel="stylesheet" href="/resources/demos/style.css">
+		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+		<script type="text/javascript" src="main.js"></script>
+		<style type="text/css">
+		table, th, td {
+			border: 1px solid black;
+			border-collapse: collapse;
+			text-align: left;
+		}
+		table {
+			width: 100%;
+		}
+
+		table .clear {
+			border: none;
+			text-align: center;
+		}
+		</style>
+	</head>
+	<body>
+
+		<div id="gamepads_table_dialog" style="display: none;" title="Select Gamepad">
+			<div id="gamepads_table"></div>
+		</div>
+
+		<div id="input_display">
+			<table class="clear">
+				<tr>
+					<td>
+						<h3>Steering</h3>
+						<img id="steering_wheel" src="images/steering_wheel.png" style="height: 250px; width: 250px;">
+						<h3 id="steering_angle">0 degrees</h3>
+					</td>
+					<td>
+						<h3>Acceleration</h3>
+						<h3 id="accel_val">0 %</h3>
+						<h3 id="accel_type">-</h3>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<h3>Mode : </h3><h3 id="current_speed">1</h3>
+					</td>
+					<td id="slow_down">
+						<h3>Slow Down</h3>
+					</td>
+					<td id="speed_up">
+						<h3>Speed up</h3>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+		<hr>
+		
+		<div id="gamepad_data"></div>
+	</body>
+</html>
