@@ -128,6 +128,11 @@ function invertChange (context) {
 	}
 }
 
+steering_angle = 0
+accel_val = 0
+message = "/?steering_angle={{steering_angle}}&accel_val={{accel_val}}"
+last_message = ""
+
 function handleFrame(timestamp) {
 
 	gamepads = navigator.getGamepads();
@@ -200,6 +205,7 @@ function handleFrame(timestamp) {
 
 	    steering_angle = document.getElementById('steering_angle');
 	    steering_angle.innerHTML = Math.floor(gamepads[PAD_ID].axes[STEER_ID] * 45) + " degrees";
+            steering_angle = gamepads[PAD_ID].axes[STEER_ID];
 	}
 
 	if (ACCEL_ID!=-1) {
@@ -210,23 +216,23 @@ function handleFrame(timestamp) {
 			invert = -1;
 	    
 
-	    val = Math.floor(gamepads[PAD_ID].axes[ACCEL_ID].toFixed(4)*100) * invert;
+	    accel_val = Math.floor(gamepads[PAD_ID].axes[ACCEL_ID].toFixed(4)*100) * invert;
 
-	    accel_val = document.getElementById('accel_val');
+	    accel = document.getElementById('accel_val');
 	    accel_type = document.getElementById('accel_type');
-	    accel_val.innerHTML = val + " %";
-	    if (val>0) {
+	    accel.innerHTML = accel_val + " %";
+	    if (accel_val>0) {
 	    	accel_type.innerHTML = "Accelerating";
-	    	accel_val.style.background = "green";
-	    } else if (val<0) {
+	    	accel.style.background = "green";
+	    } else if (accel_val<0) {
 			accel_type.innerHTML = "Deccelerating";
-			accel_val.style.background = "red";
+			accel.style.background = "red";
 	    } else {
 	    	accel_type.innerHTML = "-";
 	    }
 
 	    setTimeout(function () {
-	    	accel_val.style.background = "white";
+	    	accel.style.background = "white";
 	    }, 1500);
 	}
 
@@ -261,6 +267,12 @@ function handleFrame(timestamp) {
 		}
 	}
 
+    m = message.replace("{{steering_angle}}", steering_angle).replace("{{accel_val}}", accel_val)
+    if (m != last_message) {
+        res = httpGet(document.location.origin + m)
+	console.log(res)
+        last_message = m
+    }
     // Render it again
     requestAnimationFrame(handleFrame);
 }
