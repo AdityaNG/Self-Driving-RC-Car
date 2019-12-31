@@ -7,6 +7,8 @@ from http import server
 from os import curdir, sep
 from urllib.parse import parse_qs
 
+import prefs
+
 #f = open('index.html')
 #PAGE=f.read()
 
@@ -34,6 +36,8 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
                         PAGE = "{'status': ok}"
                         try:
                                 params = parse_qs(self.path[2:])
+                                for d in params:
+                                    prefs.set_pref(d, params[d][0])
                                 print("GOT : ", params)
                         except Exception as e:
                                 PAGE = "{'status': 'not ok', 'error': '" + str(e) + "' }"

@@ -1,7 +1,5 @@
 import os
 
-from crash_logs import logger
-
 '''
 prefs.py
 This files handles:
@@ -32,7 +30,7 @@ def get_pref(p):
     if f.mode == 'r':
         return f.read()
     else:
-        logger.info("Permission Error : "+ stick_config)
+        print("Permission Error : "+ stick_config)
         exit(1)
 
 def set_pref(p, val):
