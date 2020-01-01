@@ -71,17 +71,17 @@ function selectGamepad(id) {
 	requestAnimationFrame(handleFrame);
 }
 
-function auto_refresh () {
+function auto_refresh() {
 	if (PAD_ID == -1) {
 		checkAvailable();
 		setTimeout(auto_refresh, 1000);
 	}
 }
 
-$( function() {
-    $( "#gamepads_table_dialog" ).dialog();
+function select_gamepad_dialog() {
+	$( "#gamepads_table_dialog" ).dialog();
 	auto_refresh();
-});
+}
 
 
 // Handle controls and drawing a new frame
@@ -130,7 +130,8 @@ function invertChange (context) {
 
 steering_angle = 0
 accel_val = 0
-message = "/?steering_angle={{steering_angle}}&accel_val={{accel_val}}"
+rec = 0
+message = "/?steering_angle={{steering_angle}}&accel_val={{accel_val}}&rec={{rec}}"
 last_message = ""
 
 function handleFrame(timestamp) {
@@ -267,7 +268,7 @@ function handleFrame(timestamp) {
 		}
 	}
 
-    m = message.replace("{{steering_angle}}", steering_angle).replace("{{accel_val}}", accel_val)
+    m = message.replace("{{steering_angle}}", steering_angle).replace("{{accel_val}}", accel_val).replace("{{rec}}", rec)
     if (m != last_message) {
         res = httpGet(document.location.origin + m)
 	console.log(res)
@@ -276,3 +277,47 @@ function handleFrame(timestamp) {
     // Render it again
     requestAnimationFrame(handleFrame);
 }
+
+function start_recording() {
+	record_button = document.getElementById('record_button')
+	recording_name = document.getElementById('recording_name')
+	if (recording_name.value != "") {
+		if (rec == 0 ) {
+			rec = recording_name.value
+			record_button.innerHTML = "Stop Recording"
+			record_button.style.background = "grey"
+		} else {
+			rec = 0
+			record_button.innerHTML = "Start Recording"
+			record_button.style.background = "red"
+		}
+	} else {
+		$('<div></div>').html('Recording name can not be black').dialog({
+			title: "Recording Name",
+			buttons: {
+	            'Ok': function()  {
+	                $( this ).dialog( 'close' );
+	            }
+	        }
+		});
+	}
+}
+
+$(function() {
+        $.contextMenu({
+            selector: '.card', 
+            callback: function(key, options) {
+                console.log(key); 
+                console.log($(this).text())
+            },
+            items: {
+                "download": {name: "Download", icon: "fa-download"},
+                "rename": {name: "Rename", icon: "fa-edit"},
+                "delete": {name: "Delete", icon: "fa-trash"}
+            }
+        });
+
+        $('.card').on('click', function(e){
+            console.log(this);
+        })    
+    });
