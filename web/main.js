@@ -67,9 +67,10 @@ function selectGamepad(id) {
 
 	$( "#gamepads_table_dialog" ).dialog('close');
 
-	// Kick off the rendering
-	requestAnimationFrame(handleFrame);
 }
+
+// Kick off the rendering
+requestAnimationFrame(handleFrame);
 
 function auto_refresh() {
 	if (PAD_ID == -1) {
@@ -133,6 +134,38 @@ accel_val = 0
 rec = 0
 message = "/?steering_angle={{steering_angle}}&accel_val={{accel_val}}&rec={{rec}}"
 last_message = ""
+last_keypress = new Date().getTime()
+document.onkeypress = function (e) {
+    e = e || window.event;
+    steering_angle = 0
+	accel_val = 0
+	last_keypress = new Date().getTime()
+    switch(e.key) {
+    	case "w":
+    		accel_val = 100;
+    		break;
+    	case "s":
+    		accel_val = -100;
+    		break;
+    	case "d":
+    		steering_angle = 1;
+    		break;
+    	case "a":
+    		steering_angle = -1;
+    		break;
+    	case "p":
+    		current_speed = document.getElementById('current_speed');
+    		if (Number(current_speed.innerHTML)<4) {
+				current_speed.innerHTML = Number(current_speed.innerHTML)+1;
+			}
+			break;
+		case "o":
+			current_speed = document.getElementById('current_speed');
+    		if (Number(current_speed.innerHTML)>1) {
+				current_speed.innerHTML = Number(current_speed.innerHTML)-1;
+			}
+    }
+};
 
 function handleFrame(timestamp) {
 
@@ -141,73 +174,75 @@ function handleFrame(timestamp) {
 	analog_table = document.getElementById('analog_table');
 	digital_table = document.getElementById('digital_table');
 
-	if (analog_table == null || digital_table == null) {
-		analog_drop_down = '<select onchange="' + "controlChange(this, {{ID}}, 'analog');" + '" name="analog_drop_down"><option value="none">Select</option><option value="front_back">Front-Back</option><option value="left_right">Left Right</option></select>';
-		digital_drop_down = '<select onchange="' + "controlChange(this, {{ID}}, 'digital');" + '" name="digital_drop_down"><option value="none">Select</option><option value="speed_up">Speed Up</option><option value="speed_down">Slow Down</option></select>';
+	if (PAD_ID!=-1 && gamepads[PAD_ID]!=undefined) {
+		if (analog_table == null || digital_table == null) {
+			analog_drop_down = '<select onchange="' + "controlChange(this, {{ID}}, 'analog');" + '" name="analog_drop_down"><option value="none">Select</option><option value="front_back">Front-Back</option><option value="left_right">Left Right</option></select>';
+			digital_drop_down = '<select onchange="' + "controlChange(this, {{ID}}, 'digital');" + '" name="digital_drop_down"><option value="none">Select</option><option value="speed_up">Speed Up</option><option value="speed_down">Slow Down</option></select>';
 
-		table_start = "<h1>{{GAMEPAD_NAME}}</h1><h2>Analog</h2><table id='analog_table'><tr> <th>ID</th> <th>Name</th> <th>Use</th> <th>Invert</th> </tr>";
-		table_end = "</table>";
-		row = "<tr> <td>{{ID}}</td> <td>{{MAG}}</td> <td>" + analog_drop_down + "</td> <td><input onchange='invertChange(this);' type='checkbox' name='{{ID}}' value='analog'></td> </tr>";
+			table_start = "<h1>{{GAMEPAD_NAME}}</h1><h2>Analog</h2><table id='analog_table'><tr> <th>ID</th> <th>Name</th> <th>Use</th> <th>Invert</th> </tr>";
+			table_end = "</table>";
+			row = "<tr> <td>{{ID}}</td> <td>{{MAG}}</td> <td>" + analog_drop_down + "</td> <td><input onchange='invertChange(this);' type='checkbox' name='{{ID}}' value='analog'></td> </tr>";
 
-		table_start = table_start.replace('{{GAMEPAD_NAME}}', gamepads[PAD_ID].id);
+			table_start = table_start.replace('{{GAMEPAD_NAME}}', gamepads[PAD_ID].id);
 
-		axes = gamepads[PAD_ID].axes;
-		for (let i=0; i<axes.length; i++) {
-			table_start += row.replace('{{ID}}', i).replace('{{MAG}}', Math.floor(axes[i].toFixed(2)*100) + " %").replace('{{ID}}', i).replace('{{ID}}', i);
-		}
-		table_start += table_end;
-
-		res = table_start;
-
-		table_start = "<h2>Digital</h2><table id='digital_table'><tr> <th>ID</th> <th>Name</th> <th>Use</th> <th>Invert</th> </tr>";
-		row = "<tr> <td>{{ID}}</td> <td>{{MAG}}</td> <td>" + digital_drop_down + "</td><td><input onchange='invertChange(this);' type='checkbox' name='{{ID}}' value='digital'></td> </tr>";
-		buttons = gamepads[PAD_ID].buttons;
-		for (let i=0; i<buttons.length; i++) {
-			table_start += row.replace('{{ID}}', i).replace('{{MAG}}', buttons[i].pressed).replace('{{ID}}', i);
-		}
-
-		res += table_start;
-
-		document.getElementById('gamepad_data').innerHTML = res;
-	} else {
-		axes = gamepads[PAD_ID].axes;
-		for (let i=0; i<axes.length; i++) {
-			let analog_cell = analog_table.rows[i+1].cells[1];
-			if (analog_cell.innerHTML != Math.floor(axes[i].toFixed(2)*100) + " %") {
-				analog_cell.style.background = "green";
-				setTimeout(function () {
-					analog_cell.style.background = "white";
-				}, 500);
+			axes = gamepads[PAD_ID].axes;
+			for (let i=0; i<axes.length; i++) {
+				table_start += row.replace('{{ID}}', i).replace('{{MAG}}', Math.floor(axes[i].toFixed(2)*100) + " %").replace('{{ID}}', i).replace('{{ID}}', i);
 			}
-			analog_cell.innerHTML = Math.floor(axes[i].toFixed(2)*100) + " %";
-		}
+			table_start += table_end;
 
-		buttons = gamepads[PAD_ID].buttons;
-		for (let i=0; i<buttons.length; i++) {
-			let digital_cell = digital_table.rows[i+1].cells[1];
-			if (digital_cell.innerHTML != String(buttons[i].pressed)) {
-				digital_cell.style.background = "green";
-				setTimeout(function () {
-					digital_cell.style.background = "white";
-				}, 500);
+			res = table_start;
+
+			table_start = "<h2>Digital</h2><table id='digital_table'><tr> <th>ID</th> <th>Name</th> <th>Use</th> <th>Invert</th> </tr>";
+			row = "<tr> <td>{{ID}}</td> <td>{{MAG}}</td> <td>" + digital_drop_down + "</td><td><input onchange='invertChange(this);' type='checkbox' name='{{ID}}' value='digital'></td> </tr>";
+			buttons = gamepads[PAD_ID].buttons;
+			for (let i=0; i<buttons.length; i++) {
+				table_start += row.replace('{{ID}}', i).replace('{{MAG}}', buttons[i].pressed).replace('{{ID}}', i);
 			}
-			digital_cell.innerHTML = buttons[i].pressed;
+
+			res += table_start;
+
+			document.getElementById('gamepad_data').innerHTML = res;
+		} else {
+			axes = gamepads[PAD_ID].axes;
+			for (let i=0; i<axes.length; i++) {
+				let analog_cell = analog_table.rows[i+1].cells[1];
+				if (analog_cell.innerHTML != Math.floor(axes[i].toFixed(2)*100) + " %") {
+					analog_cell.style.background = "green";
+					setTimeout(function () {
+						analog_cell.style.background = "white";
+					}, 500);
+				}
+				analog_cell.innerHTML = Math.floor(axes[i].toFixed(2)*100) + " %";
+			}
+
+			buttons = gamepads[PAD_ID].buttons;
+			for (let i=0; i<buttons.length; i++) {
+				let digital_cell = digital_table.rows[i+1].cells[1];
+				if (digital_cell.innerHTML != String(buttons[i].pressed)) {
+					digital_cell.style.background = "green";
+					setTimeout(function () {
+						digital_cell.style.background = "white";
+					}, 500);
+				}
+				digital_cell.innerHTML = buttons[i].pressed;
+			}
 		}
 	}
 
 	if (STEER_ID!=-1) {
-		steering_wheel = document.getElementById('steering_wheel');
 
 		invert = 1;
 		if (ANALOG_INVERT[STEER_ID])
 			invert = -1;
 
-	    steering_wheel.style.transform = 'rotate(' + gamepads[PAD_ID].axes[STEER_ID] * 90 * 1.5 * invert + 'deg)';
 
-	    steering_angle = document.getElementById('steering_angle');
-	    steering_angle.innerHTML = Math.floor(gamepads[PAD_ID].axes[STEER_ID] * 45) + " degrees";
-            steering_angle = gamepads[PAD_ID].axes[STEER_ID];
+        steering_angle = gamepads[PAD_ID].axes[STEER_ID] * invert;
 	}
+	steering_wheel = document.getElementById('steering_wheel');
+    steering_wheel.style.transform = 'rotate(' + steering_angle * 90 * 1.5  + 'deg)';
+	steering_angle_ele = document.getElementById('steering_angle');
+	steering_angle_ele.innerHTML = Math.floor(steering_angle * 45) + " degrees";
 
 	if (ACCEL_ID!=-1) {
 		steering_wheel = document.getElementById('steering_wheel');
@@ -216,26 +251,25 @@ function handleFrame(timestamp) {
 		if (ANALOG_INVERT[ACCEL_ID])
 			invert = -1;
 	    
-
 	    accel_val = Math.floor(gamepads[PAD_ID].axes[ACCEL_ID].toFixed(4)*100) * invert;
-
-	    accel = document.getElementById('accel_val');
-	    accel_type = document.getElementById('accel_type');
-	    accel.innerHTML = accel_val + " %";
-	    if (accel_val>0) {
-	    	accel_type.innerHTML = "Accelerating";
-	    	accel.style.background = "green";
-	    } else if (accel_val<0) {
-			accel_type.innerHTML = "Deccelerating";
-			accel.style.background = "red";
-	    } else {
-	    	accel_type.innerHTML = "-";
-	    }
-
-	    setTimeout(function () {
-	    	accel.style.background = "white";
-	    }, 1500);
 	}
+
+	accel = document.getElementById('accel_val');
+	accel_type = document.getElementById('accel_type');
+	accel.innerHTML = accel_val + " %";
+	if (accel_val>0) {
+	    accel_type.innerHTML = "Accelerating";
+	    accel.style.background = "green";
+	} else if (accel_val<0) {
+		accel_type.innerHTML = "Deccelerating";
+		accel.style.background = "red";
+	} else {
+		accel_type.innerHTML = "-";
+	}
+
+	setTimeout(function () {
+		accel.style.background = "white";
+	}, 1500);
 
 	current_speed = document.getElementById('current_speed');
 	now = new Date().getTime();
@@ -271,10 +305,17 @@ function handleFrame(timestamp) {
     m = message.replace("{{steering_angle}}", steering_angle).replace("{{accel_val}}", accel_val).replace("{{rec}}", rec)
     if (m != last_message) {
         res = httpGet(document.location.origin + m)
-	console.log(res)
+		//console.log(res)
         last_message = m
     }
-    // Render it again
+
+   	now = new Date().getTime();
+    if (now - last_keypress>100) {
+    	steering_angle = 0
+		accel_val = 0
+    }
+
+	// Render it again
     requestAnimationFrame(handleFrame);
 }
 
