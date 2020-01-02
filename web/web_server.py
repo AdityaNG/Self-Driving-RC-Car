@@ -6,6 +6,7 @@ from threading import Condition
 from http import server
 from os import curdir, sep
 from urllib.parse import parse_qs
+import time
 
 import prefs
 
@@ -38,6 +39,7 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
                                 params = parse_qs(self.path[2:])
                                 for d in params:
                                     prefs.set_pref(d, params[d][0])
+                                prefs.set_pref("last_message", str(time.time()))
                                 print("GOT : ", params)
                         except Exception as e:
                                 PAGE = "{'status': 'not ok', 'error': '" + str(e) + "' }"

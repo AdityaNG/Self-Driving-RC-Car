@@ -305,7 +305,7 @@ function handleFrame(timestamp) {
     m = message.replace("{{steering_angle}}", steering_angle).replace("{{accel_val}}", accel_val).replace("{{rec}}", rec)
     if (m != last_message) {
         res = httpGet(document.location.origin + m)
-		//console.log(res)
+	console.log(res)
         last_message = m
     }
 
