@@ -11,7 +11,9 @@ import shutil
 
 #camera = picamera.PiCamera()
 #camera.capture('example.jpg')
-cap = cv2.VideoCapture('http://localhost:8000/stream.mjpg')
+
+time.sleep(10) # Wait 10 seconds for server to start up
+cap = cv2.VideoCapture('http://localhost:8080/stream.mjpg')
 
 def init():
 	gpio.setwarnings(False)
@@ -26,20 +28,17 @@ def set_accel(accel_val):
 def set_steering(steering_angle):
 	pass
 
+def compile_data():
+        os.system('python3 compile.py &')
 
-def compile_training_data():
-	print('Compiling Training Data')
-	td = os.path.join(os.getcwd(), 'training_data')
-	folders = [ name for name in os.listdir(td) if os.path.isdir(os.path.join(td, name)) ]
-	for i in folders:
-		print("\t Compiling : ",i)
-		c_dir = os.path.join(os.getcwd(), 'training_data', i)
-		shutil.make_archive(c_dir, 'zip', c_dir)
-
-
-compile_training_data()
+compile_data()
+last_compile = time.time()
 # PICS steering_angle speed throttle brakes
 def loop():
+	global last_compile
+	now = time.time()
+	if now-last_compile>60*10: # Recompile training data every 10 minutes
+		compile_data()
 	rec = prefs.get_pref("rec")
 	accel_val = int(prefs.get_pref("accel_val"))
 	steering_angle = float(prefs.get_pref("steering_angle"))
