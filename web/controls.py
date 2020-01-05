@@ -55,7 +55,7 @@ def set_accel(accel_val):
 		# Backwards
 		GPIO.output(in1,GPIO.LOW)
 		GPIO.output(in2,GPIO.HIGH)
-	p.ChangeDutyCycle(abs(accel_val)*10)
+	p.ChangeDutyCycle(abs(accel_val))
 
 
 def set_steering(steering_angle):
@@ -67,7 +67,7 @@ def set_steering(steering_angle):
 		# Right
 		GPIO.output(tin1,GPIO.LOW)
 		GPIO.output(tin2,GPIO.HIGH)
-	tp.ChangeDutyCycle(abs(steering_angle)*1000)
+	tp.ChangeDutyCycle(abs(steering_angle)*100)
 
 def compile_data():
         os.system('python3 compile.py &')
