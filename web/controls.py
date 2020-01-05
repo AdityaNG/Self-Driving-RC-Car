@@ -1,6 +1,6 @@
 #  LD_PRELOAD=/usr/lib/arm-linux-gnueabihf/libatomic.so.1.2.0 python3 controls.py
 
-import RPi.GPIO as gpio
+import RPi.GPIO as GPIO
 import time
 import prefs
 import os
@@ -15,18 +15,59 @@ import shutil
 time.sleep(10) # Wait 10 seconds for server to start up
 cap = cv2.VideoCapture('http://localhost:8080/stream.mjpg')
 
-def init():
-	gpio.setwarnings(False)
-	gpio.setmode(IO.BCM)
-	gpio.setup(19, gpio.OUT)
+# Forawrd / Backward Pins
+in1 = 24
+in2 = 23
+en = 25
 
+temp1=1
+
+# Left / Right Pins
+tin1 = 17
+tin2 = 27
+ten = 22
+
+steering_angle = 75
+
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(in1,GPIO.OUT)
+GPIO.setup(in2,GPIO.OUT)
+GPIO.setup(en,GPIO.OUT)
+GPIO.output(in1,GPIO.LOW)
+GPIO.output(in2,GPIO.LOW)
+p=GPIO.PWM(en,1000)
+p.start(25)
+
+GPIO.setup(tin1,GPIO.OUT)
+GPIO.setup(tin2,GPIO.OUT)
+GPIO.setup(ten,GPIO.OUT)
+GPIO.output(tin1,GPIO.LOW)
+GPIO.output(tin2,GPIO.LOW)
+tp=GPIO.PWM(ten,1000)
+tp.start(25)
 
 def set_accel(accel_val):
-	pass
+	if accel_val>0:
+		# Forward
+		GPIO.output(in1,GPIO.HIGH)
+		GPIO.output(in2,GPIO.LOW)
+	else:
+		# Backwards
+		GPIO.output(in1,GPIO.LOW)
+		GPIO.output(in2,GPIO.HIGH)
+	p.ChangeDutyCycle(abs(accel_val)*10)
 
 
 def set_steering(steering_angle):
-	pass
+	if steering_angle>0:
+		# Left
+		GPIO.output(tin1,GPIO.HIGH)
+		GPIO.output(tin2,GPIO.LOW)
+	else:
+		# Right
+		GPIO.output(tin1,GPIO.LOW)
+		GPIO.output(tin2,GPIO.HIGH)
+	tp.ChangeDutyCycle(abs(steering_angle)*1000)
 
 def compile_data():
         os.system('python3 compile.py &')
@@ -39,6 +80,7 @@ def loop():
 	now = time.time()
 	if now-last_compile>60*10: # Recompile training data every 10 minutes
 		compile_data()
+
 	rec = prefs.get_pref("rec")
 	accel_val = int(prefs.get_pref("accel_val"))
 	steering_angle = float(prefs.get_pref("steering_angle"))
