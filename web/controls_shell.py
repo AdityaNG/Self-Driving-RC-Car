@@ -15,13 +15,14 @@ ten = 22
 
 steering_angle = 75
 
+#GPIO.cleanup()
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(in1,GPIO.OUT)
 GPIO.setup(in2,GPIO.OUT)
 GPIO.setup(en,GPIO.OUT)
 GPIO.output(in1,GPIO.LOW)
 GPIO.output(in2,GPIO.LOW)
-p=GPIO.PWM(en,1000)
+p=GPIO.PWM(en,50)
 p.start(25)
 
 GPIO.setup(tin1,GPIO.OUT)
@@ -29,7 +30,7 @@ GPIO.setup(tin2,GPIO.OUT)
 GPIO.setup(ten,GPIO.OUT)
 GPIO.output(tin1,GPIO.LOW)
 GPIO.output(tin2,GPIO.LOW)
-tp=GPIO.PWM(ten,1000)
+tp=GPIO.PWM(ten,50)
 tp.start(25)
 
 print("\n")
@@ -92,17 +93,17 @@ while(1):
 
     elif x=='i':
         print("low")
-        p.ChangeDutyCycle(25)
+        p.ChangeDutyCycle(50)
         x='z'
 
     elif x=='o':
         print("medium")
-        p.ChangeDutyCycle(50)
+        p.ChangeDutyCycle(75)
         x='z'
 
     elif x=='p':
         print("high")
-        p.ChangeDutyCycle(75)
+        p.ChangeDutyCycle(100)
         x='z'
      
     

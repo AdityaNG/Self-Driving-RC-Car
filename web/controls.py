@@ -88,7 +88,8 @@ def loop():
 	set_accel(accel_val)
 	set_steering(steering_angle)
 
-	if rec != '0' and time.time()-float(prefs.get_pref("last_message"))<15: # Last command issued within 15 seconds
+#	if rec != '0' and time.time()-float(prefs.get_pref("last_message"))<15: # Last command issued within 15 seconds
+	if False:
 		print("REC...")
 		filename = os.path.join(os.getcwd(), 'training_data', rec, 'data.csv')
 		if not os.path.exists(os.path.dirname(filename)):
