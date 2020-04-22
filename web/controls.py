@@ -46,6 +46,7 @@ GPIO.output(tin2,GPIO.LOW)
 tp=GPIO.PWM(ten,1000)
 tp.start(25)
 
+global tank_controls
 tank_controls = True;
 
 def set_accel(accel_val):
@@ -113,6 +114,7 @@ last_compile = time.time()
 # PICS steering_angle speed throttle brakes
 def loop():
 	global last_compile
+	global tank_controls
 	now = time.time()
 	if now-last_compile>60*10: # Recompile training data every 10 minutes
 		compile_data()
