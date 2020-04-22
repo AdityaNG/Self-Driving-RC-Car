@@ -60,9 +60,11 @@ def set_accel(accel_val):
 		GPIO.output(in2,GPIO.HIGH)
 	p.ChangeDutyCycle(abs(accel_val))
 
-
+global last_out
+last_out = ""
 def tank_mover(steering_angle, accel_val):
-	print("[TANK] ", end="")
+	global last_out
+	out = "[TANK] "
 	if accel_val>0:
 		# Forward
 		GPIO.output(in1,GPIO.LOW)
@@ -90,10 +92,20 @@ def tank_mover(steering_angle, accel_val):
 			GPIO.output(tin2,GPIO.HIGH)
 		p.ChangeDutyCycle(abs(steering_angle))
 		tp.ChangeDutyCycle(abs(steering_angle))
+
+		out = "p" + str(abs(accel_val * tf)) + "; tp" + str(abs(accel_val * (1 - abs(tf))))
+		if out!=last_out:
+			print(out)
+			last_out = out
 		return
-	p.ChangeDutyCycle(abs(accel_val * steering_angle))
-	tp.ChangeDutyCycle(abs(accel_val * (1 - abs(steering_angle))))
-	print("p", abs(accel_val * steering_angle), "; tp", abs(accel_val * (1 - abs(steering_angle))))
+	turn = steering_angle + 1
+	p.ChangeDutyCycle(abs(accel_val * tf))
+	tp.ChangeDutyCycle(abs(accel_val * (1 - abs(tf))))
+	
+	out = "p" + str(abs(accel_val * tf)) + "; tp" + str(abs(accel_val * (1 - abs(tf))))
+	if out!=last_out:
+		print(out)
+		last_out = out
 
 
 
