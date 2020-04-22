@@ -49,17 +49,6 @@ tp.start(25)
 tank_controls = True;
 
 def set_accel(accel_val):
-	if tank_controls:
-		if accel_val>0:
-                	# Forward
-                	GPIO.output(in1,GPIO.HIGH)
-                	GPIO.output(in2,GPIO.HIGH)
-        	else:
-                	# Backwards
-               		GPIO.output(in1,GPIO.LOW)
-                	GPIO.output(in2,GPIO.LOW)
-       		p.ChangeDutyCycle(abs(accel_val))
-		return;
 	if accel_val>0:
 		# Forward
 		GPIO.output(in1,GPIO.HIGH)
@@ -71,7 +60,41 @@ def set_accel(accel_val):
 	p.ChangeDutyCycle(abs(accel_val))
 
 
-def set_steering(steering_angle):
+def tank_mover(steering_angle, accel_val):
+	if accel_val>0:
+		# Forward
+		GPIO.output(in1,GPIO.LOW)
+		GPIO.output(in2,GPIO.HIGH)
+		GPIO.output(tin1,GPIO.LOW)
+		GPIO.output(tin2,GPIO.HIGH)
+	elif accel_val<0:
+		# Backwards
+		GPIO.output(in1,GPIO.HIGH)
+		GPIO.output(in2,GPIO.LOW)
+		GPIO.output(tin1,GPIO.HIGH)
+		GPIO.output(tin2,GPIO.LOW)
+	else:
+		if steering_angle>0:
+			# Pure Left
+			GPIO.output(in1,GPIO.LOW)
+			GPIO.output(in2,GPIO.HIGH)
+			GPIO.output(tin1,GPIO.HIGH)
+			GPIO.output(tin2,GPIO.LOW)
+		else:
+			# Pure Right
+			GPIO.output(in1,GPIO.HIGH)
+			GPIO.output(in2,GPIO.LOW)
+			GPIO.output(tin1,GPIO.LOW)
+			GPIO.output(tin2,GPIO.HIGH)
+		p.ChangeDutyCycle(abs(steering_angle))
+		tp.ChangeDutyCycle(abs(steering_angle))
+		return
+	p.ChangeDutyCycle(abs(accel_val * steering_angle))
+	tp.ChangeDutyCycle(abs(accel_val * (1 - abs(steering_angle)))
+
+
+
+def set_steering(steering_angle, accel_val=0):
 	if steering_angle>0:
 		# Left
 		GPIO.output(tin1,GPIO.HIGH)
@@ -83,7 +106,7 @@ def set_steering(steering_angle):
 	tp.ChangeDutyCycle(abs(steering_angle)*100)
 
 def compile_data():
-        os.system('python3 compile.py &')
+	os.system('python3 compile.py &')
 
 compile_data()
 last_compile = time.time()
@@ -98,8 +121,12 @@ def loop():
 	accel_val = int(prefs.get_pref("accel_val"))
 	steering_angle = float(prefs.get_pref("steering_angle"))
 	#print(accel_val, steering_angle, sep=" -- ")
-	set_accel(accel_val)
-	set_steering(steering_angle)
+	#set_accel(accel_val)
+	if tank_controls:
+		tank_mover(steering_angle, accel_val)
+	else:
+		set_accel(accel_val)
+		set_steering(steering_angle)
 
 #	if rec != '0' and time.time()-float(prefs.get_pref("last_message"))<15: # Last command issued within 15 seconds
 	if False:
@@ -134,7 +161,7 @@ def loop():
 			print('Append Row : ', myCsvRow)
 			#myCsvRow = " ".join(list(map(str, [imagefile, steering_angle, speed, accel_val])))
 			with open(filename, 'a') as fd: # Append to file
-    				fd.write(myCsvRow + '\n')
+				fd.write(myCsvRow + '\n')
 		else:
 			print("COULD NOT GET IMAGE")
 	#time.sleep(0.1)
