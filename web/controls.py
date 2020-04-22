@@ -46,7 +46,20 @@ GPIO.output(tin2,GPIO.LOW)
 tp=GPIO.PWM(ten,1000)
 tp.start(25)
 
+tank_controls = True;
+
 def set_accel(accel_val):
+	if tank_controls:
+		if accel_val>0:
+                	# Forward
+                	GPIO.output(in1,GPIO.HIGH)
+                	GPIO.output(in2,GPIO.HIGH)
+        	else:
+                	# Backwards
+               		GPIO.output(in1,GPIO.LOW)
+                	GPIO.output(in2,GPIO.LOW)
+       		p.ChangeDutyCycle(abs(accel_val))
+		return;
 	if accel_val>0:
 		# Forward
 		GPIO.output(in1,GPIO.HIGH)
