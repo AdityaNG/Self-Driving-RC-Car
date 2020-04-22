@@ -70,15 +70,16 @@ def tank_mover(steering_angle, accel_val):
 		GPIO.output(in1,GPIO.LOW)
 		GPIO.output(in2,GPIO.HIGH)
 
-		GPIO.output(tin1,GPIO.LOW)
-		GPIO.output(tin2,GPIO.HIGH)
+		GPIO.output(tin1,GPIO.HIGH)
+		GPIO.output(tin2,GPIO.LOW)
+		
 	elif accel_val<0:
 		# Backwards
 		GPIO.output(in1,GPIO.HIGH)
 		GPIO.output(in2,GPIO.LOW)
 
-		GPIO.output(tin1,GPIO.HIGH)
-		GPIO.output(tin2,GPIO.LOW)
+		GPIO.output(tin1,GPIO.LOW)
+		GPIO.output(tin2,GPIO.HIGH)
 	else:
 		if steering_angle>0:
 			# Pure Left
