@@ -93,7 +93,7 @@ def tank_mover(steering_angle, accel_val):
 		p.ChangeDutyCycle(abs(steering_angle))
 		tp.ChangeDutyCycle(abs(steering_angle))
 
-		out = "p" + str(abs(steering_angle)) + "; tp" + str(abs(steering_angle)))
+		out = "p" + str(abs(steering_angle)) + "; tp" + str(abs(steering_angle))
 		if out!=last_out:
 			print(out)
 			last_out = out
