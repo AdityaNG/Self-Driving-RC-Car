@@ -62,6 +62,7 @@ def set_accel(accel_val):
 
 
 def tank_mover(steering_angle, accel_val):
+	print("[TANK] ", end="")
 	if accel_val>0:
 		# Forward
 		GPIO.output(in1,GPIO.LOW)
@@ -92,6 +93,7 @@ def tank_mover(steering_angle, accel_val):
 		return
 	p.ChangeDutyCycle(abs(accel_val * steering_angle))
 	tp.ChangeDutyCycle(abs(accel_val * (1 - abs(steering_angle))))
+	print("p", abs(accel_val * steering_angle), "; tp", abs(accel_val * (1 - abs(steering_angle))))
 
 
 
