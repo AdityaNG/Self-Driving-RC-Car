@@ -90,8 +90,8 @@ def tank_mover(steering_angle, accel_val):
 			GPIO.output(in2,GPIO.LOW)
 			GPIO.output(tin1,GPIO.LOW)
 			GPIO.output(tin2,GPIO.HIGH)
-		p.ChangeDutyCycle(abs(steering_angle))
-		tp.ChangeDutyCycle(abs(steering_angle))
+		p.ChangeDutyCycle(abs(steering_angle * 100))
+		tp.ChangeDutyCycle(abs(steering_angle * 100))
 
 		out = "p" + str(abs(steering_angle)) + "; tp" + str(abs(steering_angle))
 		if out!=last_out:
