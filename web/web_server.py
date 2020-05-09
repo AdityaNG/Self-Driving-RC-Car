@@ -51,7 +51,7 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
                         self.send_header('Content-Length', len(content))
                         self.end_headers()
                         self.wfile.write(content)
-                elif "/get?" in self.path:
+                elif "/get" in self.path:
                         PAGE = "{'status': 'Searching'}"
                         try:
                                 res = []
