@@ -14,7 +14,7 @@ const int echoPin = 6; // Echo Pin of Ultrasonic Sensor
 Servo myservo, myservo1;  // create servo object to control a servo
 // twelve servo objects can be created on most boards
 
-int theta = 0, phi = 60, f1=20, f=20;    // variable to store the servo phiition
+int theta = 0, phi = 60, f1=1, f=1, m1=20, m=20;    // variable to store the servo phiition
 //int lb=100,ub=160, lb1=60, ub1=160;
 
 int lb1=70,ub1=180, lb=100, ub=120;
@@ -55,7 +55,7 @@ void loop() {
      Serial.print(" ");
      Serial.println();
    }
-  theta += f1;
+  theta += f1*m1;
   if (!(lb1<=theta && theta<=ub1)) {
     if (theta>=ub1) {
       f1 = -1;
@@ -66,7 +66,7 @@ void loop() {
       f1 = 1;
     }
 
-    phi += f;
+    phi += f*m;
     if (!(lb<=phi && phi<=ub)) {
       if (phi>=ub) {
         f = -1;
