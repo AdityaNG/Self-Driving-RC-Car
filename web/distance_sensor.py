@@ -46,15 +46,16 @@ def start_scan():
             #r = r_d
             #phi = phi_d
 
+            dist = r*cos(phi)
+            if dist < 15: # Distance in cm
+                print("Too close ", {"r": r, "dist": dist})
+            
+            POINTS.append([r, theta, phi, dist])
             if len(POINTS) > 25:
                 print("Saving to distance_sensor")
                 prefs.set_pref("distance_sensor", str(POINTS))
                 POINTS = []
 
-            dist = r*cos(phi)
-            if dist < 15: # Distance in cm
-                print("Too close ", {"r": r, "dist": dist})
-                
         except Exception as e:
             print(e)
 
