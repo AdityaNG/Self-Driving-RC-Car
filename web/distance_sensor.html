@@ -15,7 +15,8 @@ setInterval(function(){
 	    for (i=0; i<POINTS.length; i++) {
 	        data.push({
 	            angle: POINTS[i][1]*180/3.1415 -180,
-	            percent: POINTS[i][3]/3500
+	            percent: POINTS[i][3]/3500,
+	            speed: "distance_sensor"
 	        })
 	    }
 		chart = renderChart(data);
@@ -28,9 +29,9 @@ function renderChart(data){
 		debug: true,
 		type:'radar column',
 		animation_duration:1000,
-		title:{label_text:'Wind Rose Chart',position:'center'},
+		title:{label_text:'Radar',position:'center'},
 		legend:{
-			title_label_text:'Wind Speed (in mph)',
+			title_label_text:'Distance (in cm)',
 			position:'bottom',
 			template:'%icon %name',
 			reversed:true 
@@ -51,7 +52,7 @@ function renderChart(data){
 			alternateGridFill:'none'
 		},
 		xAxis:{
-			scale:{				range:[0,360],				interval:45			},
+			scale:{				range:[0,360],				interval:1			},
 			customTicks:[
 				{value:360, label_text:'N'},
 				{value:45, label_text:'NE'},
