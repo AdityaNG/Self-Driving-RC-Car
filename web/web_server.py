@@ -54,14 +54,13 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
                 elif "/get" in self.path:
                         PAGE = "{'status': 'Searching'}"
                         try:
-                                res = []
-                                print(self.path.split("/")[2])
-                                params = parse_qs(self.path[2:])
+                                req = self.path.split("/")[2]
+                                print(req)
                                 
 
-                                # prefs.get_pref(d, params[d][0])
+                                PAGE = prefs.get_pref(req)
                                 
-                                print("GOT : ", params)
+                                print("GOT : ", {req: PAGE})
                                 #PAGE = str(params)
                         except Exception as e:
                                 PAGE = "{'status': 'not ok', 'error': '" + str(e) + "' }"
