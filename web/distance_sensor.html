@@ -13,7 +13,7 @@ setInterval(function(){
 	    POINTS = JSON.parse(text)
 	    data = []
 	    for (i=0; i<POINTS.length; i++) {
-	    	var d = math.floor(POINTS[i][3])
+	    	var d = Math.floor(POINTS[i][3])
 	    	if (d<100) {
 	    		var min = d%10 * 10
 	    		var max = min + 10
