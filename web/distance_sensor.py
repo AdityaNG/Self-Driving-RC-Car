@@ -4,6 +4,7 @@
 #
 import numpy as np
 import sys
+import prefs
 
 # Serial Comms
 import random
@@ -15,6 +16,7 @@ def start_scan():
     #input("Enter to start")
     print("Connecting to serial")
     s = serial.Serial("/dev/ttyUSB0", 115200)
+    POINTS = []
     while True:
         try:
             s.write(1)
@@ -43,6 +45,10 @@ def start_scan():
 
             #r = r_d
             #phi = phi_d
+
+            if len(POINTS)>25:
+                prefs.set_pref("distance_sensor", str(POINTS))
+                POINTS = []
 
             dist = r*cos(phi)
             if dist < 15: # Distance in cm

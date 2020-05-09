@@ -59,6 +59,8 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
                                 
 
                                 PAGE = prefs.get_pref(req)
+                                if PAGE=="":
+                                    PAGE = "NULL"
                                 
                                 print("GOT : ", {req: PAGE})
                                 #PAGE = str(params)
