@@ -22,7 +22,7 @@ def start_scan():
             s.write(1)
             r, theta, phi = list(map(int, s.readline().split()))
             #r, phi, theta = list(map(int, s.readline().split()))
-            print("Analysing", [r, theta, phi])
+            #print("Analysing", [r, theta, phi])
 
             if r==0:
                 raise Exception("r == 0")
@@ -51,7 +51,7 @@ def start_scan():
                 print("Too close ", {"r": r, "dist": dist})
             
             POINTS.append([r, theta, phi, dist])
-            if len(POINTS) > 25:
+            if len(POINTS) > 20:
                 print("Saving to distance_sensor")
                 prefs.set_pref("distance_sensor", str(POINTS))
                 POINTS = []
