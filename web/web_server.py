@@ -55,6 +55,7 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
                         PAGE = "{'status': 'Searching'}"
                         try:
                                 res = []
+                                print(self.path[2:])
                                 params = parse_qs(self.path[2:])
                                 
 
