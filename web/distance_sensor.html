@@ -9,7 +9,8 @@ Learn how to:
 var chart;
 
 setInterval(function(){
-		JSC.fetch('/get/distance_sensor').then(function(response) {	return response.text();}).then(function(text) {
+	JSC.fetch('/get/distance_sensor').then(function(response) {	return response.text();}).then(function(text) {
+		console.log(text)
 	    POINTS = JSON.parse(text)
 	    data = []
 	    for (i=0; i<POINTS.length; i++) {
