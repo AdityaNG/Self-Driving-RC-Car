@@ -46,7 +46,8 @@ def start_scan():
             #r = r_d
             #phi = phi_d
 
-            if len(POINTS)>25:
+            if len(POINTS) > 25:
+                print("Saving to distance_sensor")
                 prefs.set_pref("distance_sensor", str(POINTS))
                 POINTS = []
 
