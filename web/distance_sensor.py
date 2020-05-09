@@ -16,7 +16,20 @@ from math import sin, cos, pi, atan
 def start_scan():
     #input("Enter to start")
     print("Connecting to serial")
-    s = serial.Serial("/dev/ttyUSB0", 115200)
+    s = False
+    for i in range(4):
+        COM_PORT = "/dev/ttyUSB" + str(i)
+        print("Trying to connect to", COM_PORT)
+        try:
+            s = serial.Serial(COM_PORT, 115200)
+            break
+        except:
+            print("FAILED", COM_PORT)
+
+    if s==False:
+        print("No COM PORTS found")
+        return
+
     POINTS = []
     while True:
         try:
