@@ -53,7 +53,7 @@ def start_scan():
                 print("Too close ", {"r": r, "dist": dist})
             
             POINTS.append([r, theta, phi, dist])
-            if len(POINTS) > 20:
+            if len(POINTS) > 6:
                 print("Saving to distance_sensor")
                 prefs.set_pref("distance_sensor", str(POINTS))
                 POINTS = []
