@@ -33,8 +33,9 @@ class StreamingOutput(object):
 
 class StreamingHandler(server.BaseHTTPRequestHandler):
         def do_GET(self):
+                global params
                 if "/?" in self.path:
-                        global params
+                        
                         PAGE = "{'status': 'ok'}"
                         try:
                                 params = parse_qs(self.path[2:])
@@ -51,7 +52,6 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
                         self.end_headers()
                         self.wfile.write(content)
                 elif "/get?" in self.path:
-                        global params
                         PAGE = "{'status': 'Searching'}"
                         try:
                                 res = []
