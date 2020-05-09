@@ -38,7 +38,7 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
                         
                         PAGE = "{'status': 'ok'}"
                         try:
-                                params = parse_qs(self.path[2:])
+                                params = parse_qs(self.path)
                                 for d in params:
                                     prefs.set_pref(d, params[d][0])
                                 prefs.set_pref("last_message", str(time.time()))
