@@ -35,13 +35,33 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
         def do_GET(self):
                 if "/?" in self.path:
                         global params
-                        PAGE = "{'status': ok}"
+                        PAGE = "{'status': 'ok'}"
                         try:
                                 params = parse_qs(self.path[2:])
                                 for d in params:
                                     prefs.set_pref(d, params[d][0])
                                 prefs.set_pref("last_message", str(time.time()))
                                 print("GOT : ", params)
+                        except Exception as e:
+                                PAGE = "{'status': 'not ok', 'error': '" + str(e) + "' }"
+                        self.send_response(200)
+                        self.send_header('Content-Type', 'text/json')
+                        content = PAGE.encode('utf-8')
+                        self.send_header('Content-Length', len(content))
+                        self.end_headers()
+                        self.wfile.write(content)
+                elif "/get?" in self.path:
+                        global params
+                        PAGE = "{'status': 'Searching'}"
+                        try:
+                                res = []
+                                params = parse_qs(self.path[2:])
+                                
+
+                                # prefs.get_pref(d, params[d][0])
+                                
+                                print("GOT : ", params)
+                                #PAGE = str(params)
                         except Exception as e:
                                 PAGE = "{'status': 'not ok', 'error': '" + str(e) + "' }"
                         self.send_response(200)
