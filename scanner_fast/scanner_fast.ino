@@ -21,7 +21,6 @@ int lb1=70,ub1=180, lb=110, ub=125;
 
 int incomingByte = 0; // for incoming serial data
 
-int incomingByte = 0; // for incoming serial data
 
 //int lb=100,ub=160, lb1=109, ub1=111;
 
@@ -30,6 +29,9 @@ void setup() {
   myservo.attach(9);
   Serial.begin(115200); // Starting Serial Terminal
   phi = lb, theta = lb1;
+  
+  phi = 117; m=0; // Limit to one plane
+  
   while (!Serial) {
     ; // wait for serial port to connect. Needed for native USB
   }
@@ -37,72 +39,63 @@ void setup() {
 
 
 void loop() {
-  //myservo.write(120);
+  //myservo.write(117);
   //myservo1.write(70);
   //return;
   
   if (Serial.available() > 0) {
     // read the incoming byte:
     incomingByte = Serial.read();
+    
+    if (true) { // No condition check of incoming Byte
+      long duration, inches, r;
+       pinMode(pingPin, OUTPUT);
+       digitalWrite(pingPin, LOW);
+       delayMicroseconds(2);
+       digitalWrite(pingPin, HIGH);
+       delayMicroseconds(10);
+       digitalWrite(pingPin, LOW);
+       pinMode(echoPin, INPUT);
+       duration = pulseIn(echoPin, HIGH);
+       inches = microsecondsToInches(duration);
+       r = microsecondsToCentimeters(duration);
+       //Serial.print(inches);
+       //Serial.print("in, ");
+       if (true) { // No condition check
+         Serial.print(r);
+         Serial.print(" ");
+         Serial.print(theta);
+         Serial.print(" ");
+         Serial.print(phi);
+         Serial.print(" ");
+         Serial.println();
+       }
+      theta += f1*m1;
+      if (!(lb1<=theta && theta<=ub1)) {
+        if (theta>=ub1) {
+          f1 = -1;
+        } else if (theta<=lb1) {
+          f1 = 1;
+        } else {
+          theta = lb1;
+          f1 = 1;
+        }
 
-    // say what you got:
-<<<<<<< HEAD
-    //Serial.print("I received: ");
-    //Serial.println(incomingByte, DEC);
-=======
-    Serial.print("I received: ");
-    Serial.println(incomingByte, DEC);
->>>>>>> 5300d4857f9ff05081ebbeaa3ca4e101094a388f
-    if (true) {
-        
-  long duration, inches, r;
-   pinMode(pingPin, OUTPUT);
-   digitalWrite(pingPin, LOW);
-   delayMicroseconds(2);
-   digitalWrite(pingPin, HIGH);
-   delayMicroseconds(10);
-   digitalWrite(pingPin, LOW);
-   pinMode(echoPin, INPUT);
-   duration = pulseIn(echoPin, HIGH);
-   inches = microsecondsToInches(duration);
-   r = microsecondsToCentimeters(duration);
-   //Serial.print(inches);
-   //Serial.print("in, ");
-   if (true) {
-     Serial.print(r);
-     Serial.print(" ");
-     Serial.print(theta);
-     Serial.print(" ");
-     Serial.print(phi);
-     Serial.print(" ");
-     Serial.println();
-   }
-  theta += f1*m1;
-  if (!(lb1<=theta && theta<=ub1)) {
-    if (theta>=ub1) {
-      f1 = -1;
-    } else if (theta<=lb1) {
-      f1 = 1;
-    } else {
-      theta = lb1;
-      f1 = 1;
-    }
-
-    phi += f*m;
-    if (!(lb<=phi && phi<=ub)) {
-      if (phi>=ub) {
-        f = -1;
-      } else if (phi<=lb) {
-        f = 1;
-      } else {
-        phi = lb;
-        f = 1;
+        phi += f*m;
+        if (!(lb<=phi && phi<=ub)) {
+          if (phi>=ub) {
+            f = -1;
+          } else if (phi<=lb) {
+            f = 1;
+          } else {
+            phi = lb;
+            f = 1;
+          }
+        }
       }
-    }
-  }
-  myservo.write(phi);
-  myservo1.write(theta);
-delay(100);
+      myservo.write(phi);
+      myservo1.write(theta);
+      delay(100);
     }
   }
 }
