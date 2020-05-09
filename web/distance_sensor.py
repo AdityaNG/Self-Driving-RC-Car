@@ -14,7 +14,7 @@ from math import sin, cos, pi, atan
 def start_scan():
     input("Enter to start")
     print("Connecting to serial")
-    s = serial.Serial("/dev/cu.usbserial-1410", 115200)
+    s = serial.Serial("/dev/ttyUSB0", 115200)
     while True:
         try:
             r, theta, phi = list(map(int, s.readline().split()))
