@@ -30,6 +30,7 @@ def start_scan():
     if s==False:
         print("No COM PORTS found")
         return
+    print("Connected to", COM_PORT)
 
     POINTS = []
     while True:
