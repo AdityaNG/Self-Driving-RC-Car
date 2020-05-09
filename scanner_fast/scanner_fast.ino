@@ -21,6 +21,8 @@ int lb1=70,ub1=180, lb=110, ub=125;
 
 int incomingByte = 0; // for incoming serial data
 
+int incomingByte = 0; // for incoming serial data
+
 //int lb=100,ub=160, lb1=109, ub1=111;
 
 void setup() {
@@ -44,8 +46,13 @@ void loop() {
     incomingByte = Serial.read();
 
     // say what you got:
+<<<<<<< HEAD
     //Serial.print("I received: ");
     //Serial.println(incomingByte, DEC);
+=======
+    Serial.print("I received: ");
+    Serial.println(incomingByte, DEC);
+>>>>>>> 5300d4857f9ff05081ebbeaa3ca4e101094a388f
     if (true) {
         
   long duration, inches, r;
