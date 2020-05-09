@@ -63,6 +63,9 @@ function renderChart(data){
 			scale:{				type:'auto',			},
 			alternateGridFill:'none'
 		},
+		xAxis:{
+			scale:{				range:[0,360],				interval:90			}
+		},
 		palette:["#c62828","#ff7043","#fff176","#aed581","#80cbc4","#bbdefb"],
 		/*defaultPoint:{tooltip:'<b>%seriesName</b> %xValuecm %yValue%'},*/
 		defaultPoint:{tooltip:'<b>%seriesName</b> %xValue˚ %yValuecm'},
