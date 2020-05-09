@@ -19,20 +19,20 @@ setInterval(function(){
 		            percent: POINTS[i][3],
 		            speed: String(min) + " - " + String(max)
 		        })
+		        if (d<30) {
+		        	message = "Object within 30cm";
+		        }
 		        if (d<20) {
-		        	message = "Object within 20cm";
+		        	message = "<b>Object within 20cm</b>";
 		        }
 		        if (d<10) {
-		        	message = "<b>Object within 10cm</b>";
-		        }
-		        if (d<5) {
-		        	message = "<b>OBJECT WITHIN 5cm</b>";
+		        	message = "<b>OBJECT WITHIN 10cm</b>";
 		        }
 	    	}
 	    }
 		chart = renderChart(data);
 	});
-},2000)
+},1100)
 
 
 function renderChart(data){
