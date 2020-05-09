@@ -42,7 +42,7 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
                                 for d in params:
                                     prefs.set_pref(d, params[d][0])
                                 prefs.set_pref("last_message", str(time.time()))
-                                print("GOT : ", params)
+                                #print("GOT : ", params)
                         except Exception as e:
                                 PAGE = "{'status': 'not ok', 'error': '" + str(e) + "' }"
                         self.send_response(200)
@@ -55,14 +55,14 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
                         PAGE = "{'status': 'Searching'}"
                         try:
                                 req = self.path.split("/")[2]
-                                print(req)
+                                #print(req)
                                 
 
                                 PAGE = prefs.get_pref(req)
                                 if PAGE=="":
                                     PAGE = "NULL"
                                 
-                                print("GOT : ", {req: PAGE})
+                                #print("GOT : ", {req: PAGE})
                                 #PAGE = str(params)
                         except Exception as e:
                                 PAGE = "{'status': 'not ok', 'error': '" + str(e) + "' }"
@@ -100,11 +100,11 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
                                         self.client_address, str(e))
                 else:
                         try:
-                                print('Opening file : ', self.path[1:])
+                                #print('Opening file : ', self.path[1:])
                                 PAGE = ""
                                 self.send_response(200)
                                 if self.path.endswith('.png'):
-                                                print('Inside IF')
+                                                #print('Inside IF')
                                                 f = open(self.path[1:], 'rb')
                                                 PAGE = f.read()
                                                 self.send_header('Content-Type', 'image/png')

@@ -25,6 +25,7 @@ def start_scan():
             break
         except:
             print("FAILED", COM_PORT)
+            time.sleep(1)
 
     if s==False:
         print("No COM PORTS found")
