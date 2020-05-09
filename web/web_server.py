@@ -38,7 +38,7 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
                         
                         PAGE = "{'status': 'ok'}"
                         try:
-                                params = parse_qs(self.path)
+                                params = parse_qs(self.path[2:])
                                 for d in params:
                                     prefs.set_pref(d, params[d][0])
                                 prefs.set_pref("last_message", str(time.time()))
@@ -55,7 +55,7 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
                         PAGE = "{'status': 'Searching'}"
                         try:
                                 res = []
-                                print(self.path[2:])
+                                print(self.path)
                                 params = parse_qs(self.path[2:])
                                 
 
