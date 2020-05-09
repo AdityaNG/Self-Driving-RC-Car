@@ -25,6 +25,8 @@ setInterval(function(){
 
 
 function renderChart(data){
+	message = 
+
 	return JSC.chart('chartDiv', {
 		debug: true,
 		type:'radar column',
@@ -52,7 +54,7 @@ function renderChart(data){
 			alternateGridFill:'none'
 		},
 		xAxis:{
-			scale:{				range:[0,360],				interval:1			},
+			scale:{				range:[0,360],				interval:15			},
 			customTicks:[
 				{value:360, label_text:'N'},
 				{value:45, label_text:'NE'},
@@ -65,7 +67,8 @@ function renderChart(data){
 			]
 		},
 		palette:["#c62828","#ff7043","#fff176","#aed581","#80cbc4","#bbdefb"],
-		defaultPoint:{tooltip:'<b>%seriesName</b> %xValue° %yValue%'},
-		series:JSC.nest().key('speed').key('angle').rollup('percent').series(data).reverse()
+		/*defaultPoint:{tooltip:'<b>%seriesName</b> %xValuecm %yValue%'},*/
+		defaultPoint:{tooltip:'%xValuecm'},
+		series:JSC.nest().key('angle').series(data).reverse()
 	})
 }</script></body></html>
