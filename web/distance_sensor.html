@@ -1,6 +1,9 @@
 <!DOCTYPE html><html lang="en"><head><title>Radar</title><meta http-equiv="content-type" content="text-html; charset=utf-8"><script type="text/javascript" src="jscharting.js"></script><script type="text/javascript" src="types.js"></script><link rel="stylesheet" type="text/css" href="css/default.css"><style type="text/css">/*CSS*/</style></head><body><div id="chartDiv" style="max-width: 500px;height: 560px;margin: 0px auto"></div><script type="text/javascript">
 var chart;
 
+
+message = "";
+
 setInterval(function(){
 		JSC.fetch('/get/distance_sensor').then(function(response) {	return response.text();}).then(function(text) {
 	    POINTS = JSON.parse(text)
@@ -15,6 +18,15 @@ setInterval(function(){
 		            percent: POINTS[i][3],
 		            speed: String(min) + " - " + String(max)
 		        })
+		        if (d<20) {
+		        	message = "Object within 20cm";
+		        }
+		        if (d<10) {
+		        	message = "<b>Object within 10cm</b>";
+		        }
+		        if (d<5) {
+		        	message = "<b>OBJECT WITHIN 5cm</b>";
+		        }
 	    	}
 	    }
 		chart = renderChart(data);
@@ -23,7 +35,6 @@ setInterval(function(){
 
 
 function renderChart(data){
-	message = "";
 
 	return JSC.chart('chartDiv', {
 		debug: true,
@@ -39,7 +50,7 @@ function renderChart(data){
 		annotations:[
 			{
 				label:{
-					text:'Calm: 17%<br>Avg speed: 7.9 mph',
+					text: message,
 					style_fontSize:14
 				},
 				position:'inside bottom right'
