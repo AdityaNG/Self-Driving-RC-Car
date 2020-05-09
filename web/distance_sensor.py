@@ -9,6 +9,7 @@ import prefs
 # Serial Comms
 import random
 
+import time
 import serial
 from math import sin, cos, pi, atan
 
@@ -19,6 +20,7 @@ def start_scan():
     POINTS = []
     while True:
         try:
+            time.sleep(0.2)
             s.write(1)
             r, theta, phi = list(map(int, s.readline().split()))
             #r, phi, theta = list(map(int, s.readline().split()))
