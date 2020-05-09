@@ -14,10 +14,12 @@ const int echoPin = 6; // Echo Pin of Ultrasonic Sensor
 Servo myservo, myservo1;  // create servo object to control a servo
 // twelve servo objects can be created on most boards
 
-int theta = 0, phi = 60, f1=1, f=1, m1=20, m=20;    // variable to store the servo phiition
+int theta = 0, phi = 60, f1=1, f=1, m1=33, m=5;    // variable to store the servo phiition
 //int lb=100,ub=160, lb1=60, ub1=160;
 
-int lb1=70,ub1=180, lb=100, ub=120;
+int lb1=70,ub1=180, lb=110, ub=125;
+
+int incomingByte = 0; // for incoming serial data
 
 //int lb=100,ub=160, lb1=109, ub1=111;
 
@@ -26,13 +28,26 @@ void setup() {
   myservo.attach(9);
   Serial.begin(115200); // Starting Serial Terminal
   phi = lb, theta = lb1;
+  while (!Serial) {
+    ; // wait for serial port to connect. Needed for native USB
+  }
 }
 
 
 void loop() {
-  //myservo.write(180);
-  //myservo1.write(120);
+  //myservo.write(120);
+  //myservo1.write(70);
   //return;
+  
+  if (Serial.available() > 0) {
+    // read the incoming byte:
+    incomingByte = Serial.read();
+
+    // say what you got:
+    //Serial.print("I received: ");
+    //Serial.println(incomingByte, DEC);
+    if (true) {
+        
   long duration, inches, r;
    pinMode(pingPin, OUTPUT);
    digitalWrite(pingPin, LOW);
@@ -46,7 +61,7 @@ void loop() {
    r = microsecondsToCentimeters(duration);
    //Serial.print(inches);
    //Serial.print("in, ");
-   if (r<50) {
+   if (true) {
      Serial.print(r);
      Serial.print(" ");
      Serial.print(theta);
@@ -80,7 +95,9 @@ void loop() {
   }
   myservo.write(phi);
   myservo1.write(theta);
-  delay(100);
+delay(100);
+    }
+  }
 }
 
 long microsecondsToInches(long microseconds) {

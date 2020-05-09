@@ -12,16 +12,19 @@ import serial
 from math import sin, cos, pi, atan
 
 def start_scan():
-    input("Enter to start")
+    #input("Enter to start")
     print("Connecting to serial")
     s = serial.Serial("/dev/ttyUSB0", 115200)
     while True:
         try:
+            s.write(1)
             r, theta, phi = list(map(int, s.readline().split()))
             #r, phi, theta = list(map(int, s.readline().split()))
             print("Analysing", [r, theta, phi])
 
-            r = r + (random.uniform(-0.3, 0.3))
+            if r==0:
+                raise Exception("r == 0")
+            # r = r + (random.uniform(-0.3, 0.3))
             phi = phi - 100
             theta = theta + 90
 
@@ -42,10 +45,8 @@ def start_scan():
             #phi = phi_d
 
             dist = r*cos(phi)
-            for r_i in r:
-                dist = r_i*cos(phi)
-                if dist < 5: # Distance in cm
-                    print("Too close ", {"r": r_i, "dist", dist})
+            if dist < 15: # Distance in cm
+                print("Too close ", {"r": r, "dist": dist})
                 
         except Exception as e:
             print(e)
