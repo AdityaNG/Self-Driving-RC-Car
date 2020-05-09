@@ -8,6 +8,7 @@ setInterval(function(){
 		JSC.fetch('/get/distance_sensor').then(function(response) {	return response.text();}).then(function(text) {
 	    POINTS = JSON.parse(text)
 	    data = []
+	    message = ""
 	    for (i=0; i<POINTS.length; i++) {
 	    	var d = Math.floor(POINTS[i][3])
 	    	if (d<100) {
