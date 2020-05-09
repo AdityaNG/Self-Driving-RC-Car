@@ -10,9 +10,9 @@ setInterval(function(){
 	    data = []
 	    message = ""
 	    for (i=0; i<POINTS.length; i++) {
-	    	var d = Math.floor(POINTS[i][3])
+	    	var d = Math.floor(Math.abs(POINTS[i][3]))
 	    	if (d<100) {
-	    		var min = d%10 * 10
+	    		var min = Math.floor(d/10) * 10
 	    		var max = min + 10
 		        data.push({
 		            angle: POINTS[i][1]*180/3.1415 -180 -35,
