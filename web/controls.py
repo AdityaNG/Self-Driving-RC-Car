@@ -17,15 +17,15 @@ import shutil
 # cap = cv2.VideoCapture('http://localhost:8080/stream.mjpg')
 
 # Forawrd / Backward Pins
-in1 = 17
-in2 = 27
+in1 = 27
+in2 = 17
 en = 22
 
 temp1=1
 
 # Left / Right Pins
-tin1 = 24
-tin2 = 23
+tin1 = 23
+tin2 = 24
 ten = 25
 
 steering_angle = 75
