@@ -15,6 +15,23 @@ if not os.path.exists(destfolder):
     os.makedirs(destfolder)
 
 
+def get_pref_time(p):
+    stick_config = destfolder + p + ".txt"
+    file_exists = os.path.isfile(stick_config) 
+
+    if not file_exists:
+        f=open(stick_config, "w")
+        f.write("")
+        f.close()
+
+    f=open(stick_config, "r")
+
+    if f.mode == 'r':
+        return os.path.getmtime(stick_config)
+    else:
+        print("Permission Error : "+ stick_config)
+        exit(1)
+
 def get_pref(p):
     stick_config = destfolder + p + ".txt"
     file_exists = os.path.isfile(stick_config) 
