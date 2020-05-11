@@ -31,6 +31,7 @@ class StreamingOutput(object):
                         self.buffer.seek(0)
                 return self.buffer.write(buf)
 
+
 class StreamingHandler(server.BaseHTTPRequestHandler):
         def do_GET(self):
                 global params
