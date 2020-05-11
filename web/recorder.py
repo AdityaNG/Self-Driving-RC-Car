@@ -56,6 +56,7 @@ def loop():
 					raise
 
 		imagefile = os.path.join(os.path.dirname(filename), 'images', str(time.time()) + ".jpg")
+		data_imagefile = os.path.join('images', str(time.time()) + ".jpg")
 		#camera.capture(imagefile)
 		result, frame = cap.read()
 
@@ -72,7 +73,7 @@ def loop():
 			else:
 				brakes = accel_val
 
-			myCsvRow = ",".join(list(map(str, [imagefile, steering_angle, speed, throttle, brakes])))
+			myCsvRow = ",".join(list(map(str, [data_imagefile, steering_angle, speed, throttle, brakes])))
 			# print('Append Row : ', myCsvRow)
 			#myCsvRow = " ".join(list(map(str, [imagefile, steering_angle, speed, accel_val])))
 			with open(filename, 'a') as fd: # Append to file
