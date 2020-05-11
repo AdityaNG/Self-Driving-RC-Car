@@ -12,20 +12,21 @@ import shutil
 #camera = picamera.PiCamera()
 #camera.capture('example.jpg')
 
+# TODO Seperate the recorder code from this mess
 time.sleep(10) # Wait 10 seconds for server to start up
 cap = cv2.VideoCapture('http://localhost:8080/stream.mjpg')
 
 # Forawrd / Backward Pins
-in1 = 24
-in2 = 23
-en = 25
+in1 = 17
+in2 = 27
+en = 22
 
 temp1=1
 
 # Left / Right Pins
-tin1 = 17
-tin2 = 27
-ten = 22
+tin1 = 24
+tin2 = 23
+ten = 25
 
 steering_angle = 75
 
@@ -47,7 +48,7 @@ tp=GPIO.PWM(ten,1000)
 tp.start(25)
 
 global tank_controls
-tank_controls = True;
+tank_controls = False;
 
 def set_accel(accel_val):
 	if accel_val>0:
