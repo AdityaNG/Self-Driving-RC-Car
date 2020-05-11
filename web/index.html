@@ -162,7 +162,7 @@
 		  <div class="recording">
 		  	<div class="card">
 			  <div class="container">
-			  	<iframe src="http://localhost:8081"></iframe>
+			  	<iframe id="download" width="640" height="600"></iframe>
 			  </div>
 			</div>
 			<br>
@@ -171,6 +171,8 @@
 		</div>
 
 		<script>
+		document.getElementById("download").src = 'http://' + document.location.hostname + ':8081'
+
 		var acc = document.getElementsByClassName("accordion");
 		var i;
 
