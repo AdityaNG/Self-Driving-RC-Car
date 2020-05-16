@@ -144,6 +144,15 @@ def loop(accel_val, steering_angle):
         set_steering(steering_angle)
 
 
+def corrected_reading(val):
+    res = -1*(val-32767)/32767
+    if res < -1:
+        res = -1
+    if res > 1:
+        res = 1
+    res = round(res, 4)
+    return res
+
 from evdev import InputDevice, categorize, ecodes
 
 #creates object 'gamepad' to store the data
