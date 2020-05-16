@@ -182,13 +182,13 @@ while True:
                     accel_val = corrected_reading(event.value) * 100
                 elif event.code == 2:
                     steering_angle = corrected_reading(event.value)
-                elif event.code == 305: # A
+                elif event.code == 304: # A
                     SPEED_MODE = 1
-                elif event.code == 306: # B 
+                elif event.code == 305: # B 
                     SPEED_MODE = 2
-                elif event.code == 304: # X
+                elif event.code == 307: # X
                     SPEED_MODE = 3
-                elif event.code == 307: # Y
+                elif event.code == 308: # Y
                     SPEED_MODE = 4
             print("SPEED_MODE", SPEED_MODE)
             accel_val = accel_val/(5-SPEED_MODE)
