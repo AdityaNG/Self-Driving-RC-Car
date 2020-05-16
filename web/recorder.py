@@ -43,7 +43,7 @@ def loop():
 	# TODO use get_pref_time
 	#if rec != '0' and time.time()-float(prefs.get_pref("last_message"))<15: # Last command issued within 15 seconds
 	# Last command issued within 15 seconds
-	if rec != '0' and rec!="" and (time.time()-float(prefs.get_pref_time("accel_val"))<15 or time.time()-float(prefs.get_pref_time("steering_angle"))<15): 
+	if rec != '0' and rec!="" and (now-float(prefs.get_pref_time("accel_val"))<15 or now-float(prefs.get_pref_time("steering_angle"))<15): 
 	#if False:
 		# print("REC...")
 		filename = os.path.join(os.getcwd(), 'training_data', rec, 'data.csv')
@@ -55,8 +55,10 @@ def loop():
 				if exc.errno != errno.EEXIST:
 					raise
 
-		imagefile = os.path.join(os.path.dirname(filename), 'images', str(time.time()) + ".jpg")
-		data_imagefile = os.path.join('images', str(time.time()) + ".jpg")
+
+		time_now = str(now)
+		imagefile = os.path.join(os.path.dirname(filename), 'images', time_now + ".jpg")
+		data_imagefile = os.path.join('images', time_now + ".jpg")
 		#camera.capture(imagefile)
 		result, frame = cap.read()
 
