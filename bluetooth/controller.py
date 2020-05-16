@@ -2,7 +2,7 @@
 
 import RPi.GPIO as GPIO
 import time
-import prefs
+#import prefs
 import os
 import errno
 import cv2 as cv2
@@ -139,8 +139,8 @@ def set_steering(steering_angle, accel_val=0):
 def loop(accel_val, steering_angle):
     global tank_controls
 
-    accel_val = int(prefs.get_pref("accel_val"))
-    steering_angle = float(prefs.get_pref("steering_angle"))
+    #accel_val = int(prefs.get_pref("accel_val"))
+    #steering_angle = float(prefs.get_pref("steering_angle"))
     
     if tank_controls:
         tank_mover(steering_angle, accel_val)
