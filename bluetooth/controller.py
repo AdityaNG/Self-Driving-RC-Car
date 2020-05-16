@@ -154,7 +154,7 @@ def loop(accel_val, steering_angle):
 
 
 def corrected_reading(val):
-    res = -2*(val-32767)/65535
+    res = -1*(val-32767)/32767
     if res < -1:
         res = -1
     if res > 1:
