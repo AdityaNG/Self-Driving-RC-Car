@@ -159,6 +159,7 @@ def corrected_reading(val):
         res = -1
     if res > 1:
         res = 1
+    res = round(res, 4)
     return res
 
 #evdev takes care of polling the controller in a loop
