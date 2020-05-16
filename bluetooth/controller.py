@@ -2,7 +2,7 @@
 
 import RPi.GPIO as GPIO
 import time
-#import prefs
+import prefs
 import os
 import errno
 import cv2 as cv2
@@ -15,15 +15,6 @@ import shutil
 # TODO Seperate the recorder code from this mess
 # time.sleep(10) # Wait 10 seconds for server to start up
 # cap = cv2.VideoCapture('http://localhost:8080/stream.mjpg')
-
-from evdev import InputDevice, categorize, ecodes
-
-#creates object 'gamepad' to store the data
-#you can call it whatever you like
-gamepad = InputDevice('/dev/input/event0')
-
-#prints out device info at start
-print(gamepad)
 
 # Forawrd / Backward Pins
 in1 = 27
@@ -68,7 +59,7 @@ def set_accel(accel_val):
         # Backwards
         GPIO.output(in1,GPIO.LOW)
         GPIO.output(in2,GPIO.HIGH)
-    p.ChangeDutyCycle(abs(accel_val) * 100)
+    p.ChangeDutyCycle(abs(accel_val))
 
 global last_out
 last_out = ""
@@ -136,16 +127,16 @@ def set_steering(steering_angle, accel_val=0):
 
 
 # PICS steering_angle speed throttle brakes
-def loop(accel_val, steering_angle):
+def loop():
     global tank_controls
 
-    #accel_val = 1
-    print("accel_val", accel_val)
-    print("steering_angle", steering_angle)
-
-    #accel_val = int(prefs.get_pref("accel_val"))
-    #steering_angle = float(prefs.get_pref("steering_angle"))
-    
+    rec = prefs.get_pref("rec")
+    accel_val = int(prefs.get_pref("accel_val"))
+    steering_angle = float(prefs.get_pref("steering_angle"))
+    accel_val = 40
+    steering_angle = 0.4
+    #print(accel_val, steering_angle, sep=" -- ")
+    #set_accel(accel_val)
     if tank_controls:
         tank_mover(steering_angle, accel_val)
     else:
@@ -153,29 +144,8 @@ def loop(accel_val, steering_angle):
         set_steering(steering_angle)
 
 
-def corrected_reading(val):
-    res = -1*(val-32767)/32767
-    if res < -1:
-        res = -1
-    if res > 1:
-        res = 1
-    res = round(res, 4)
-    return res
-
-#evdev takes care of polling the controller in a loop
-
-#ANTI_KILL_EVENT = time.time()
-
-for event in gamepad.read_loop():
-    accel_val = 0
-    steering_angle = 0
-
-    if event.type!=0:
-        #filters by event type
-        print(type(event.code), event.code)
-        if event.code == 1:
-            accel_val = corrected_reading(event.value)
-        elif event.code == 2:
-            steering_angle = corrected_reading(event.value)
-
-    loop(accel_val, steering_angle)
+while True:
+    try:
+        loop()
+    except Exception as e:
+        print(e)
