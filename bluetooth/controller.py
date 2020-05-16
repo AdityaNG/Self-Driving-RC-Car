@@ -127,14 +127,14 @@ def set_steering(steering_angle, accel_val=0):
 
 
 # PICS steering_angle speed throttle brakes
-def loop():
+def loop(accel_val, steering_angle):
     global tank_controls
 
     rec = prefs.get_pref("rec")
     #accel_val = int(prefs.get_pref("accel_val"))
     #steering_angle = float(prefs.get_pref("steering_angle"))
-    accel_val = 40
-    steering_angle = 0.4
+    #accel_val = 40
+    #steering_angle = 0.4
     #print(accel_val, steering_angle, sep=" -- ")
     #set_accel(accel_val)
     if tank_controls:
@@ -146,6 +146,18 @@ def loop():
 
 while True:
     try:
-        loop()
+        for event in gamepad.read_loop():
+            accel_val = 0
+            steering_angle = 0
+
+            if event.type!=0:
+                #filters by event type
+                print(type(event.code), event.code)
+                if event.code == 1:
+                    accel_val = corrected_reading(event.value) * 100
+                elif event.code == 2:
+                    steering_angle = corrected_reading(event.value)
+
+            loop(accel_val, steering_angle)
     except Exception as e:
         print(e)
