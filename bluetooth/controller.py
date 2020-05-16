@@ -68,7 +68,7 @@ def set_accel(accel_val):
         # Backwards
         GPIO.output(in1,GPIO.LOW)
         GPIO.output(in2,GPIO.HIGH)
-    p.ChangeDutyCycle(abs(accel_val))
+    p.ChangeDutyCycle(abs(accel_val) * 100)
 
 global last_out
 last_out = ""
