@@ -170,6 +170,7 @@ while True:
         accel_val = 0
         steering_angle = 0
         
+        SPEED_MODE = 1
         for event in gamepad.read_loop():
             #accel_val = 0
             #steering_angle = 0
@@ -181,7 +182,15 @@ while True:
                     accel_val = corrected_reading(event.value) * 100
                 elif event.code == 2:
                     steering_angle = corrected_reading(event.value)
-
+                elif event.code == 305: # A
+                    SPEED_MODE = 1
+                elif event.code == 306: # B 
+                    SPEED_MODE = 2
+                elif event.code == 304: # X
+                    SPEED_MODE = 3
+                elif event.code == 307: # Y
+                    SPEED_MODE = 4
+            accel_val = accel_val/(5-SPEED_MODE)
             loop(accel_val, steering_angle)
     except Exception as e:
         print(e)
