@@ -131,8 +131,8 @@ def loop():
     global tank_controls
 
     rec = prefs.get_pref("rec")
-    accel_val = int(prefs.get_pref("accel_val"))
-    steering_angle = float(prefs.get_pref("steering_angle"))
+    #accel_val = int(prefs.get_pref("accel_val"))
+    #steering_angle = float(prefs.get_pref("steering_angle"))
     accel_val = 40
     steering_angle = 0.4
     #print(accel_val, steering_angle, sep=" -- ")
