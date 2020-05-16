@@ -139,7 +139,7 @@ def set_steering(steering_angle, accel_val=0):
 def loop(accel_val, steering_angle):
     global tank_controls
 
-    accel_val = 1
+    #accel_val = 1
     print("accel_val", accel_val)
     print("steering_angle", steering_angle)
 
