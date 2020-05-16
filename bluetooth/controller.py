@@ -5,7 +5,7 @@ import time
 import prefs
 import os
 import errno
-import cv2 as cv2
+#import cv2 as cv2
 import shutil
 #import picamera
 
@@ -143,6 +143,15 @@ def loop(accel_val, steering_angle):
         set_accel(accel_val)
         set_steering(steering_angle)
 
+
+from evdev import InputDevice, categorize, ecodes
+
+#creates object 'gamepad' to store the data
+#you can call it whatever you like
+gamepad = InputDevice('/dev/input/event0')
+
+#prints out device info at start
+print(gamepad)
 
 while True:
     try:
