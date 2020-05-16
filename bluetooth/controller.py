@@ -171,7 +171,7 @@ while True:
         steering_angle = 0
         
         for event in gamepad.read_loop():
-            accel_val = 0
+            #accel_val = 0
             #steering_angle = 0
 
             if event.type!=0:
