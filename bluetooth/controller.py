@@ -191,8 +191,8 @@ while True:
                 elif event.code == 308: # Y
                     SPEED_MODE = 4
             print("SPEED_MODE", SPEED_MODE)
-            if accel_val > 25*(5-SPEED_MODE):
-                accel_val = 25*(5.0-SPEED_MODE)
+            if accel_val > 25*SPEED_MODE:
+                accel_val = 25*SPEED_MODE
             #accel_val = accel_val/(5-SPEED_MODE)
             loop(accel_val, steering_angle)
     except Exception as e:
