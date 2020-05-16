@@ -153,7 +153,7 @@ def loop(accel_val, steering_angle):
 
 
 def corrected_reading(val):
-    return (val-32767)/65535
+    return 2*(val-32767)/65535
 
 #evdev takes care of polling the controller in a loop
 
