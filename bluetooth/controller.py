@@ -164,8 +164,8 @@ for event in gamepad.read_loop():
         #filters by event type
         print(type(event.code), event.code)
         if event.code == 1:
-            accel_val = corrected_reading(event.val)
+            accel_val = corrected_reading(event.value)
         elif event.code == 2:
-            steering_angle = corrected_reading(event.val)
+            steering_angle = corrected_reading(event.value)
 
     loop(accel_val, steering_angle)
