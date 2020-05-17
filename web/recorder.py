@@ -35,7 +35,7 @@ def loop():
 	rec = prefs.get_pref("rec")
 	accel_val = int(prefs.get_pref("accel_val"))
 	steering_angle = float(prefs.get_pref("steering_angle"))
-	recompile = float(prefs.get_pref("recompile"))
+	recompile = prefs.get_pref("recompile")
 
 	if now-last_compile>60*10 or recompile=='1': # Recompile training data every 10 minutes
 		compile_data()
