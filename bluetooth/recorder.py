@@ -12,7 +12,7 @@ import shutil
 #camera = picamera.PiCamera()
 #camera.capture('example.jpg')
 
-time.sleep(10) # Wait 10 seconds for server to start up
+# time.sleep(10) # Wait 10 seconds for server to start up
 cap = cv2.VideoCapture('http://localhost:8080/stream.mjpg')
 
 steering_angle = 75
@@ -31,10 +31,8 @@ def loop():
 	global last_compile
 	global tank_controls
 	now = time.time()
-	
 	if now-last_compile>60*10: # Recompile training data every 10 minutes
 		compile_data()
-		last_compile = now
 
 	rec = prefs.get_pref("rec")
 	accel_val = int(prefs.get_pref("accel_val"))
