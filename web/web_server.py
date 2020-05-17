@@ -1,5 +1,8 @@
 import io
-import picamera
+try:
+    import picamera
+except:
+    print("ModuleNotFoundError: No module named 'picamera'")
 import logging
 import socketserver
 from threading import Condition
@@ -127,17 +130,22 @@ class StreamingServer(socketserver.ThreadingMixIn, server.HTTPServer):
         allow_reuse_address = True
         daemon_threads = True
 
-with picamera.PiCamera(resolution='640x480', framerate=24) as camera:
-        dir(camera)
-        output = StreamingOutput()
-        #Uncomment the next line to change your Pi's Camera rotation (in degrees)
-        camera.rotation = 180
-        camera.start_recording(output, format='mjpeg')
-        print("Camera opened, starting server at port 8080")
-        try:
-                address = ('', 8080)
-                server = StreamingServer(address, StreamingHandler)
-                server.serve_forever()
-                print("Server Started")
-        finally:
-                camera.stop_recording()
+try:
+    with picamera.PiCamera(resolution='640x480', framerate=24) as camera:
+            dir(camera)
+            output = StreamingOutput()
+            #Uncomment the next line to change your Pi's Camera rotation (in degrees)
+            camera.rotation = 180
+            camera.start_recording(output, format='mjpeg')
+            print("Camera opened, starting server at port 8080")
+except:
+    print("Camera Error")
+finally:
+
+    try:
+        print("Starting Server")
+        address = ('', 8080)
+        server = StreamingServer(address, StreamingHandler)
+        server.serve_forever()
+    finally:
+        camera.stop_recording()

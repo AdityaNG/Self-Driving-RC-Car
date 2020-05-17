@@ -96,4 +96,4 @@ while True:
 	try:
 		loop()
 	except Exception as e:
-		print(e)
+		print("RECORDER - ", e)
