@@ -1,9 +1,12 @@
 # Self Driving Car Project
+![alt text](https://github.com/AdityaNG/Self-Driving-RC-Car/blob/master/images/webInterface.png "Web Interface")
 ## Description
 To build the software infrastructure needed for:
 1. Controlling a car - Being able to remotely pilot a car via the web interface or a bluetooth controller
 2. Recording training data - Being able to record multiple video streams and sensors along with CAN data like wheel speed, steering angle, throttle, brake
 3. Replaying the training data - Having a quick and easy interface to replay the training data with all the video feeds and sensor data at a quick glance
+
+![alt text](https://github.com/AdityaNG/Self-Driving-RC-Car/blob/master/images/car.jpg "The Car")
 
 ## Progress so far
 ### Controlling the Car
@@ -14,6 +17,9 @@ Right now, there are three options to control the car wirelessly
 
 ### Recording training data
 Training Data can be recorded and downloaded via the web interface. The data gets recorded to the 'web/training_data/' folder and is compressed into a zip file so it can be easily downloaded.
+
+![alt text](https://github.com/AdityaNG/Self-Driving-RC-Car/blob/master/images/cannyEdges.png "Canny Edge Detection")
+![alt text](https://github.com/AdityaNG/Self-Driving-RC-Car/blob/master/images/laneMarkings.png "Lane Markings")
 Right now, it only records camera data for the primary Raspberry Pi camera along with throttle, steering and brake values
 The format of storage of this data is :
 
@@ -36,6 +42,7 @@ $ ./install.sh
 ```
 
 #### Getting Started
+![alt text](https://github.com/AdityaNG/Self-Driving-RC-Car/blob/master/images/wiring.jpg "Wiring")
 Wire up the Raspberry Pi to your motor controller as 
 * Forawrd / Backward Pins
     - in1 = 27
