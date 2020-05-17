@@ -19,32 +19,31 @@ steering_angle = 75
 
 global tank_controls
 tank_controls = False;
-rec_just_stopped = False
 
 
 def compile_data():
 	os.system('python3 compile.py &')
 
-#compile_data()
+compile_data()
 last_compile = time.time()
 # PICS steering_angle speed throttle brakes
 def loop():
 	global last_compile
 	global tank_controls
-	global rec_just_stopped
 	now = time.time()
 
 	rec = prefs.get_pref("rec")
 	accel_val = int(prefs.get_pref("accel_val"))
 	steering_angle = float(prefs.get_pref("steering_angle"))
+	recompile = float(prefs.get_pref("recompile"))
 
-	if not rec_just_stopped and rec=='0':
-		rec_just_stopped = True
-
-	if now-last_compile>60*10 or (rec_just_stopped and rec=='0'): # Recompile training data every 10 minutes or after a recording
+	if now-last_compile>60*10 or recompile=='1': # Recompile training data every 10 minutes
 		compile_data()
 		last_compile = now
+		if recompile=='1':
+			prefs.set_pref("recompile", '0')
 
+	
 	#print(accel_val, steering_angle, sep=" -- ")
 	#set_accel(accel_val)
 
@@ -54,8 +53,6 @@ def loop():
 	if rec != '0' and rec!="" and (now-float(prefs.get_pref_time("accel_val"))<15 or now-float(prefs.get_pref_time("steering_angle"))<15): 
 	#if False:
 		# print("REC...")
-		rec_just_stopped = False
-
 		filename = os.path.join(os.getcwd(), 'training_data', rec, 'data.csv')
 		if not os.path.exists(os.path.dirname(filename)):
 			try:

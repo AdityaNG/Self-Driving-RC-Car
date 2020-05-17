@@ -331,6 +331,8 @@ function start_recording() {
 			rec = 0
 			record_button.innerHTML = "Start Recording"
 			record_button.style.background = "red"
+			// recompile
+			httpGet(document.location.origin + "/?recompile=1")
 		}
 	} else {
 		$('<div></div>').html('Recording name can not be black').dialog({
