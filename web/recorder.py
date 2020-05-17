@@ -19,6 +19,7 @@ steering_angle = 75
 
 global tank_controls
 tank_controls = False;
+rec_just_stopped = False
 
 
 def compile_data():
@@ -30,17 +31,22 @@ last_compile = time.time()
 def loop():
 	global last_compile
 	global tank_controls
+	global rec_just_stopped
 	now = time.time()
-	
-	if now-last_compile>60*10: # Recompile training data every 10 minutes
+
+	if now-last_compile>60*10 or rec_just_stopped: # Recompile training data every 10 minutes
 		compile_data()
 		last_compile = now
+		rec_just_stopped = False
 
 	rec = prefs.get_pref("rec")
 	accel_val = int(prefs.get_pref("accel_val"))
 	steering_angle = float(prefs.get_pref("steering_angle"))
 	#print(accel_val, steering_angle, sep=" -- ")
 	#set_accel(accel_val)
+
+	if not rec_just_stopped and rec=='0':
+		rec_just_stopped = True
 
 	# TODO use get_pref_time
 	#if rec != '0' and time.time()-float(prefs.get_pref("last_message"))<15: # Last command issued within 15 seconds
