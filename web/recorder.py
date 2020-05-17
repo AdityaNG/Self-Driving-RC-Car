@@ -34,6 +34,10 @@ def loop():
 	global rec_just_stopped
 	now = time.time()
 
+	rec = prefs.get_pref("rec")
+	accel_val = int(prefs.get_pref("accel_val"))
+	steering_angle = float(prefs.get_pref("steering_angle"))
+
 	if not rec_just_stopped and rec=='0':
 		rec_just_stopped = True
 
@@ -41,9 +45,6 @@ def loop():
 		compile_data()
 		last_compile = now
 
-	rec = prefs.get_pref("rec")
-	accel_val = int(prefs.get_pref("accel_val"))
-	steering_angle = float(prefs.get_pref("steering_angle"))
 	#print(accel_val, steering_angle, sep=" -- ")
 	#set_accel(accel_val)
 
