@@ -20,7 +20,7 @@ GPIO.setup(BLUE_PIN,GPIO.OUT)
 
 import threading
 
-async def BACKGROUND_LED_PATTERN(pattern_total, delay_time=0.5):
+def BACKGROUND_LED_PATTERN(pattern_total, delay_time=0.5):
     GPIO.output(RED_PIN,GPIO.HIGH)
     GPIO.output(GREEN_PIN,GPIO.HIGH)
     GPIO.output(BLUE_PIN,GPIO.HIGH)
