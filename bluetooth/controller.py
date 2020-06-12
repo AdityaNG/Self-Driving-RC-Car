@@ -7,14 +7,8 @@ import os
 import errno
 import shutil
 
-# Forawrd / Backward Pins
-in1 = 27
-in2 = 17
-en = 22
-
-temp1=1
-
-
+GPIO.setwarnings(False)
+GPIO.setmode(GPIO.BCM)
 
 RED_PIN = 10
 GREEN_PIN = 11
@@ -23,6 +17,7 @@ BLUE_PIN = 9
 GPIO.setup(RED_PIN,GPIO.OUT)
 GPIO.setup(GREEN_PIN,GPIO.OUT)
 GPIO.setup(BLUE_PIN,GPIO.OUT)
+
 
 # TODO : Play out complex LED patterns async
 def LED_PATTERN(pattern_total, delay_time=1):
@@ -46,6 +41,13 @@ def LED_PATTERN(pattern_total, delay_time=1):
 
 LED_PATTERN("RGB RGB")
 
+# Forawrd / Backward Pins
+in1 = 27
+in2 = 17
+en = 22
+
+temp1=1
+
 # Left / Right Pins
 tin1 = 23
 tin2 = 24
@@ -53,8 +55,7 @@ ten = 25
 
 steering_angle = 75
 
-GPIO.setwarnings(False)
-GPIO.setmode(GPIO.BCM)
+
 GPIO.setup(in1,GPIO.OUT)
 GPIO.setup(in2,GPIO.OUT)
 GPIO.setup(en,GPIO.OUT)
