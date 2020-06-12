@@ -226,7 +226,7 @@ gamepad = InputDevice('/dev/input/event0')
 #prints out device info at start
 print(gamepad)
 
-global shutdown_request = 0
+shutdown_request = 0
 
 while True:
     try:
