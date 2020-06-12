@@ -20,6 +20,8 @@ data = open("data.csv", "r")
 data = data.read()
 
 data_imagefile, steering_angle, speed, throttle, brakes = list(range(5))
+throttle = speed
+brakes = speed
 
 IMAGES = os.listdir('images')
 IMAGES.sort()
