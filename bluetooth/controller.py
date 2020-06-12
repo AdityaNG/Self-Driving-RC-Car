@@ -263,7 +263,7 @@ while True:
                         time.sleep(0.5)
                         #os.system("halt")
             
-            if event.code == 17 and event.value==0 and event.type==3
+            if event.code == 17 and event.value==0 and event.type==3:
                 if now - shutdown_request >= 2 and shutdown_request!=0:    
                     print("Shutdown request dropped")
                     LED_PATTERN("G_")
