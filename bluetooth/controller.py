@@ -58,7 +58,12 @@ def LED_PATTERN(pattern_total, delay_time=0.5):
     LED_thread = threading.Thread(target=BACKGROUND_LED_PATTERN, args=(pattern_total, delay_time))
     LED_thread.start()
 
-LED_PATTERN("G G G G G", 0.25)
+# Bluetooth connect 
+while "event0" not in os.listdir("/dev/input/"):
+    LED_PATTERN("B B B B B_", 0.25)
+    time.sleep(5) # Wait
+
+LED_PATTERN("BBBBG G G G G", 0.25)
 
 
 # Forawrd / Backward Pins
