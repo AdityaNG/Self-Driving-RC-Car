@@ -37,8 +37,16 @@ def loop(frame):
 		compile_data()
 
 	rec = prefs.get_pref("rec")
-	accel_val = int(prefs.get_pref("accel_val"))
-	steering_angle = float(prefs.get_pref("steering_angle"))
+
+	accel_val = 0
+	steering_angle = 0
+
+	try:
+		accel_val = int(prefs.get_pref("accel_val"))
+		steering_angle = float(prefs.get_pref("steering_angle"))
+	except expression as identifier:
+		print("accel_val / steering_angle error")
+	
 	#print(accel_val, steering_angle, sep=" -- ")
 	#set_accel(accel_val)
 
@@ -85,6 +93,8 @@ def loop(frame):
 		else:
 			print("REC ERROR - COULD NOT GET IMAGE")
 	#time.sleep(0.1)
+
+# sudo modprobe bcm2835-v4l2
 
 mirror = False
 cam = cv2.VideoCapture(0)
