@@ -88,6 +88,7 @@ def loop(frame):
 
 
 # import the necessary packages
+import picamera
 from picamera.array import PiRGBArray
 from picamera import PiCamera
 import time
