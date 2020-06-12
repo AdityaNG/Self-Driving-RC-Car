@@ -55,8 +55,8 @@ def loop(frame):
 	# Last command issued within 15 seconds
 	if rec != '0' and rec!="" and (now-float(prefs.get_pref_time("accel_val"))<15 or now-float(prefs.get_pref_time("steering_angle"))<15): 
 	#if False:
-		# print("REC...")
 		filename = os.path.join(os.getcwd(), 'training_data', rec, 'data.csv')
+		print("RECORDING TO ", filename)
 		if not os.path.exists(os.path.dirname(filename)):
 			try:
 				os.makedirs(os.path.dirname(filename))

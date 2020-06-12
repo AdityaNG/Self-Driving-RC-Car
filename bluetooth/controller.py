@@ -133,7 +133,7 @@ def loop(accel_val, steering_angle, rec_toggle=False):
     if rec_toggle:
         if prefs.get_pref("rec")=="0":
             print("Rec ON")
-            prefs.set_pref("rec", "1")
+            prefs.set_pref("rec", str(time.time()))
         else:
             print("Rec OFF")
             prefs.set_pref("rec", "0")
