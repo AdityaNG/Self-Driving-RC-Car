@@ -93,6 +93,7 @@ import io
 #from picamera.array import PiRGBArray
 #from picamera import PiCamera
 import time
+from numpy.lib.npyio import NpzFile 
 #import cv2
 # initialize the camera and grab a reference to the raw camera capture
 #camera = PiCamera()
@@ -105,13 +106,13 @@ time.sleep(0.1)
 with picamera.PiCamera() as camera:
 	stream = io.BytesIO()
 	for frame in camera.capture_continuous(stream, format='jpeg'):
-#for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
-	# grab the raw NumPy array representing the image, then initialize the timestamp
-	# and occupied/unoccupied text
-		#image = stream.array
+		stream.truncate()
+		stream.seek(0)
 		try:
-			print(frame)
-			print(dir(frame))
-			loop(frame.array)
+			ret = NpzFile(stream, own_fid=True, allow_pickle=True)  
+			print(ret.files)
+			print(ret)
+			print(dir(ret))
+			loop(stream)
 		except Exception as e:
 			print(e)
