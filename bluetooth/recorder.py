@@ -49,7 +49,7 @@ def loop(frame):
 		steering_angle = float(sa)
 	
 	
-	print("accel_val=", accel_val, "\tsteering_angle=", steering_angle)
+	#print("accel_val=", accel_val, "\tsteering_angle=", steering_angle)
 	
 	#print(accel_val, steering_angle, sep=" -- ")
 	#set_accel(accel_val)
