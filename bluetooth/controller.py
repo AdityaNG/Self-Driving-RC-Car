@@ -61,6 +61,7 @@ def LED_PATTERN(pattern_total, delay_time=0.5):
 # Bluetooth connect 
 while "event0" not in os.listdir("/dev/input/"):
     LED_PATTERN("B B B B B_", 0.25)
+    os.system('./bluetooth_connect.sh')
     time.sleep(5) # Wait
 
 LED_PATTERN("BBBBG G G G G", 0.25)
