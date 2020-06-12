@@ -53,7 +53,7 @@ def get_pref(p):
 def set_pref(p, val):
     stick_config = destfolder + p + ".txt"
     f=open(stick_config, "w")
-    f.write(val)
+    f.write(str(val))
     f.close()
 
 def drop_pref(p):
