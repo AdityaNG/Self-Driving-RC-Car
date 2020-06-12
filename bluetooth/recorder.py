@@ -19,7 +19,7 @@ def compile_data():
 
 
 def last_command_time():
-	return min((float(prefs.get_pref_time("accel_val"), float(prefs.get_pref_time("steering_angle")))))
+	return min(( float(prefs.get_pref_time("accel_val")), float(prefs.get_pref_time("steering_angle"))))
 
 
 def loop(frame, rec):
