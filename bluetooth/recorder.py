@@ -101,8 +101,8 @@ rawCapture = PiRGBArray(camera, size=(640, 480))
 time.sleep(0.1)
 # capture frames from the camera
 with picamera.PiCamera() as camera:
-    stream = io.BytesIO()
-    for foo in camera.capture_continuous(stream, format='jpeg'):
+	stream = io.BytesIO()
+	for foo in camera.capture_continuous(stream, format='jpeg'):
 #for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
 	# grab the raw NumPy array representing the image, then initialize the timestamp
 	# and occupied/unoccupied text
