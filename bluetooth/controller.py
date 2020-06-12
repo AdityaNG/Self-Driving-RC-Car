@@ -14,6 +14,38 @@ en = 22
 
 temp1=1
 
+
+
+RED_PIN = 10
+GREEN_PIN = 11
+BLUE_PIN = 9
+
+# TODO : Play out complex LED patterns async
+def LED_PATTERN(pattern_total, delay_time=1):
+    GPIO.output(RED_PIN,GPIO.HIGH)
+    GPIO.output(GREEN_PIN,GPIO.HIGH)
+    GPIO.output(BLUE_PIN,GPIO.HIGH)
+    
+    for pattern in pattern_total:
+        GPIO.output(RED_PIN,GPIO.HIGH)
+        GPIO.output(GREEN_PIN,GPIO.HIGH)
+        GPIO.output(BLUE_PIN,GPIO.HIGH)
+        if "R" == str(pattern):
+            GPIO.output(RED_PIN,GPIO.LOW)
+        elif "G" == str(pattern):
+            GPIO.output(GREEN_PIN,GPIO.LOW)
+        elif "B" == str(pattern):
+            GPIO.output(GREEN_PIN,GPIO.LOW)
+        elif " " == str(pattern):
+            pass # All blank
+        time.sleep(delay_time)
+
+GPIO.setup(RED_PIN,GPIO.OUT)
+GPIO.setup(GREEN_PIN,GPIO.OUT)
+GPIO.setup(BLUE_PIN,GPIO.OUT)
+
+LED_PATTERN("RGB RGB")
+
 # Left / Right Pins
 tin1 = 23
 tin2 = 24
