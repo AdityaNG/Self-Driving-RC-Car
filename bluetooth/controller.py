@@ -20,7 +20,7 @@ GPIO.setup(BLUE_PIN,GPIO.OUT)
 
 
 # TODO : Play out complex LED patterns async
-def LED_PATTERN(pattern_total, delay_time=1):
+def LED_PATTERN(pattern_total, delay_time=0.5):
     GPIO.output(RED_PIN,GPIO.HIGH)
     GPIO.output(GREEN_PIN,GPIO.HIGH)
     GPIO.output(BLUE_PIN,GPIO.HIGH)
@@ -54,7 +54,7 @@ def LED_PATTERN(pattern_total, delay_time=1):
             pass # All blank
         
 
-LED_PATTERN("G G G G G", 0.5)
+LED_PATTERN("G G G G G", 0.25)
 
 
 # Forawrd / Backward Pins
@@ -173,11 +173,11 @@ def loop(accel_val, steering_angle, rec_toggle=False):
 
     if rec_toggle:
         if prefs.get_pref("rec")=="0":
-            LED_PATTERN("R R R_")
+            LED_PATTERN("R R_")
             print("Rec ON")
             prefs.set_pref("rec", str(time.time()))
         else:
-            LED_PATTERN("R R R")
+            LED_PATTERN("R R")
             print("Rec OFF")
             prefs.set_pref("rec", "0")
 
@@ -232,7 +232,7 @@ while True:
             
             if event.code == 17 and event.value==1 and event.type==3:
                 print("Compile event triggered")
-                LED_PATTERN("B B B")
+                LED_PATTERN("B B")
                 os.system('python3 compile.py > logs/compile.txt &')
 
             if event.type!=0:
