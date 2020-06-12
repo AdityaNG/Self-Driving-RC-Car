@@ -10,6 +10,10 @@ import shutil
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)
 
+FAN_PIN = 10
+GPIO.setup(FAN_PIN,GPIO.OUT)
+GPIO.output(FAN,GPIO.HIGH)
+
 RED_PIN = 10
 GREEN_PIN = 11
 BLUE_PIN = 9
