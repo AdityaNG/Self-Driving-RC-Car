@@ -154,7 +154,7 @@ def loop(accel_val, steering_angle, rec_toggle=False):
     #steering_angle = float(prefs.get_pref("steering_angle"))
     #accel_val = 40
     #steering_angle = 0.4
-    print(accel_val, steering_angle, sep=" -- ")
+    #print(accel_val, steering_angle, sep=" -- ")
     #set_accel(accel_val)
     if tank_controls:
         tank_mover(steering_angle, accel_val)
