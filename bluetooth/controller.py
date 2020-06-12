@@ -38,6 +38,10 @@ def LED_PATTERN(pattern_total, delay_time=1):
         elif " " == str(pattern):
             pass # All blank
         time.sleep(delay_time)
+    
+    GPIO.output(RED_PIN,GPIO.HIGH)
+    GPIO.output(GREEN_PIN,GPIO.HIGH)
+    GPIO.output(BLUE_PIN,GPIO.HIGH)
 
 LED_PATTERN("RGB RGB")
 
