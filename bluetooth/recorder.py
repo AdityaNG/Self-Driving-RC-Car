@@ -86,33 +86,12 @@ def loop(frame):
 			print("REC ERROR - COULD NOT GET IMAGE")
 	#time.sleep(0.1)
 
+mirror = False
+cam = cv2.VideoCapture(0)
+while True:
+	ret_val, img = cam.read()
+	if mirror: 
+		img = cv2.flip(img, 1)    
+	loop(img)
 
-# import the necessary packages
-import picamera
-import io
-#from picamera.array import PiRGBArray
-#from picamera import PiCamera
-import time
-from numpy.lib.npyio import NpzFile 
-#import cv2
-# initialize the camera and grab a reference to the raw camera capture
-#camera = PiCamera()
-#camera.resolution = (640, 480)
-#camera.framerate = 32
-#rawCapture = PiRGBArray(camera, size=(640, 480))
-# allow the camera to warmup
-time.sleep(0.1)
-# capture frames from the camera
-with picamera.PiCamera() as camera:
-	stream = io.BytesIO()
-	for frame in camera.capture_continuous(stream, format='jpeg'):
-		stream.truncate()
-		stream.seek(0)
-		try:
-			ret = NpzFile(stream, own_fid=True, allow_pickle=True)  
-			print(ret.files)
-			print(ret)
-			print(dir(ret))
-			loop(stream)
-		except Exception as e:
-			print(e)
+cv2.destroyAllWindows()
