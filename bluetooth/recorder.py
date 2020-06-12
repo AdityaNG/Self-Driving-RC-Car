@@ -104,14 +104,14 @@ time.sleep(0.1)
 # capture frames from the camera
 with picamera.PiCamera() as camera:
 	stream = io.BytesIO()
-	for foo in camera.capture_continuous(stream, format='jpeg'):
+	for frame in camera.capture_continuous(stream, format='jpeg'):
 #for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
 	# grab the raw NumPy array representing the image, then initialize the timestamp
 	# and occupied/unoccupied text
 		#image = stream.array
 		try:
-			print(stream)
-			print(dir(stream))
-			loop(image)
+			print(frame)
+			print(dir(frame))
+			loop(frame.array)
 		except Exception as e:
 			print(e)
