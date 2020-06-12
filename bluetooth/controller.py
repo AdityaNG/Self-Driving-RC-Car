@@ -34,7 +34,7 @@ def LED_PATTERN(pattern_total, delay_time=1):
         elif "G" == str(pattern):
             GPIO.output(GREEN_PIN,GPIO.LOW)
         elif "B" == str(pattern):
-            GPIO.output(GREEN_PIN,GPIO.LOW)
+            GPIO.output(BLUE_PIN,GPIO.LOW)
         elif " " == str(pattern):
             pass # All blank
         time.sleep(delay_time)
