@@ -234,15 +234,6 @@ while True:
         steering_angle = 0
         
         SPEED_MODE = 1
-
-        now = time.time()
-        if shutdown_request!=0:
-            if now - shutdown_request >= 2: # Shutdown button pressed for 2 seconds or more
-                print("SHUTDOWN SIGNAL")
-                LED_PATTERN("R_")
-                time.sleep(0.5)
-                #os.system("halt")
-
         for event in gamepad.read_loop():
             #accel_val = 0
             #steering_angle = 0
@@ -271,7 +262,13 @@ while True:
                     print("Shutdown request dropped")
                     LED_PATTERN("G_")
                     shutdown_request = 0
-            
+            now = time.time()
+            if shutdown_request!=0:
+                if now - shutdown_request >= 2: # Shutdown button pressed for 2 seconds or more
+                    print("SHUTDOWN SIGNAL")
+                    LED_PATTERN("R_")
+                    time.sleep(0.5)
+                    os.system("halt")
 
             if event.type!=0:
                 #filters by event type
