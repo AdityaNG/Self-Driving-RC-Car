@@ -200,7 +200,7 @@ while True:
 
             if event.type!=0:
                 #filters by event type
-                print(type(event.code), event.code)
+                #print(type(event.code), event.code)
                 if event.code == 1:
                     accel_val = corrected_reading(event.value) * 100
                 elif event.code == 2:
