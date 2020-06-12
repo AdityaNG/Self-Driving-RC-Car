@@ -257,7 +257,7 @@ while True:
                     LED_PATTERN("R R_", 0.25)
                     print("Did not fire compile [currently recording]")
             
-            
+            now = time.time()
             if event.code == 17 and event.value==-1 and event.type==3:
                 if shutdown_request==0:
                     print("Shutdown request triggered")
@@ -269,7 +269,7 @@ while True:
                     print("Shutdown request dropped")
                     LED_PATTERN("G_")
                     shutdown_request = 0
-            now = time.time()
+            
             if shutdown_request!=0:
                 if now - shutdown_request >= 2: # Shutdown button pressed for 2 seconds or more
                     print("SHUTDOWN SIGNAL")
