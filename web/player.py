@@ -92,7 +92,7 @@ while True:
 			img = process(img)
 			img = cv2.putText(img, 'steering_angle ' + instance[steering_angle], (20,20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, BLUE) 
 			img = cv2.putText(img, 'throttle       ' + instance[throttle], (20,40), cv2.FONT_HERSHEY_SIMPLEX, 0.5, BLUE) 
-			cv2.imshow('vid', img)
+			cv2.imshow('player.py', img)
 			#cv2.waitKey(0) # waits until a key is pressed
 			if cv2.waitKey(25) & 0xFF == ord('q'):
 				break

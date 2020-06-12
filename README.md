@@ -20,6 +20,7 @@ Training Data can be recorded and downloaded via the web interface. The data get
 
 ![alt text](https://github.com/AdityaNG/Self-Driving-RC-Car/blob/master/images/cannyEdges.png "Canny Edge Detection")
 ![alt text](https://github.com/AdityaNG/Self-Driving-RC-Car/blob/master/images/laneMarkings.png "Lane Markings")
+
 Right now, it only records camera data for the primary Raspberry Pi camera along with throttle, steering and brake values
 The format of storage of this data is :
 
@@ -67,8 +68,13 @@ Want to contribute? Great!
 We can get in touch at adityang5@gmail.com
 ### Todos
 
- - Add better bluetooth controller support
- - Add temperature monitoring support
+ - Bluetooth
+    - Add better bluetooth controller support
+    - Remappable bluetooth controller
+    - Add record, brake, features to bluetooth
+    - Auto boot to bluetooth
+    - Web interface to setup bluetooth controller
+ - Add temperature monitoring support for motor, MCU, BMS, etc.
  - Add CAN Bus monitoring support
  - Measure dropped frames
  - Add support for general Linux systems

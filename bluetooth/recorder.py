@@ -13,7 +13,9 @@ import shutil
 #camera.capture('example.jpg')
 
 # time.sleep(10) # Wait 10 seconds for server to start up
-cap = cv2.VideoCapture('http://localhost:8080/stream.mjpg')
+
+
+#cap = cv2.VideoCapture('http://localhost:8080/stream.mjpg')
 
 steering_angle = 75
 
@@ -27,7 +29,7 @@ def compile_data():
 compile_data()
 last_compile = time.time()
 # PICS steering_angle speed throttle brakes
-def loop():
+def loop(frame):
 	global last_compile
 	global tank_controls
 	now = time.time()
@@ -60,8 +62,8 @@ def loop():
 		imagefile = os.path.join(os.path.dirname(filename), 'images', time_now + ".jpg")
 		data_imagefile = os.path.join('images', time_now + ".jpg")
 		#camera.capture(imagefile)
-		result, frame = cap.read()
-
+		#result, frame = cap.read()
+		result = True # Use 
 		if result:
 			# print("Got Image")
 			cv2.imwrite(imagefile, frame)
@@ -85,8 +87,24 @@ def loop():
 	#time.sleep(0.1)
 
 
-while True:
+# import the necessary packages
+from picamera.array import PiRGBArray
+from picamera import PiCamera
+import time
+import cv2
+# initialize the camera and grab a reference to the raw camera capture
+camera = PiCamera()
+camera.resolution = (640, 480)
+camera.framerate = 32
+rawCapture = PiRGBArray(camera, size=(640, 480))
+# allow the camera to warmup
+time.sleep(0.1)
+# capture frames from the camera
+for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
+	# grab the raw NumPy array representing the image, then initialize the timestamp
+	# and occupied/unoccupied text
+	image = frame.array
 	try:
-		loop()
+		loop(image)
 	except Exception as e:
 		print(e)
