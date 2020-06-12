@@ -198,9 +198,11 @@ while True:
                     SPEED_MODE = 3
                 elif event.code == 308: # Y
                     SPEED_MODE = 4
-            if accel_val > 25*SPEED_MODE:
-                accel_val = 25*SPEED_MODE
-            #accel_val = accel_val/(5-SPEED_MODE)
+            if abs(accel_val) > 25*SPEED_MODE:
+                if accel_val!=0: # To prevent divide by zero error
+                    accel_val = 25*SPEED_MODE * accel_val / abs(accel_val)
+                else:
+                    accel_val = 25*SPEED_MODE
             loop(accel_val, steering_angle, rec_toggle)
     except Exception as e:
         pass
