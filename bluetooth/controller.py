@@ -263,11 +263,12 @@ while True:
                     LED_PATTERN("G_")
                     shutdown_request = 0
             
-            if now - shutdown_request >= 2: # Shutdown button pressed for 2 seconds or more
-                print("SHUTDOWN SIGNAL")
-                LED_PATTERN("R_")
-                time.sleep(0.5)
-                #os.system("halt")
+            if shutdown_request!=0:
+                if now - shutdown_request >= 2: # Shutdown button pressed for 2 seconds or more
+                    print("SHUTDOWN SIGNAL")
+                    LED_PATTERN("R_")
+                    time.sleep(0.5)
+                    #os.system("halt")
 
             if event.type!=0:
                 #filters by event type
