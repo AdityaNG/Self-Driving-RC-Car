@@ -133,14 +133,14 @@ def loop(accel_val, steering_angle, rec_toggle=False):
 
     if rec_toggle:
         if prefs.get_pref("rec")=="0":
-            #print("Rec ON")
+            print("Rec ON")
             prefs.set_pref("rec", str(time.time()))
         else:
-            #print("Rec OFF")
+            print("Rec OFF")
             prefs.set_pref("rec", "0")
 
-    #print("accel_val", accel_val)
-    #print("steering_angle", steering_angle)
+    print("accel_val", accel_val)
+    print("steering_angle", steering_angle)
 
     av = str(accel_val)
     #print("saving av=", av)
@@ -180,7 +180,7 @@ from evdev import InputDevice, categorize, ecodes
 gamepad = InputDevice('/dev/input/event0')
 
 #prints out device info at start
-#print(gamepad)
+print(gamepad)
 
 while True:
     try:
@@ -196,7 +196,7 @@ while True:
                 rec_toggle = True
             
             if event.code == 17 and event.value==1 and event.type==3:
-                #print("Compile event triggered")
+                print("Compile event triggered")
                 os.system('python3 compile.py &')
 
             if event.type!=0:
