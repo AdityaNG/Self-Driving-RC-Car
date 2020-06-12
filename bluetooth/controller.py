@@ -142,10 +142,12 @@ def loop(accel_val, steering_angle, rec_toggle=False):
     #print("steering_angle", steering_angle)
 
     av = str(accel_val)
+    print("saving av=", av)
     if (av.isnumeric()):
         prefs.set_pref("accel_val", av)
     
     sa = str(steering_angle)
+    print("saving sa=", sa)
     if (sa.isnumeric()):
         prefs.set_pref("steering_angle", sa)
 
