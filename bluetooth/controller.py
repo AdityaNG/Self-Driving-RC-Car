@@ -62,9 +62,9 @@ def LED_PATTERN(pattern_total, delay_time=0.5):
 while "event0" not in os.listdir("/dev/input/"):
     LED_PATTERN("B B B B B_", 0.25)
     os.system('./bluetooth_connect.sh')
-    time.sleep(5) # Wait
+    time.sleep(10) # Wait
 
-LED_PATTERN("BBBBG G G G G", 0.25)
+LED_PATTERN("B B G G G G G_", 0.25)
 
 
 # Forawrd / Backward Pins
@@ -80,7 +80,6 @@ tin2 = 24
 ten = 25
 
 steering_angle = 75
-
 
 GPIO.setup(in1,GPIO.OUT)
 GPIO.setup(in2,GPIO.OUT)
@@ -227,6 +226,8 @@ gamepad = InputDevice('/dev/input/event0')
 #prints out device info at start
 print(gamepad)
 
+global shutdown_request = 0
+
 while True:
     try:
         accel_val = 0
@@ -248,6 +249,21 @@ while True:
                 else:
                     LED_PATTERN("R R_", 0.25)
                     print("Did not fire compile [currently recording]")
+            
+            now = time.time()
+            if event.code == 17 and event.value==-1 and event.type==3:
+                print("Shutdown request triggered")
+                if shutdown_request==0:
+                    shutdown_request = now
+                    LED_PATTERN("RB"*4, 0.25)
+                else:
+                    if now - shutdown_request >= 2: # Shutdown button pressed for 2 seconds or more
+                        LED_PATTERN("R_")
+                        time.sleep(0.5)
+                        #os.system("halt")
+            else:
+                if now - shutdown_request >= 2:
+                    shutdown_request = 0
 
             if event.type!=0:
                 #filters by event type
