@@ -43,10 +43,9 @@ def loop(frame):
 
 	av = prefs.get_pref("accel_val")
 	sa = prefs.get_pref("steering_angle")
-	if av.isnumeric():
-		accel_val = float(av)
-	if sa.isnumeric():
-		steering_angle = float(sa)
+	
+	accel_val = float(av)
+	steering_angle = float(sa)
 	
 	
 	#print("accel_val=", accel_val, "\tsteering_angle=", steering_angle)
