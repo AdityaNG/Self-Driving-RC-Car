@@ -44,7 +44,7 @@ def loop(frame):
 	try:
 		accel_val = int(prefs.get_pref("accel_val"))
 		steering_angle = float(prefs.get_pref("steering_angle"))
-	except expression as identifier:
+	except:
 		print("accel_val / steering_angle error")
 	
 	#print(accel_val, steering_angle, sep=" -- ")
