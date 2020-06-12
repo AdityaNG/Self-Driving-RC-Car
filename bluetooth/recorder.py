@@ -26,7 +26,7 @@ tank_controls = False;
 def compile_data():
 	os.system('python3 compile.py &')
 
-compile_data()
+#compile_data()
 last_compile = time.time()
 # PICS steering_angle speed throttle brakes
 def loop(frame):
@@ -41,11 +41,13 @@ def loop(frame):
 	accel_val = 0
 	steering_angle = 0
 
-	#try:
-	accel_val = float(prefs.get_pref("accel_val"))
-	steering_angle = float(prefs.get_pref("steering_angle"))
-	#except:
-	#	print("accel_val / steering_angle error")
+	av = prefs.get_pref("accel_val")
+	sa = prefs.get_pref("steering_angle")
+	try:
+		accel_val = float(av)
+		steering_angle = float(sa)
+	except:
+		print("accel_val=", av, " / steering_angle=", sa, " error")
 	
 	#print(accel_val, steering_angle, sep=" -- ")
 	#set_accel(accel_val)
