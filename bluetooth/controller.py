@@ -99,7 +99,7 @@ def tank_mover(steering_angle, accel_val):
 
         out = "p" + str(abs(steering_angle)) + "; tp" + str(abs(steering_angle))
         if out!=last_out:
-            print(out)
+            #print(out)
             last_out = out
         return
 
@@ -109,7 +109,7 @@ def tank_mover(steering_angle, accel_val):
     
     out = "p" + str(abs(accel_val * tf)) + "; tp" + str(abs(accel_val * (1 - abs(tf))))
     if out!=last_out:
-        print(out)
+        #print(out)
         last_out = out
 
 
@@ -132,10 +132,10 @@ def loop(accel_val, steering_angle, rec_toggle=False):
 
     if rec_toggle:
         if prefs.get_pref("rec")=="0":
-            print("Rec ON")
+            #print("Rec ON")
             prefs.set_pref("rec", str(time.time()))
         else:
-            print("Rec OFF")
+            #print("Rec OFF")
             prefs.set_pref("rec", "0")
 
     #print("accel_val", accel_val)
@@ -179,7 +179,7 @@ from evdev import InputDevice, categorize, ecodes
 gamepad = InputDevice('/dev/input/event0')
 
 #prints out device info at start
-print(gamepad)
+#print(gamepad)
 
 while True:
     try:
@@ -195,7 +195,7 @@ while True:
                 rec_toggle = True
             
             if event.code == 17 and event.value==1 and event.type==3:
-                print("Compile event triggered")
+                #print("Compile event triggered")
                 os.system('python3 compile.py &')
 
             if event.type!=0:
@@ -218,4 +218,5 @@ while True:
             #accel_val = accel_val/(5-SPEED_MODE)
             loop(accel_val, steering_angle, rec_toggle)
     except Exception as e:
-        print(e)
+        pass
+        #print(e)

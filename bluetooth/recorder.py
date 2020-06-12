@@ -66,7 +66,7 @@ def loop(frame):
 	if rec != '0' and rec!="" and (now-float(prefs.get_pref_time("accel_val"))<15 or now-float(prefs.get_pref_time("steering_angle"))<15): 
 	#if False:
 		filename = os.path.join(os.getcwd(), 'training_data', rec, 'data.csv')
-		print("RECORDING TO ", filename)
+		#print("RECORDING TO ", filename)
 		if not os.path.exists(os.path.dirname(filename)):
 			try:
 				os.makedirs(os.path.dirname(filename))
@@ -101,7 +101,8 @@ def loop(frame):
 			with open(filename, 'a') as fd: # Append to file
 				fd.write(myCsvRow + '\n')
 		else:
-			print("REC ERROR - COULD NOT GET IMAGE")
+			pass
+			#print("REC ERROR - COULD NOT GET IMAGE")
 	#time.sleep(0.1)
 
 # sudo modprobe bcm2835-v4l2
