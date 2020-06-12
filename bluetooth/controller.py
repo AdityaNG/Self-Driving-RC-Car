@@ -133,6 +133,9 @@ def loop(accel_val, steering_angle):
     print("accel_val", accel_val)
     print("steering_angle", steering_angle)
 
+    prefs.set_pref("accel_val", accel_val)
+    prefs.set_pref("steering_angle", steering_angle)
+
     #rec = prefs.get_pref("rec")
     #accel_val = int(prefs.get_pref("accel_val"))
     #steering_angle = float(prefs.get_pref("steering_angle"))
