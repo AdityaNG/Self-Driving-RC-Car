@@ -45,9 +45,14 @@ def loop(frame):
 	sa = prefs.get_pref("steering_angle")
 	try:
 		accel_val = float(av)
+		
+	except:
+		print("accel_val=", av, " error")
+
+	try:
 		steering_angle = float(sa)
 	except:
-		print("accel_val=", av, " / steering_angle=", sa, " error")
+		print("steering_angle=", sa, " error")
 	
 	#print(accel_val, steering_angle, sep=" -- ")
 	#set_accel(accel_val)
