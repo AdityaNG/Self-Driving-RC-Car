@@ -186,6 +186,8 @@ while True:
             #accel_val = 0
             #steering_angle = 0
             rec_toggle = False
+            if event.code == 16 and event.value==1 and event.type==3:
+                rec_toggle = True
 
             if event.type!=0:
                 #filters by event type
@@ -202,8 +204,6 @@ while True:
                     SPEED_MODE = 3
                 elif event.code == 308: # Y
                     SPEED_MODE = 4
-                elif event.code == 16 and event.value==1: # Y
-                    rec_toggle = True
             print("SPEED_MODE", SPEED_MODE)
             if accel_val > 25*SPEED_MODE:
                 accel_val = 25*SPEED_MODE
