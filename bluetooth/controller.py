@@ -5,16 +5,7 @@ import time
 import prefs
 import os
 import errno
-#import cv2 as cv2
 import shutil
-#import picamera
-
-#camera = picamera.PiCamera()
-#camera.capture('example.jpg')
-
-# TODO Seperate the recorder code from this mess
-# time.sleep(10) # Wait 10 seconds for server to start up
-# cap = cv2.VideoCapture('http://localhost:8080/stream.mjpg')
 
 # Forawrd / Backward Pins
 in1 = 27
@@ -29,8 +20,8 @@ tin2 = 24
 ten = 25
 
 steering_angle = 75
-GPIO.setwarnings(False)
 
+GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(in1,GPIO.OUT)
 GPIO.setup(in2,GPIO.OUT)
@@ -61,6 +52,7 @@ def set_accel(accel_val):
         GPIO.output(in1,GPIO.LOW)
         GPIO.output(in2,GPIO.HIGH)
     p.ChangeDutyCycle(abs(accel_val))
+
 
 global last_out
 last_out = ""
@@ -114,7 +106,6 @@ def tank_mover(steering_angle, accel_val):
         last_out = out
 
 
-
 def set_steering(steering_angle, accel_val=0):
     if steering_angle>0:
         # Left
@@ -143,20 +134,11 @@ def loop(accel_val, steering_angle, rec_toggle=False):
     print("steering_angle", steering_angle)
 
     av = str(accel_val)
-    #print("saving av=", av)
     prefs.set_pref("accel_val", av)
     
     sa = str(steering_angle)
-    #print("saving sa=", sa)
     prefs.set_pref("steering_angle", sa)
 
-    #rec = prefs.get_pref("rec")
-    #accel_val = int(prefs.get_pref("accel_val"))
-    #steering_angle = float(prefs.get_pref("steering_angle"))
-    #accel_val = 40
-    #steering_angle = 0.4
-    #print(accel_val, steering_angle, sep=" -- ")
-    #set_accel(accel_val)
     if tank_controls:
         tank_mover(steering_angle, accel_val)
     else:
@@ -173,10 +155,12 @@ def corrected_reading(val):
     res = round(res, 4)
     return res
 
-from evdev import InputDevice, categorize, ecodes
 
+from evdev import InputDevice, categorize, ecodes
 #creates object 'gamepad' to store the data
 #you can call it whatever you like
+
+# TODO : Web interface to pair new device and 
 gamepad = InputDevice('/dev/input/event0')
 
 #prints out device info at start
@@ -197,7 +181,7 @@ while True:
             
             if event.code == 17 and event.value==1 and event.type==3:
                 print("Compile event triggered")
-                os.system('python3 compile.py &')
+                os.system('python3 compile.py > logs/compile.txt &')
 
             if event.type!=0:
                 #filters by event type
@@ -220,4 +204,4 @@ while True:
             loop(accel_val, steering_angle, rec_toggle)
     except Exception as e:
         pass
-        #print(e)
+        print(e)
