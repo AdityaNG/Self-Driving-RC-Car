@@ -18,9 +18,9 @@ GPIO.setup(RED_PIN,GPIO.OUT)
 GPIO.setup(GREEN_PIN,GPIO.OUT)
 GPIO.setup(BLUE_PIN,GPIO.OUT)
 
+import threading
 
-# TODO : Play out complex LED patterns async
-async def LED_PATTERN(pattern_total, delay_time=0.5):
+async def BACKGROUND_LED_PATTERN(pattern_total, delay_time=0.5):
     GPIO.output(RED_PIN,GPIO.HIGH)
     GPIO.output(GREEN_PIN,GPIO.HIGH)
     GPIO.output(BLUE_PIN,GPIO.HIGH)
@@ -52,7 +52,11 @@ async def LED_PATTERN(pattern_total, delay_time=0.5):
             GPIO.output(BLUE_PIN,GPIO.LOW)
         elif " " == str(pattern):
             pass # All blank
-        
+
+# TODO : Play out complex LED patterns async
+def LED_PATTERN(pattern_total, delay_time=0.5):
+    LED_thread = threading.Thread(target=BACKGROUND_LED_PATTERN, args=(pattern_total, delay_time))
+    LED_thread.start()
 
 LED_PATTERN("G G G G G", 0.25)
 
