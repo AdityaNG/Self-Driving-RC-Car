@@ -33,8 +33,8 @@ def loop(frame):
 	global last_compile
 	global tank_controls
 	now = time.time()
-	if now-last_compile>60*10: # Recompile training data every 10 minutes
-		compile_data()
+	#if now-last_compile>60*10: # Recompile training data every 10 minutes
+		#compile_data()
 
 	rec = prefs.get_pref("rec")
 
