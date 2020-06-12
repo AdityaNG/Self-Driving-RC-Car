@@ -29,6 +29,7 @@ tin2 = 24
 ten = 25
 
 steering_angle = 75
+GPIO.setwarnings(False)
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(in1,GPIO.OUT)

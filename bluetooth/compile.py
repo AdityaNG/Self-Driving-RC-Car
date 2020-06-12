@@ -8,11 +8,11 @@ def compile_training_data():
         files = [ name for name in os.listdir(td) if str(name).endswith(".zip") ]
         for i in folders:
                 if i+".zip" not in files:
-                        print("\t Compiling : ", i)
+                        #print("\t Compiling : ", i)
                         shutil.copyfile("player.py", os.path.join(os.getcwd(), 'training_data', i, "player.py"))
                         c_dir = os.path.join(os.getcwd(), 'training_data', i)
                         shutil.make_archive(c_dir, 'zip', c_dir)
-        print("Done Compiling data")
+        #print("Done Compiling data")
 
 
 compile_training_data()
