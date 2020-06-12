@@ -236,8 +236,12 @@ while True:
             
             if event.code == 17 and event.value==1 and event.type==3:
                 print("Compile event triggered")
-                LED_PATTERN("B B")
-                os.system('python3 compile.py > logs/compile.txt &')
+                if prefs.get_pref("rec")!="0":
+                    LED_PATTERN("B B")
+                    os.system('python3 compile.py > logs/compile.txt &')
+                else:
+                    LED_PATTERN("R R_", 0.25)
+                    print("Did not fire compile [currently recording]")
 
             if event.type!=0:
                 #filters by event type
