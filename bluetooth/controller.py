@@ -188,6 +188,10 @@ while True:
             rec_toggle = False
             if event.code == 16 and event.value==1 and event.type==3:
                 rec_toggle = True
+            
+            if event.code == 17 and event.value==1 and event.type==3:
+                print("Compile event triggered")
+                os.system('python3 compile.py &')
 
             if event.type!=0:
                 #filters by event type

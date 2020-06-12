@@ -101,7 +101,9 @@ cam = cv2.VideoCapture(0)
 while True:
 	ret_val, img = cam.read()
 	if mirror: 
-		img = cv2.flip(img, 1)    
+		img = cv2.flip(img, 1)
+	
+	img = cv2.rotate(img, cv2.ROTATE_180)
 	loop(img)
 
 cv2.destroyAllWindows()
