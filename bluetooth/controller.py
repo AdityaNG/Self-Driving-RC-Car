@@ -252,17 +252,19 @@ while True:
             
             now = time.time()
             if event.code == 17 and event.value==-1 and event.type==3:
-                print("Shutdown request triggered")
                 if shutdown_request==0:
+                    print("Shutdown request triggered")
                     shutdown_request = now
                     LED_PATTERN("RB"*4, 0.25)
                 else:
                     if now - shutdown_request >= 2: # Shutdown button pressed for 2 seconds or more
+                        print("SHUTDOWN SIGNAL")
                         LED_PATTERN("R_")
                         time.sleep(0.5)
                         #os.system("halt")
             else:
-                if now - shutdown_request >= 2:
+                if now - shutdown_request >= 2 and shutdown_request!=0:    
+                    print("Shutdown request dropped")
                     shutdown_request = 0
 
             if event.type!=0:
