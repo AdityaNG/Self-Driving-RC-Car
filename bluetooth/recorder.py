@@ -42,7 +42,7 @@ def loop(frame):
 	steering_angle = 0
 
 	try:
-		accel_val = int(prefs.get_pref("accel_val"))
+		accel_val = float(prefs.get_pref("accel_val"))
 		steering_angle = float(prefs.get_pref("steering_angle"))
 	except:
 		print("accel_val / steering_angle error")
