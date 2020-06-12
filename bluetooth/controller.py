@@ -10,9 +10,12 @@ import shutil
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)
 
+"""
+# GPIO Pins don't provide enough current to drive Fan
 FAN_PIN = 12
 GPIO.setup(FAN_PIN,GPIO.OUT)
 GPIO.output(FAN_PIN,GPIO.HIGH)
+"""
 
 RED_PIN = 10
 GREEN_PIN = 11
