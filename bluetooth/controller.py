@@ -138,8 +138,8 @@ def loop(accel_val, steering_angle, rec_toggle=False):
             print("Rec OFF")
             prefs.set_pref("rec", "0")
 
-    print("accel_val", accel_val)
-    print("steering_angle", steering_angle)
+    #print("accel_val", accel_val)
+    #print("steering_angle", steering_angle)
 
     prefs.set_pref("accel_val", accel_val)
     prefs.set_pref("steering_angle", steering_angle)
@@ -204,7 +204,6 @@ while True:
                     SPEED_MODE = 3
                 elif event.code == 308: # Y
                     SPEED_MODE = 4
-            print("SPEED_MODE", SPEED_MODE)
             if accel_val > 25*SPEED_MODE:
                 accel_val = 25*SPEED_MODE
             #accel_val = accel_val/(5-SPEED_MODE)

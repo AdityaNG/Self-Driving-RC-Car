@@ -2,6 +2,7 @@ import os
 import shutil
 
 def compile_training_data():
+        pass
         print('Compiling Training Data')
         td = os.path.join(os.getcwd(), 'training_data')
         folders = [ name for name in os.listdir(td) if os.path.isdir(os.path.join(td, name)) ]
