@@ -39,11 +39,16 @@ def LED_PATTERN(pattern_total, delay_time=1):
             pass # All blank
         time.sleep(delay_time)
     
-    GPIO.output(RED_PIN,GPIO.HIGH)
-    GPIO.output(GREEN_PIN,GPIO.HIGH)
-    GPIO.output(BLUE_PIN,GPIO.HIGH)
+    if (str(pattern_total).endswith("_")):
+        pass
+        #Maintain the last
+    else:
+        GPIO.output(RED_PIN,GPIO.HIGH)
+        GPIO.output(GREEN_PIN,GPIO.HIGH)
+        GPIO.output(BLUE_PIN,GPIO.HIGH)
 
-LED_PATTERN("RGB RGB")
+LED_PATTERN("G G G G G", 0.5)
+
 
 # Forawrd / Backward Pins
 in1 = 27
@@ -161,9 +166,11 @@ def loop(accel_val, steering_angle, rec_toggle=False):
 
     if rec_toggle:
         if prefs.get_pref("rec")=="0":
+            LED_PATTERN("R R R_")
             print("Rec ON")
             prefs.set_pref("rec", str(time.time()))
         else:
+            LED_PATTERN("R R R")
             print("Rec OFF")
             prefs.set_pref("rec", "0")
 
@@ -218,6 +225,7 @@ while True:
             
             if event.code == 17 and event.value==1 and event.type==3:
                 print("Compile event triggered")
+                LED_PATTERN("B B B")
                 os.system('python3 compile.py > logs/compile.txt &')
 
             if event.type!=0:
