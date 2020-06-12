@@ -236,7 +236,7 @@ while True:
             
             if event.code == 17 and event.value==1 and event.type==3:
                 print("Compile event triggered")
-                if prefs.get_pref("rec")!="0":
+                if prefs.get_pref("rec")=="0":
                     LED_PATTERN("B B")
                     os.system('python3 compile.py > logs/compile.txt &')
                 else:
