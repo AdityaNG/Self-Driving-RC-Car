@@ -24,7 +24,7 @@ def LED_PATTERN(pattern_total, delay_time=1):
     GPIO.output(RED_PIN,GPIO.HIGH)
     GPIO.output(GREEN_PIN,GPIO.HIGH)
     GPIO.output(BLUE_PIN,GPIO.HIGH)
-    
+
     for pattern in pattern_total:
         GPIO.output(RED_PIN,GPIO.HIGH)
         GPIO.output(GREEN_PIN,GPIO.HIGH)
@@ -39,13 +39,20 @@ def LED_PATTERN(pattern_total, delay_time=1):
             pass # All blank
         time.sleep(delay_time)
     
+    GPIO.output(RED_PIN,GPIO.HIGH)
+    GPIO.output(GREEN_PIN,GPIO.HIGH)
+    GPIO.output(BLUE_PIN,GPIO.HIGH)
     if (str(pattern_total).endswith("_")):
-        pass
-        #Maintain the last
-    else:
-        GPIO.output(RED_PIN,GPIO.HIGH)
-        GPIO.output(GREEN_PIN,GPIO.HIGH)
-        GPIO.output(BLUE_PIN,GPIO.HIGH)
+        pattern = pattern_total[len(pattern_total)-2]
+        if "R" == str(pattern):
+            GPIO.output(RED_PIN,GPIO.LOW)
+        elif "G" == str(pattern):
+            GPIO.output(GREEN_PIN,GPIO.LOW)
+        elif "B" == str(pattern):
+            GPIO.output(BLUE_PIN,GPIO.LOW)
+        elif " " == str(pattern):
+            pass # All blank
+        
 
 LED_PATTERN("G G G G G", 0.5)
 
