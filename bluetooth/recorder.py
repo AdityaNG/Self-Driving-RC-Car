@@ -21,28 +21,14 @@ global tank_controls
 tank_controls = False;
 
 
-def compile_data():
-	os.system('python3 compile.py &')
-
-compile_data()
-last_compile = time.time()
 # PICS steering_angle speed throttle brakes
 def loop():
-	global last_compile
 	global tank_controls
 	now = time.time()
 
 	rec = prefs.get_pref("rec")
 	accel_val = int(prefs.get_pref("accel_val"))
 	steering_angle = float(prefs.get_pref("steering_angle"))
-	recompile = prefs.get_pref("recompile")
-
-	if now-last_compile>60*10 or recompile=='1': # Recompile training data every 10 minutes
-		compile_data()
-		last_compile = now
-		if recompile=='1':
-			prefs.set_pref("recompile", '0')
-
 	
 	#print(accel_val, steering_angle, sep=" -- ")
 	#set_accel(accel_val)
