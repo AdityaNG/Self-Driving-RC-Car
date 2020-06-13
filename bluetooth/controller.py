@@ -293,15 +293,6 @@ while True:
                     BUZZER_PATTERN("b b b", 0.1)
                     LED_PATTERN("G")
 
-            if event.code == 16 and event.value==0 and event.type==3:
-                AUTOPILOT = not AUTOPILOT
-                if AUTOPILOT:
-                    BUZZER_PATTERN("b b b", 0.1)
-                    LED_PATTERN("B B_")
-                else:
-                    BUZZER_PATTERN("b b b", 0.1)
-                    LED_PATTERN("G")
-
             rec_toggle = False
             if event.code == 16 and event.value==1 and event.type==3:
                 rec_toggle = True
