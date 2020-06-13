@@ -27,6 +27,7 @@ def BACKGROUND_BUZZER_PATTERN(pattern_total, delay_time=0.5):
         if " " != str(pattern):
             GPIO.output(BUZZER_PIN, GPIO.HIGH)        
         time.sleep(delay_time)
+    GPIO.output(BUZZER_PIN, GPIO.LOW)
 
 
 # TODO : Play out complex LED patterns async
