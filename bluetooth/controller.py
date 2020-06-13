@@ -360,8 +360,18 @@ while True:
 
 
             if AUTOPILOT:
-                accel_val = prefs.get_pref("accel_val_auto")
-                steering_angle = prefs.get_pref("steering_angle_auto")
+                accel_val = 0
+                steering_angle = 0
+                try:
+                    accel_val = float(prefs.get_pref("accel_val_auto"))
+                except:
+                    print("accel_val_auto error")
+                    pass
+                try:
+                    steering_angle = float(prefs.get_pref("steering_angle_auto"))
+                except:
+                    print("steering_angle_auto error")
+                    pass
                 #accel_val, steering_angle = drive.telemetry(LAST_DATA, recorder.CURRENT_FRAME)
 
             loop(accel_val, steering_angle, rec_toggle)
