@@ -6,6 +6,7 @@ import prefs
 import os
 import errno
 import shutil
+import threading
 
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)
@@ -44,8 +45,6 @@ BLUE_PIN = 9
 GPIO.setup(RED_PIN,GPIO.OUT)
 GPIO.setup(GREEN_PIN,GPIO.OUT)
 GPIO.setup(BLUE_PIN,GPIO.OUT)
-
-import threading
 
 def BACKGROUND_LED_PATTERN(pattern_total, delay_time=0.5):
     GPIO.output(RED_PIN,GPIO.HIGH)
