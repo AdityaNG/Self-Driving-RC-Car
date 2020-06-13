@@ -18,6 +18,7 @@ GPIO.output(FAN_PIN,GPIO.HIGH)
 """
 BUZZER_PIN = 12
 GPIO.setup(BUZZER_PIN,GPIO.OUT)
+GPIO.output(BUZZER_PIN, GPIO.LOW)
 
 def BACKGROUND_BUZZER_PATTERN(pattern_total, delay_time=0.5):
     for pattern in pattern_total:
@@ -31,6 +32,8 @@ def BACKGROUND_BUZZER_PATTERN(pattern_total, delay_time=0.5):
 def BUZZER_PATTERN(pattern_total, delay_time=0.5):
     BUZZER_thread = threading.Thread(target=BACKGROUND_BUZZER_PATTERN, args=(pattern_total, delay_time))
     BUZZER_thread.start()
+
+BUZZER_PATTERN("b b b b")
 
 GPIO.output(BUZZER_PIN,GPIO.HIGH)
 
