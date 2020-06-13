@@ -5,46 +5,55 @@ import time
 import prefs
 import os
 import errno
-import cv2
+import cv2 as cv2
 import shutil
+#import picamera
 
-import numpy as np
-CURRENT_FRAME = np.zeros(640,480)
+#camera = picamera.PiCamera()
+#camera.capture('example.jpg')
+
+time.sleep(10) # Wait 10 seconds for server to start up
+cap = cv2.VideoCapture('http://localhost:8080/stream.mjpg')
 
 steering_angle = 75
 
 global tank_controls
-tank_controls = False
+tank_controls = False;
 
 
 def compile_data():
 	os.system('python3 compile.py &')
 
-
-def last_command_time():
-	return min(( float(prefs.get_pref_time("accel_val")), float(prefs.get_pref_time("steering_angle"))))
-
-
-def loop(frame, rec):
+compile_data()
+last_compile = time.time()
+# PICS steering_angle speed throttle brakes
+def loop():
+	global last_compile
 	global tank_controls
 	now = time.time()
 
-	accel_val = 0
-	steering_angle = 0
-	av = prefs.get_pref("accel_val")
-	sa = prefs.get_pref("steering_angle")
-	print("accel_val=", av, "\tsteering_angle=", sa, end="")
-	try:
-		accel_val = float(av)
-		steering_angle = float(sa)
-		print("")
-	except:
-		pass
-		print("\tERROR")
+	rec = prefs.get_pref("rec")
+	accel_val = int(prefs.get_pref("accel_val"))
+	steering_angle = float(prefs.get_pref("steering_angle"))
+	recompile = prefs.get_pref("recompile")
 
-	if now-last_command_time()<15: # Stop recording if idle for more than 15 seconds
+	if now-last_compile>60*10 or recompile=='1': # Recompile training data every 10 minutes
+		compile_data()
+		last_compile = now
+		if recompile=='1':
+			prefs.set_pref("recompile", '0')
+
+	
+	#print(accel_val, steering_angle, sep=" -- ")
+	#set_accel(accel_val)
+
+	# TODO use get_pref_time
+	#if rec != '0' and time.time()-float(prefs.get_pref("last_message"))<15: # Last command issued within 15 seconds
+	# Last command issued within 15 seconds
+	if rec != '0' and rec!="" and (now-float(prefs.get_pref_time("accel_val"))<15 or now-float(prefs.get_pref_time("steering_angle"))<15): 
+	#if False:
+		# print("REC...")
 		filename = os.path.join(os.getcwd(), 'training_data', rec, 'data.csv')
-		#print("RECORDING TO ", filename)
 		if not os.path.exists(os.path.dirname(filename)):
 			try:
 				os.makedirs(os.path.dirname(filename))
@@ -53,48 +62,38 @@ def loop(frame, rec):
 				if exc.errno != errno.EEXIST:
 					raise
 
+
 		time_now = str(now)
 		imagefile = os.path.join(os.path.dirname(filename), 'images', time_now + ".jpg")
 		data_imagefile = os.path.join('images', time_now + ".jpg")
-		
-		cv2.imwrite(imagefile, frame)
+		#camera.capture(imagefile)
+		result, frame = cap.read()
 
-		speed = accel_val # TODO : Calculate speed using wheel speed
-		throttle = 0
-		brakes = 0
-		if accel_val>0:
-			throttle = accel_val
+		if result:
+			# print("Got Image")
+			cv2.imwrite(imagefile, frame)
+
+			speed = accel_val # TODO : Calculate speed
+			throttle = 0
+			brakes = 0
+
+			if accel_val>0:
+				throttle = accel_val
+			else:
+				brakes = accel_val
+
+			myCsvRow = ",".join(list(map(str, [data_imagefile, steering_angle, speed, throttle, brakes])))
+			# print('Append Row : ', myCsvRow)
+			#myCsvRow = " ".join(list(map(str, [imagefile, steering_angle, speed, accel_val])))
+			with open(filename, 'a') as fd: # Append to file
+				fd.write(myCsvRow + '\n')
 		else:
-			brakes = accel_val
-
-		#myCsvRow = ",".join(list(map(str, [data_imagefile, steering_angle, speed, throttle, brakes])))
-		myCsvRow = ",".join(list(map(str, [data_imagefile, steering_angle, accel_val])))
-		print('Append Row : ', myCsvRow)
-
-		with open(filename, 'a') as fd: # Append to file
-			fd.write(myCsvRow + '\n')
-
-# Command to enable Rpi camera to /dev/video0
-# sudo modprobe bcm2835-v4l2
-
-mirror = False
-cam = cv2.VideoCapture(0)
-def start_camera_loop():
-	while True:
-		ret_val, img = cam.read()
-		rec = prefs.get_pref("rec")
-
-		CURRENT_FRAME = img
-
-		if rec != '0' and rec!="":
-			if mirror:
-				img = cv2.flip(img, 1)
-			
-			img = cv2.rotate(img, cv2.ROTATE_180)
-			loop(img, rec)
+			print("REC ERROR - COULD NOT GET IMAGE")
+	#time.sleep(0.1)
 
 
-if __name__ == "__main__":
-	start_camera_loop()
-
-cv2.destroyAllWindows()
+while True:
+	try:
+		loop()
+	except Exception as e:
+		print("RECORDER - ", e)

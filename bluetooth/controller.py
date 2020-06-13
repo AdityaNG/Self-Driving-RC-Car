@@ -8,9 +8,9 @@ import errno
 import shutil
 import threading
 
-import sys
-sys.path.append("../self_drive")
-import drive
+#import sys
+#sys.path.append("../self_drive")
+#import drive
 AUTOPILOT = False
 
 GPIO.setwarnings(False)
@@ -252,10 +252,10 @@ def corrected_reading(val):
     res = round(res, 4)
     return res
 
-import recorder
+#import recorder
 
-CAMERA_thread = threading.Thread(target=recorder.start_camera_loop)
-CAMERA_thread.start()
+#CAMERA_thread = threading.Thread(target=recorder.start_camera_loop)
+#CAMERA_thread.start()
 
 from evdev import InputDevice, categorize, ecodes
 #creates object 'gamepad' to store the data
@@ -360,7 +360,9 @@ while True:
 
 
             if AUTOPILOT:
-                accel_val, steering_angle = drive.telemetry(LAST_DATA, recorder.CURRENT_FRAME)
+                accel_val = prefs.get_pref("accel_val_auto")
+                steering_angle = prefs.get_pref("steering_angle_auto")
+                #accel_val, steering_angle = drive.telemetry(LAST_DATA, recorder.CURRENT_FRAME)
 
             loop(accel_val, steering_angle, rec_toggle)
             LAST_DATA["accel_val"] = accel_val
