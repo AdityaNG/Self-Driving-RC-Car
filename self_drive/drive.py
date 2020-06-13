@@ -17,7 +17,7 @@ import numpy as np
 #web server gateway interface
 #import eventlet.wsgi
 #image manipulation
-from PIL import Image
+#from PIL import Image
 #web framework
 #from flask import Flask
 #input output
