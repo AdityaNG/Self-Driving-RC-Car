@@ -7,7 +7,7 @@ import prefs
 
 app = Flask(__name__)
 
-@app.route('/?')
+@app.route('/')
 def index():
         """Video streaming home page."""
         PAGE = "{'status': 'ok'}"
