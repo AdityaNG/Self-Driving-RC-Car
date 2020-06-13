@@ -2,6 +2,6 @@
 
 python3 controller.py &
 python3 autopilot_web_server.py > logs/autopilot_web_server.txt &
-python3 recorder.py &
+#python3 recorder.py &
 
 cd training_data; python3 -m http.server &

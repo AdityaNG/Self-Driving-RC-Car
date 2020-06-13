@@ -18,10 +18,11 @@ def index():
                 for d in params:
                         prefs.set_pref(d, params[d][0])
                         prefs.set_pref("last_message", str(time.time()))
-                        #print("GOT : ", params)
+                        print("GOT : ", params)
         except Exception as e:
                 PAGE = "{'status': 'not ok', 'error': '" + str(e) + "' }"
         return PAGE
+
 
 def gen(camera):
         """Video streaming generator function."""
