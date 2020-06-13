@@ -13,9 +13,9 @@ import numpy as np
 #real-time server
 #import socketio
 #concurrent networking 
-import eventlet
+#import eventlet
 #web server gateway interface
-import eventlet.wsgi
+#import eventlet.wsgi
 #image manipulation
 from PIL import Image
 #web framework
@@ -87,7 +87,7 @@ def telemetry(data, image):
 
     return (prediction["accel_val"], prediction["steering_angle"])
 
-path_to_model = ""
+path_to_model = "/root/models/model-001.1592029795.5388622.h5"
 
 if path_to_model != "":
     #load model
