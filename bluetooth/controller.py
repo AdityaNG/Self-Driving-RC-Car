@@ -8,6 +8,11 @@ import errno
 import shutil
 import threading
 
+import sys
+sys.path.append("../self_drive")
+import drive
+AUTOPILOT = False
+
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)
 
@@ -234,6 +239,9 @@ def loop(accel_val, steering_angle, rec_toggle=False):
         set_accel(accel_val)
         set_steering(steering_angle)
 
+# Chase factor is a number less than 1. The larger it is, the more agressive is the chase
+def chase_value(goal, chase, chase_factor=0.5):
+    return chase + (goal-chase)*chase_factor
 
 def corrected_reading(val):
     res = -1*(val-32767)/32767
@@ -244,6 +252,10 @@ def corrected_reading(val):
     res = round(res, 4)
     return res
 
+import recorder
+
+CAMERA_thread = threading.Thread(target=recorder.start_camera_loop)
+CAMERA_thread.start()
 
 from evdev import InputDevice, categorize, ecodes
 #creates object 'gamepad' to store the data
@@ -259,6 +271,11 @@ shutdown_request = 0
 
 while True:
     try:
+        LAST_DATA = dict()
+        LAST_DATA["accel_val"] = 0         # 0 to 100
+        LAST_DATA["steering_angle"] = 0    # 0 to 1
+        LAST_DATA["speed"] = 0             # 0 to 100
+
         accel_val = 0
         steering_angle = 0
         
@@ -266,6 +283,25 @@ while True:
         for event in gamepad.read_loop():
             #accel_val = 0
             #steering_angle = 0
+
+            if event.code == 16 and event.value==-1 and event.type==3:
+                AUTOPILOT = not AUTOPILOT
+                if AUTOPILOT:
+                    BUZZER_PATTERN("b b b", 0.1)
+                    LED_PATTERN("B B_")
+                else:
+                    BUZZER_PATTERN("b b b", 0.1)
+                    LED_PATTERN("G")
+
+            if event.code == 16 and event.value==0 and event.type==3:
+                AUTOPILOT = not AUTOPILOT
+                if AUTOPILOT:
+                    BUZZER_PATTERN("b b b", 0.1)
+                    LED_PATTERN("B B_")
+                else:
+                    BUZZER_PATTERN("b b b", 0.1)
+                    LED_PATTERN("G")
+
             rec_toggle = False
             if event.code == 16 and event.value==1 and event.type==3:
                 rec_toggle = True
@@ -321,7 +357,15 @@ while True:
                     accel_val = 25*SPEED_MODE * accel_val / abs(accel_val)
                 else:
                     accel_val = 25*SPEED_MODE
+
+
+            if AUTOPILOT:
+                accel_val, steering_angle = drive.telemetry(LAST_DATA, recorder.CURRENT_FRAME)
+
             loop(accel_val, steering_angle, rec_toggle)
+            LAST_DATA["accel_val"] = accel_val
+            LAST_DATA["steering_angle"] = steering_angle
+            LAST_DATA["speed"] = chase_value(accel_val, LAST_DATA["speed"], 0.25)
     except Exception as e:
         pass
         print(e)

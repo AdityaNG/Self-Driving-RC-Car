@@ -8,6 +8,9 @@ import errno
 import cv2
 import shutil
 
+import numpy as np
+CURRENT_FRAME = np.zeros(640,480)
+
 steering_angle = 75
 
 global tank_controls
@@ -76,16 +79,22 @@ def loop(frame, rec):
 
 mirror = False
 cam = cv2.VideoCapture(0)
-while True:
-	ret_val, img = cam.read()
-	rec = prefs.get_pref("rec")
+def start_camera_loop():
+	while True:
+		ret_val, img = cam.read()
+		rec = prefs.get_pref("rec")
 
-	if rec != '0' and rec!="":
-		if mirror:
-			img = cv2.flip(img, 1)
-		
-		img = cv2.rotate(img, cv2.ROTATE_180)
-		loop(img, rec)
+		CURRENT_FRAME = img
 
+		if rec != '0' and rec!="":
+			if mirror:
+				img = cv2.flip(img, 1)
+			
+			img = cv2.rotate(img, cv2.ROTATE_180)
+			loop(img, rec)
+
+
+if __name__ == "__main__":
+	start_camera_loop()
 
 cv2.destroyAllWindows()
