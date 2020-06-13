@@ -360,6 +360,7 @@ while True:
 
 
             if AUTOPILOT:
+                SPEED_MODE = 4
                 accel_val = 0
                 steering_angle = 0
                 try:
