@@ -16,6 +16,23 @@ FAN_PIN = 12
 GPIO.setup(FAN_PIN,GPIO.OUT)
 GPIO.output(FAN_PIN,GPIO.HIGH)
 """
+BUZZER_PIN = 12
+GPIO.setup(BUZZER_PIN,GPIO.OUT)
+
+def BACKGROUND_BUZZER_PATTERN(pattern_total, delay_time=0.5):
+    for pattern in pattern_total:
+        GPIO.output(BUZZER_PIN, GPIO.LOW)
+        if " " != str(pattern):
+            GPIO.output(BUZZER_PIN, GPIO.HIGH)        
+        time.sleep(delay_time)
+
+
+# TODO : Play out complex LED patterns async
+def BUZZER_PATTERN(pattern_total, delay_time=0.5):
+    BUZZER_thread = threading.Thread(target=BACKGROUND_BUZZER_PATTERN, args=(pattern_total, delay_time))
+    BUZZER_thread.start()
+
+GPIO.output(BUZZER_PIN,GPIO.HIGH)
 
 RED_PIN = 10
 GREEN_PIN = 11
