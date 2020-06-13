@@ -16,7 +16,7 @@ def index():
                 params["accel_val_auto"] = request.args.get('accel_val_auto')
                 params["steering_angle_auto"] = request.args.get('steering_angle_auto')
                 for d in params:
-                        prefs.set_pref(d, params[d][0])
+                        prefs.set_pref(d, params[d])
                         prefs.set_pref("last_message", str(time.time()))
                         print("GOT : ", params)
         except Exception as e:
