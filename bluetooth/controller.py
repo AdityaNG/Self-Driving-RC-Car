@@ -209,10 +209,12 @@ def loop(accel_val, steering_angle, rec_toggle=False):
 
     if rec_toggle:
         if prefs.get_pref("rec")=="0":
+            BUZZER_PATTERN("b b b", 0.3)
             LED_PATTERN("R R_")
             print("Rec ON")
             prefs.set_pref("rec", str(time.time()))
         else:
+            BUZZER_PATTERN("b", 1)
             LED_PATTERN("R R")
             print("Rec OFF")
             prefs.set_pref("rec", "0")
@@ -270,6 +272,7 @@ while True:
             
             if event.code == 17 and event.value==1 and event.type==3:
                 print("Compile event triggered")
+                BUZZER_PATTERN("b b", 0.1)
                 if prefs.get_pref("rec")=="0":
                     LED_PATTERN("B B")
                     os.system('python3 compile.py > logs/compile.txt &')
@@ -294,6 +297,7 @@ while True:
                 if now - shutdown_request >= 2: # Shutdown button pressed for 2 seconds or more
                     print("SHUTDOWN SIGNAL")
                     LED_PATTERN("R_")
+                    BUZZER_PATTERN("b b b b b", 0.1)
                     time.sleep(0.5)
                     os.system("halt")
 
