@@ -286,6 +286,21 @@ def corrected_reading(val):
     res = round(res, 4)
     return res
 
+
+def speed_calculator():
+    while True:
+        try:
+            speed = prefs.get_pref("speed")
+            accel_val = prefs.get_pref("accel_val")
+            speed = chase_value(accel_val, speed, 0.5)
+            prefs.set_pref("speed", speed)
+            time.sleep(0.25)
+        except Exception as e:
+            print("speed_calculator error - ", e)
+    
+
+speed_calculator_thread = threading.Thread(target=speed_calculator)
+speed_calculator_thread.start()
 #import recorder
 
 #CAMERA_thread = threading.Thread(target=recorder.start_camera_loop)
@@ -389,8 +404,7 @@ while True:
             loop(accel_val, steering_angle, rec_toggle)
             LAST_DATA["accel_val"] = accel_val
             LAST_DATA["steering_angle"] = steering_angle
-            LAST_DATA["speed"] = chase_value(accel_val, LAST_DATA["speed"], 0.25)
-            prefs.set_pref("speed", LAST_DATA["speed"])
+            
     except Exception as e:
         pass
         print(e)
