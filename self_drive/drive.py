@@ -110,6 +110,9 @@ cap = cv2.VideoCapture('http://' + IP_ADDRESS + ':8080/stream.mjpg')
 def autopilot_loop():
     result, frame = cap.read()
     if result:
+
+        cv2.imshow('stream', frame)
+
         now = time.time()
         accel_val = 0
         steering_angle = 0
