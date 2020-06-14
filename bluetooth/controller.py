@@ -370,6 +370,7 @@ while True:
             LAST_DATA["accel_val"] = accel_val
             LAST_DATA["steering_angle"] = steering_angle
             LAST_DATA["speed"] = chase_value(accel_val, LAST_DATA["speed"], 0.25)
+            prefs.set_pref("speed", LAST_DATA["speed"])
     except Exception as e:
         pass
         print(e)

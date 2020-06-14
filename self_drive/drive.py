@@ -31,6 +31,10 @@ import utils
 
 import image_processing
 
+import cv2 as cv2
+import time
+import requests
+
 #initialize our server
 #sio = socketio.Server()
 #our flask (web) app
@@ -49,8 +53,8 @@ speed_limit = MAX_SPEED
 #registering event handler for the server
 def telemetry(data, image):
     prediction = dict()
-    prediction["accel_val"] = 0         # 0 to 100
-    prediction["steering_angle"] = 0    # 0 to 1
+    prediction["accel_val_auto"] = 0         # 0 to 100
+    prediction["steering_angle_auto"] = 0    # 0 to 1
     if data:
         # The current steering angle of the car
         steering_angle = float(data["steering_angle"])
@@ -95,3 +99,43 @@ if path_to_model != "":
     
 else:
     print("No Model Found")
+    exit()
+
+
+#IP_ADDRESS = "10.3.141.1"
+IP_ADDRESS = "192.168.0.111"
+
+cap = cv2.VideoCapture('http://localhost:8080/stream.mjpg')
+
+def autopilot_loop():
+    result, frame = cap.read()
+    if result:
+        now = time.time()
+        accel_val = 0
+        steering_angle = 0
+        telemetry_data = dict()
+        try:
+            telemetry_data_response = requests.get("http://" + IP_ADDRESS + ":8080/get")
+            telemetry_data = telemetry_data_response.json()
+            accel_val = telemetry_data["accel_val_auto"]
+            steering_angle = telemetry_data["steering_angle_auto"]
+        except:
+            print("Error parsing telemetry_data")
+            pass
+        
+        accel_val, steering_angle = telemetry(telemetry_data, frame)
+
+        try:
+            send_data_response = requests.get("http://" + IP_ADDRESS + ":8080/?accel_val_auto=" + str(accel_val) + "&steering_angle_auto=" + str(steering_angle))
+            send_data = send_data_response.json()
+            if send_data["error"]:
+                print("Error", send_data['error'])
+        except:
+            print("Error parsing telemetry_data")
+            pass
+
+while True:
+	try:
+		autopilot_loop()
+	except Exception as e:
+		print("AUTOPILOT - ", e)

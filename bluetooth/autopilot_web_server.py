@@ -4,6 +4,8 @@ from camera_pi import Camera
 from urllib.parse import parse_qs
 import time
 import prefs
+import json
+
 
 app = Flask(__name__)
 
@@ -23,6 +25,21 @@ def index():
                 PAGE = "{'status': 'not ok', 'error': '" + str(e) + "' }"
         return PAGE
 
+
+@app.route('/get')
+def get():
+        """Video streaming home page."""
+        PAGE = dict()
+        try:
+                params = ("accel_val_auto", "accel_val_auto", "speed")
+                for d in params:
+                        PAGE[d] = float(prefs.get_pref(d))
+                        print("GOT : ", params)
+                
+                PAGE = json.dumps(PAGE)
+        except Exception as e:
+                PAGE = "{'status': 'not ok', 'error': '" + str(e) + "' }"
+        return PAGE
 
 def gen(camera):
         """Video streaming generator function."""
