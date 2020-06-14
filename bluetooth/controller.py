@@ -234,7 +234,7 @@ def autopilot_loop():
 
             time.sleep(0.1)
         except Exception as e:
-		    print("AUTOPILOT - ", e)
+            print("AUTOPILOT - ", e)
 
 
 AUTOPILOT_thread = threading.Thread(target=autopilot_loop)
