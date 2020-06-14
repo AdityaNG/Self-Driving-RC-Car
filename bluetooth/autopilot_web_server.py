@@ -52,7 +52,8 @@ def gen(camera):
 def video_feed():
         """Video streaming route. Put this in the src attribute of an img tag."""
         return Response(gen(Camera()),
-                        mimetype='multipart/x-mixed-replace; boundary=--frame')
+                        mimetype='multipart/x-mixed-replace; boundary=--jpgboundary')
+                        #mimetype='multipart/x-mixed-replace; boundary=--frame')
 
 if __name__ == '__main__':
         app.run(host='0.0.0.0', port=8080, debug=False, threaded=True)
