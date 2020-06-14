@@ -256,8 +256,10 @@ def loop(accel_val, steering_angle, rec_toggle=False):
             print("Rec OFF")
             prefs.set_pref("rec", "0")
 
-    print("accel_val", accel_val)
-    print("steering_angle", steering_angle)
+    if AUTOPILOT:
+        print("accel_val", accel_val, "\tsteering_angle", steering_angle, "\t[AUTOPilot]")
+    else:
+        print("accel_val", accel_val, "\tsteering_angle", steering_angle)
 
     av = str(accel_val)
     prefs.set_pref("accel_val", av)
