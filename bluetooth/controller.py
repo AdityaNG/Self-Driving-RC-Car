@@ -317,11 +317,13 @@ while True:
             #steering_angle = 0
 
             if event.code == 16 and event.value==-1 and event.type==3:
-                AUTOPILOT = not AUTOPILOT
+                AUTOPILOT = True
+                BUZZER_PATTERN("b b b", 0.1)
+                LED_PATTERN("B B_")
+            
+            if event.code == 16 and event.value==0 and event.type==3:
                 if AUTOPILOT:
-                    BUZZER_PATTERN("b b b", 0.1)
-                    LED_PATTERN("B B_")
-                else:
+                    AUTOPILOT = False
                     BUZZER_PATTERN("b b b", 0.1)
                     LED_PATTERN("G")
 
@@ -381,22 +383,6 @@ while True:
                 else:
                     accel_val = 25*SPEED_MODE
 
-
-            if AUTOPILOT:
-                SPEED_MODE = 4
-                accel_val = 0
-                steering_angle = 0
-                try:
-                    accel_val = float(prefs.get_pref("accel_val_auto"))
-                except:
-                    print("accel_val_auto error")
-                    pass
-                try:
-                    steering_angle = float(prefs.get_pref("steering_angle_auto"))
-                except:
-                    print("steering_angle_auto error")
-                    pass
-                #accel_val, steering_angle = drive.telemetry(LAST_DATA, recorder.CURRENT_FRAME)
 
             loop(accel_val, steering_angle, rec_toggle)
             LAST_DATA["accel_val"] = accel_val
