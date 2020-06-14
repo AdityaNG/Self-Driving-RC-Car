@@ -209,28 +209,32 @@ def set_steering(steering_angle, accel_val=0):
 
 
 def autopilot_loop():
-    if AUTOPILOT:
-        accel_val = 0
-        steering_angle = 0
+    while True:
         try:
-            accel_val = float(prefs.get_pref("accel_val_auto"))
-        except:
-            print("accel_val_auto error")
-            pass
-        try:
-            steering_angle = float(prefs.get_pref("steering_angle_auto"))
-        except:
-            print("steering_angle_auto error")
-            pass
-            #accel_val, steering_angle = drive.telemetry(LAST_DATA, recorder.CURRENT_FRAME)
+            if AUTOPILOT:
+                accel_val = 0
+                steering_angle = 0
+                try:
+                    accel_val = float(prefs.get_pref("accel_val_auto"))
+                except:
+                    print("accel_val_auto error")
+                    pass
+                try:
+                    steering_angle = float(prefs.get_pref("steering_angle_auto"))
+                except:
+                    print("steering_angle_auto error")
+                    pass
+                    #accel_val, steering_angle = drive.telemetry(LAST_DATA, recorder.CURRENT_FRAME)
 
-        loop(accel_val, steering_angle)
-        LAST_DATA["accel_val"] = accel_val
-        LAST_DATA["steering_angle"] = steering_angle
-        LAST_DATA["speed"] = chase_value(accel_val, LAST_DATA["speed"], 0.25)
-        prefs.set_pref("speed", LAST_DATA["speed"])
+                loop(accel_val, steering_angle)
+                LAST_DATA["accel_val"] = accel_val
+                LAST_DATA["steering_angle"] = steering_angle
+                LAST_DATA["speed"] = chase_value(accel_val, LAST_DATA["speed"], 0.25)
+                prefs.set_pref("speed", LAST_DATA["speed"])
 
-    time.sleep(0.1)
+            time.sleep(0.1)
+        except Exception as e:
+		    print("AUTOPILOT - ", e)
 
 
 AUTOPILOT_thread = threading.Thread(target=autopilot_loop)
