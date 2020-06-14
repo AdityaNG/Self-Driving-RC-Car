@@ -290,13 +290,14 @@ def corrected_reading(val):
 def speed_calculator():
     while True:
         try:
-            speed = prefs.get_pref("speed")
-            accel_val = prefs.get_pref("accel_val")
+            speed = float(prefs.get_pref("speed"))
+            accel_val = float(prefs.get_pref("accel_val"))
             speed = chase_value(accel_val, speed, 0.5)
             prefs.set_pref("speed", speed)
             time.sleep(0.25)
         except Exception as e:
             print("speed_calculator error - ", e)
+            time.sleep(1)
     
 
 speed_calculator_thread = threading.Thread(target=speed_calculator)
