@@ -31,7 +31,7 @@ def get():
         """Video streaming home page."""
         PAGE = dict()
         try:
-                params = ("accel_val_auto", "accel_val_auto", "speed")
+                params = ("accel_val_auto", "steering_angle_auto", "speed")
                 for d in params:
                         PAGE[d] = round(float(prefs.get_pref(d)), 5)
                         print("GOT : ", params)
