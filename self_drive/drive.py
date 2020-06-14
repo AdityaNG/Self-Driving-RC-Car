@@ -91,7 +91,7 @@ def telemetry(data, image):
 
     return (prediction["accel_val"], prediction["steering_angle"])
 
-path_to_model = "/root/models/model-001.1592029795.5388622.h5"
+path_to_model = "/Users/Aditya/Downloads/model-001.h5"
 
 if path_to_model != "":
     #load model
@@ -105,7 +105,7 @@ else:
 #IP_ADDRESS = "10.3.141.1"
 IP_ADDRESS = "192.168.0.111"
 
-cap = cv2.VideoCapture('http://localhost:8080/stream.mjpg')
+cap = cv2.VideoCapture('http://' + IP_ADDRESS + ':8080/stream.mjpg')
 
 def autopilot_loop():
     result, frame = cap.read()
@@ -114,13 +114,15 @@ def autopilot_loop():
         accel_val = 0
         steering_angle = 0
         telemetry_data = dict()
+        
         try:
             telemetry_data_response = requests.get("http://" + IP_ADDRESS + ":8080/get")
             telemetry_data = telemetry_data_response.json()
             accel_val = telemetry_data["accel_val_auto"]
             steering_angle = telemetry_data["steering_angle_auto"]
-        except:
-            print("Error parsing telemetry_data")
+        except Exception as e:
+            print("Error parsing telemetry_data_response")
+            print(e)
             pass
         
         accel_val, steering_angle = telemetry(telemetry_data, frame)
@@ -130,8 +132,9 @@ def autopilot_loop():
             send_data = send_data_response.json()
             if send_data["error"]:
                 print("Error", send_data['error'])
-        except:
-            print("Error parsing telemetry_data")
+        except Exception as e:
+            print("Error parsing send_data_response")
+            print(e)
             pass
 
 while True:

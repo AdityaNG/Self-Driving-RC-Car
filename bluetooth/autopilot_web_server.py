@@ -33,7 +33,7 @@ def get():
         try:
                 params = ("accel_val_auto", "accel_val_auto", "speed")
                 for d in params:
-                        PAGE[d] = float(prefs.get_pref(d))
+                        PAGE[d] = round(float(prefs.get_pref(d)), 5)
                         print("GOT : ", params)
                 
                 PAGE = json.dumps(PAGE)
