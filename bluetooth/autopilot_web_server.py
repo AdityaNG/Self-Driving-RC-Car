@@ -46,14 +46,18 @@ def gen(camera):
         while True:
                 frame = camera.get_frame()
                 yield (b'--frame\r\n'
-                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+                b'Content-Type:image/jpeg\r\n'
+                b'Content-Length: ' + f"{len(frame)}".encode() + b'\r\n'
+                b'\r\n' + frame + b'\r\n')
+                #yield (b'--frame\r\n'
+                #b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
 @app.route('/stream.mjpg')
 def video_feed():
         """Video streaming route. Put this in the src attribute of an img tag."""
         return Response(gen(Camera()),
-                        mimetype='multipart/x-mixed-replace; boundary=--jpgboundary')
-                        #mimetype='multipart/x-mixed-replace; boundary=--frame')
+                        mimetype='multipart/x-mixed-replace; boundary=--frame')
+                        #mimetype='multipart/x-mixed-replace; boundary=--jpgboundary')
 
 if __name__ == '__main__':
         app.run(host='0.0.0.0', port=8080, debug=False, threaded=True)
