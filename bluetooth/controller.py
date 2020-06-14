@@ -224,11 +224,13 @@ def autopilot_loop():
             pass
             #accel_val, steering_angle = drive.telemetry(LAST_DATA, recorder.CURRENT_FRAME)
 
-        loop(accel_val, steering_angle, rec_toggle)
+        loop(accel_val, steering_angle)
         LAST_DATA["accel_val"] = accel_val
         LAST_DATA["steering_angle"] = steering_angle
         LAST_DATA["speed"] = chase_value(accel_val, LAST_DATA["speed"], 0.25)
         prefs.set_pref("speed", LAST_DATA["speed"])
+
+    time.sleep(0.1)
 
 
 AUTOPILOT_thread = threading.Thread(target=autopilot_loop)
