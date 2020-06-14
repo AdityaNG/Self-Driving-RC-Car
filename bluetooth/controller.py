@@ -227,7 +227,7 @@ def autopilot_loop():
                     pass
                     #accel_val, steering_angle = drive.telemetry(LAST_DATA, recorder.CURRENT_FRAME)
 
-                if prefs.get_pref_time("accel_val_auto") - now <= 3 or prefs.get_pref_time("steering_angle_auto") - now <= 3:
+                if abs(prefs.get_pref_time("accel_val_auto") - now) <= 3 or abs(prefs.get_pref_time("steering_angle_auto") - now) <= 3:
                     loop(accel_val, steering_angle)
                     LAST_DATA["accel_val"] = accel_val
                     LAST_DATA["steering_angle"] = steering_angle
