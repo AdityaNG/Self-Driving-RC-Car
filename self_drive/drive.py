@@ -57,16 +57,21 @@ def telemetry(data, image):
     prediction["steering_angle_auto"] = 0    # 0 to 1
     if data:
         # The current steering angle of the car
-        steering_angle = float(data["steering_angle"])
+        steering_angle = float(data["steering_angle_auto"])
         # The current throttle of the car, how hard to push peddle
-        throttle = float(data["accel_val"])
+        throttle = float(data["accel_val_auto"])
         # The current speed of the car
         speed = float(data["speed"])
         # The current image from the center camera of the car
         #image = Image.open(BytesIO(base64.b64decode(data["image"])))
         try:
             image = np.asarray(image)       # from PIL image to numpy array
-            image = image_processing.process(image_processing)
+            image = image_processing.process(image)
+
+            cv2.imshow('stream', image)
+            if cv2.waitKey(1) & 0xFF == ord('q'):
+                exit()
+
             image = utils.preprocess(image) # apply the preprocessing
             image = np.array([image])       # the model expects 4D array
 
@@ -84,7 +89,9 @@ def telemetry(data, image):
 
             print('{} {} {}'.format(steering_angle, throttle, speed))
             #send_control(steering_angle, throttle)
-            prediction["accel_val"] = throttle
+
+
+            prediction["accel_val"] = throttle * 100
             prediction["steering_angle"] = steering_angle
         except Exception as e:
             print(e)
@@ -111,8 +118,6 @@ def autopilot_loop():
     result, frame = cap.read()
     if result:
 
-        cv2.imshow('stream', frame)
-
         now = time.time()
         accel_val = 0
         steering_angle = 0
@@ -128,13 +133,13 @@ def autopilot_loop():
             print(e)
             pass
         
+        #print("accel_val", round(accel_val, 3), "\t\tsteering_angle", round(steering_angle, 3), "\t[AUTOPilot]")
+
         accel_val, steering_angle = telemetry(telemetry_data, frame)
 
         try:
             send_data_response = requests.get("http://" + IP_ADDRESS + ":8080/?accel_val_auto=" + str(accel_val) + "&steering_angle_auto=" + str(steering_angle))
-            send_data = send_data_response.json()
-            if send_data["error"]:
-                print("Error", send_data['error'])
+            #print(send_data_response)
         except Exception as e:
             print("Error parsing send_data_response")
             print(e)
@@ -144,4 +149,4 @@ while True:
 	try:
 		autopilot_loop()
 	except Exception as e:
-		print("AUTOPILOT - ", e)
+		print("AUTOPILOT error - ", e)

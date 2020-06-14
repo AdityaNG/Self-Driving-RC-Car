@@ -212,6 +212,7 @@ def autopilot_loop():
     while True:
         try:
             if AUTOPILOT:
+                now = time.time()
                 accel_val = 0
                 steering_angle = 0
                 try:
@@ -226,11 +227,12 @@ def autopilot_loop():
                     pass
                     #accel_val, steering_angle = drive.telemetry(LAST_DATA, recorder.CURRENT_FRAME)
 
-                loop(accel_val, steering_angle)
-                LAST_DATA["accel_val"] = accel_val
-                LAST_DATA["steering_angle"] = steering_angle
-                LAST_DATA["speed"] = chase_value(accel_val, LAST_DATA["speed"], 0.25)
-                prefs.set_pref("speed", LAST_DATA["speed"])
+                if prefs.get_pref_time("accel_val_auto") - now <= 3 or prefs.get_pref_time("steering_angle_auto") - now <= 3:
+                    loop(accel_val, steering_angle)
+                    LAST_DATA["accel_val"] = accel_val
+                    LAST_DATA["steering_angle"] = steering_angle
+                    LAST_DATA["speed"] = chase_value(accel_val, LAST_DATA["speed"], 0.25)
+                    prefs.set_pref("speed", LAST_DATA["speed"])
 
             time.sleep(0.1)
         except Exception as e:
