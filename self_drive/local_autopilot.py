@@ -65,9 +65,9 @@ def telemetry(data, image):
             image = np.asarray(image)       # from PIL image to numpy array
             image = image_processing.process(image)
 
-            cv2.imshow('stream', image)
-            if cv2.waitKey(1) & 0xFF == ord('q'):
-                exit()
+            #cv2.imshow('stream', image)
+            #if cv2.waitKey(1) & 0xFF == ord('q'):
+                #exit()
 
             image = utils.preprocess(image) # apply the preprocessing
             image = np.array([image])       # the model expects 4D array
