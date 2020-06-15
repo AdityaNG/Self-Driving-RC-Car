@@ -26,13 +26,13 @@ THREADS = []
 THREADS.append(threading.Thread(target=controller.main))
 THREADS[0].setName("Controller")
 
-THREADS.append(threading.Thread(target=autopilot_web_server.main, args=(Camera)))
+THREADS.append(threading.Thread(target=autopilot_web_server.main, args=(Camera, ) ))
 THREADS[1].setName("Autopilot Webserver")
 
 THREADS.append(threading.Thread(target=recorder.main))
 THREADS[2].setName("Recorder")
 
-THREADS.append(threading.Thread(target=local_autopilot.main, args=(Camera)))
+THREADS.append(threading.Thread(target=local_autopilot.main, args=(Camera, ) ))
 THREADS[3].setName("Local Autopilot")
 
 #THREADS.append(threading.Thread(target=controller.main))
