@@ -28,10 +28,10 @@ THREADS.append(threading.Thread(target=autopilot_web_server.main))
 THREADS[1].setName("Autopilot Webserver")
 
 THREADS.append(threading.Thread(target=recorder.main))
-THREADS[2].setName("Recorder Webserver")
+THREADS[2].setName("Recorder")
 
-THREADS.append(threading.Thread(target=recorder.main))
-THREADS[3].setName("Recorder Webserver")
+THREADS.append(threading.Thread(target=local_autopilot.main))
+THREADS[3].setName("Local Autopilot")
 
 #THREADS.append(threading.Thread(target=controller.main))
 #THREADS.append(threading.Thread(target=controller.main))

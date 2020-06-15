@@ -127,8 +127,12 @@ def autopilot_loop():
             print(e)
             pass
 
-while True:
-	try:
-		autopilot_loop()
-	except Exception as e:
-		print("AUTOPILOT error - ", e)
+def main():
+    while True:
+        try:
+            autopilot_loop()
+        except Exception as e:
+            print("AUTOPILOT error - ", e)
+
+if __name__ == "__main__":
+    main()
