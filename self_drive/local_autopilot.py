@@ -109,8 +109,16 @@ IP_ADDRESS = "localhost"
 
 # cap = cv2.VideoCapture('http://' + IP_ADDRESS + ':8080/stream.mjpg')
 
+def decodeImage(data):
+    #Gives us 1d array
+    decoded = np.fromstring(data, dtype=np.uint8)
+    #We have to convert it into (270, 480,3) in order to see as an image
+    decoded = decoded.reshape((640, 480, 3))
+    return decoded;
+
+
 def autopilot_loop():
-    frame = Camera().get_frame()
+    frame = decodeImage(Camera().get_frame())
     if frame.any():
         now = time.time()
         telemetry_data = dict()
