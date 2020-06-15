@@ -107,19 +107,18 @@ def telemetry(data, image):
 #IP_ADDRESS = "192.168.0.111"
 IP_ADDRESS = "localhost"
 
-cap = cv2.VideoCapture('http://' + IP_ADDRESS + ':8080/stream.mjpg')
+# cap = cv2.VideoCapture('http://' + IP_ADDRESS + ':8080/stream.mjpg')
 
 def autopilot_loop():
-    result, frame = cap.read()
-    if result:
-
+    frame = Camera().get_frame()
+    if frame.any():
         now = time.time()
         telemetry_data = dict()
         telemetry_data["accel_val_auto"] = float(prefs.get_pref("accel_val_auto"))
         telemetry_data["steering_angle_auto"] = float(prefs.get_pref("steering_angle_auto"))
         telemetry_data["speed"] = float(prefs.get_pref("speed"))
         
-        log("accel_val", round(accel_val, 3), "\t\tsteering_angle", round(steering_angle, 3), "\t[AUTOPilot]")
+        log("accel_val", round(telemetry_data["accel_val_auto"], 3), "steering_angle", round(telemetry_data["steering_angle_auto"], 3), "[AUTOPILOT]")
 
         accel_val, steering_angle = telemetry(telemetry_data, frame)
 
@@ -133,7 +132,7 @@ def main(c):
     while True:
         try:
             now = time.time()
-            if prefs.get_pref("AUTOPILOT")=="1" and abs(now - prefs.get_pref_time("AUTOPILOT")) < 1:
+            if prefs.get_pref("AUTOPILOT")=="1":# and abs(now - prefs.get_pref_time("AUTOPILOT")) < 1:
                 autopilot_loop()
             else:
                 time.sleep(1)
