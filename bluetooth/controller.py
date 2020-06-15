@@ -8,8 +8,8 @@ import errno
 import shutil
 import threading
 
-def log(a):
-    print("[CONT]", a)
+def log(*args):
+    print("[CONT]", args)
 
 #import sys
 #sys.path.append("../self_drive")
@@ -211,7 +211,10 @@ def set_steering(steering_angle, accel_val=0):
     tp.ChangeDutyCycle(abs(steering_angle)*100)
 
 
+LAST_DATA = dict()
+
 def autopilot_loop():
+    global LAST_DATA
     while True:
         try:
             if AUTOPILOT:
@@ -325,10 +328,10 @@ log(gamepad)
 shutdown_request = 0
 
 def main():
-    global shutdown_request, AUTOPILOT
+    global shutdown_request, AUTOPILOT, LAST_DATA
     while True:
         try:
-            LAST_DATA = dict()
+            
             LAST_DATA["accel_val"] = 0         # 0 to 100
             LAST_DATA["steering_angle"] = 0    # 0 to 1
             LAST_DATA["speed"] = 0             # 0 to 100
