@@ -116,8 +116,8 @@ def autopilot_loop():
 
         accel_val, steering_angle = telemetry(telemetry_data, frame)
 
-        prefs.set_pref("accel_val_auto") = accel_val
-        prefs.set_pref("steering_angle_auto") = steering_angle
+        prefs.set_pref("accel_val_auto", accel_val)
+        prefs.set_pref("steering_angle_auto", steering_angle)
 
         try:
             send_data_response = requests.get("http://" + IP_ADDRESS + ":8080/?accel_val_auto=" + str(accel_val) + "&steering_angle_auto=" + str(steering_angle))
