@@ -66,7 +66,7 @@ def video_feed():
 def main(c):
         global Camera
         Camera = c
-        app.run(host='0.0.0.0', port=8080, debug=False, threaded=True)
+        app.run(host='0.0.0.0', port=8000, debug=False, threaded=True)
 
 
 if __name__ == '__main__':
