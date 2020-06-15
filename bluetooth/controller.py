@@ -8,8 +8,8 @@ import errno
 import shutil
 import threading
 
-def log(*args):
-    print("[CONT]", args)
+def log(*a):
+    print("[CONT]", a)
 
 #import sys
 #sys.path.append("../self_drive")

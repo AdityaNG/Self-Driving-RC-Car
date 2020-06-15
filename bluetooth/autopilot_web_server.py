@@ -6,7 +6,7 @@ import time
 import prefs
 import json
 
-def log():
+def log(*a):
         print("[AUTO]", a)
 
 app = Flask(__name__)

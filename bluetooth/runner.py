@@ -19,7 +19,8 @@ THREADS = []
 
 THREADS.append(threading.Thread(target=controller.main))
 THREADS.append(threading.Thread(target=autopilot_web_server.main))
-THREADS.append(threading.Thread(target=recorder.main))
+
+#THREADS.append(threading.Thread(target=recorder.main))
 
 #THREADS.append(threading.Thread(target=controller.main))
 #THREADS.append(threading.Thread(target=controller.main))
