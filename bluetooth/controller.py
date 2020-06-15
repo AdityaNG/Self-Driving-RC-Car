@@ -308,6 +308,7 @@ def speed_calculator():
             time.sleep(0.25)
         except Exception as e:
             log("speed_calculator error - ", e)
+            prefs.set_pref("speed", 0)
             time.sleep(1)
     
 
