@@ -350,6 +350,7 @@ def main():
 
                 if FIRST_COMMAND:
                     BUZZER_PATTERN("b b", 0.1)
+                    FIRST_COMMAND = False
 
                 #accel_val = 0
                 #steering_angle = 0
