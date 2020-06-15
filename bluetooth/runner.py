@@ -10,30 +10,46 @@ cd training_data;
 
 import threading
 import time
+import sys
 
 import controller
 import autopilot_web_server
 import recorder
 
+sys.path.append("../self_drive")
+import local_autopilot
+
 THREADS = []
 
 THREADS.append(threading.Thread(target=controller.main))
+THREADS[0].setName("Controller")
+
 THREADS.append(threading.Thread(target=autopilot_web_server.main))
+THREADS[1].setName("Autopilot Webserver")
+
 THREADS.append(threading.Thread(target=recorder.main))
+THREADS[2].setName("Recorder Webserver")
+
+THREADS.append(threading.Thread(target=recorder.main))
+THREADS[3].setName("Recorder Webserver")
 
 #THREADS.append(threading.Thread(target=controller.main))
 #THREADS.append(threading.Thread(target=controller.main))
+
+def log(*a):
+    print("[THRD]", a)
+
 
 def launch_all():
     for t in THREADS:
         t.start()
-        print("[Thread] ", t.name, " - Started")
+        log(t.name, " Started")
 
 
 def loop():
     for t in THREADS:
         if not t.is_alive():
-            print("[Thread] ", t.name, " - Died")
+            log("[Thread] ", t.name, " - Died")
 
 def main():
     launch_all()
@@ -41,7 +57,7 @@ def main():
         try:
             loop()    
         except Exception as e:
-            print("RECORDER - ", e)
+            log("RECORDER - ", e)
             
         time.sleep(5)
 

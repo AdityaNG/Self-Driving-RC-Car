@@ -1,6 +1,5 @@
 from flask import Flask, render_template, Response, request
 # Raspberry Pi camera module (requires picamera package, developed by Miguel Grinberg)
-from camera_pi import Camera
 from urllib.parse import parse_qs
 import time
 import prefs
@@ -8,6 +7,8 @@ import json
 
 def log(*a):
         print("[AUTO]", a)
+
+Camera = 0
 
 app = Flask(__name__)
 
@@ -62,10 +63,13 @@ def video_feed():
                         #mimetype='multipart/x-mixed-replace; boundary=--jpgboundary')
 
 
-def main():
+def main(c):
+        global Camera
+        Camera = c
         app.run(host='0.0.0.0', port=8080, debug=False, threaded=True)
 
 
 if __name__ == '__main__':
-        main()
+        from camera_pi import Camera
+        main(Camera)
         
