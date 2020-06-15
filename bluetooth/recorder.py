@@ -47,7 +47,7 @@ def loop():
 	except:
 		log("accel_val=", av, "\tsteering_angle=", sa, "[ERROR]")
 
-	if now-last_command_time()<15: # Stop recording if idle for more than 15 seconds
+	if now-last_command_time()<15 and rec!="0": # Stop recording if idle for more than 15 seconds
 		filename = os.path.join(os.getcwd(), 'training_data', rec, 'data.csv')
 		log("RECORDING TO ", filename)
 		if not os.path.exists(os.path.dirname(filename)):
