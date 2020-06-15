@@ -1,0 +1,1 @@
+cd .. ; ./update.sh ; cd bluetooth ; ./start.sh 

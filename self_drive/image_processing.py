@@ -58,6 +58,6 @@ def process(image):
 	    blank_image = cv2.cvtColor(canny_image, cv2.COLOR_GRAY2RGB)
 	    image_with_lines = drow_the_lines(blank_image, lines)
 	    return image_with_lines
-	except:
-		traceback.print_exc()
+	except Exception as e:
+		print(e)
 		return image
