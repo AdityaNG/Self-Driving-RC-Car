@@ -23,7 +23,7 @@ import prefs
 
 
 def log(*a):
-    print("[AUTO]", a)
+    print("[CVAT]", a)
 
 def sigmoid(x):
     return 1 / (1 + math.exp(-x))
@@ -119,7 +119,7 @@ def autopilot_loop():
         telemetry_data["steering_angle_auto"] = float(prefs.get_pref("steering_angle_auto"))
         telemetry_data["speed"] = float(prefs.get_pref("speed"))
         
-        #log("accel_val", round(accel_val, 3), "\t\tsteering_angle", round(steering_angle, 3), "\t[AUTOPilot]")
+        log("accel_val", round(accel_val, 3), "\t\tsteering_angle", round(steering_angle, 3), "\t[AUTOPilot]")
 
         accel_val, steering_angle = telemetry(telemetry_data, frame)
 
