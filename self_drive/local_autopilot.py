@@ -7,7 +7,7 @@ import numpy as np
 import math
 from io import BytesIO
 
-
+import time
 #helper class
 import utils
 
@@ -20,6 +20,10 @@ import requests
 import sys
 sys.path.append("../bluetooth")
 import prefs
+
+
+def log(*a):
+    print("[AUTO]", a)
 
 def sigmoid(x):
     return 1 / (1 + math.exp(-x))
@@ -87,14 +91,14 @@ def telemetry(data, image):
             steering_angle = 2*sigmoid(10* steering_angle) -1
 
             if 1 - abs(steering_angle) < 0.3:
-                print('{} {} {} STEER'.format(steering_angle, throttle, speed))
+                log('{} {} {} STEER'.format(steering_angle, throttle, speed))
             else:
-                print('{} {} {}'.format(steering_angle, throttle, speed))
+                log('{} {} {}'.format(steering_angle, throttle, speed))
 
             prediction["accel_val"] = throttle
             prediction["steering_angle"] = steering_angle
         except Exception as e:
-            print(e)
+            log(e)
 
     return (prediction["accel_val"], prediction["steering_angle"])
 
@@ -115,29 +119,26 @@ def autopilot_loop():
         telemetry_data["steering_angle_auto"] = float(prefs.get_pref("steering_angle_auto"))
         telemetry_data["speed"] = float(prefs.get_pref("speed"))
         
-        #print("accel_val", round(accel_val, 3), "\t\tsteering_angle", round(steering_angle, 3), "\t[AUTOPilot]")
+        #log("accel_val", round(accel_val, 3), "\t\tsteering_angle", round(steering_angle, 3), "\t[AUTOPilot]")
 
         accel_val, steering_angle = telemetry(telemetry_data, frame)
 
         prefs.set_pref("accel_val_auto", accel_val)
         prefs.set_pref("steering_angle_auto", steering_angle)
 
-        try:
-            send_data_response = requests.get("http://" + IP_ADDRESS + ":8080/?accel_val_auto=" + str(accel_val) + "&steering_angle_auto=" + str(steering_angle))
-            #print(send_data_response)
-        except Exception as e:
-            print("Error parsing send_data_response")
-            print(e)
-            pass
 
 def main(c):
     global Camera
     Camera = c
     while True:
         try:
-            autopilot_loop()
+            now = time.time()
+            if prefs.get_pref("AUTOPILOT")=="1" and abs(now - prefs.get_pref_time("AUTOPILOT")) < 1:
+                autopilot_loop()
+            else:
+                time.sleep(1)
         except Exception as e:
-            print("AUTOPILOT error - ", e)
+            log("AUTOPILOT error - ", e)
 
 if __name__ == '__main__':
     from camera_pi import Camera

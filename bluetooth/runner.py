@@ -46,6 +46,8 @@ def launch_all():
     for t in THREADS:
         t.start()
         log(t.name, " Started")
+        if t.name=="Autopilot Webserver":
+            time.sleep(10)
 
 
 def loop():

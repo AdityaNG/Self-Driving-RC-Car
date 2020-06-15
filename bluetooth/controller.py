@@ -218,6 +218,7 @@ def autopilot_loop():
     while True:
         try:
             if AUTOPILOT:
+                prefs.set_pref("AUTOPILOT", "1")
                 now = time.time()
                 accel_val = 0
                 steering_angle = 0
@@ -239,6 +240,8 @@ def autopilot_loop():
                     LAST_DATA["steering_angle"] = steering_angle
                     LAST_DATA["speed"] = chase_value(accel_val, LAST_DATA["speed"], 0.25)
                     prefs.set_pref("speed", LAST_DATA["speed"])
+            else:
+                prefs.set_pref("AUTOPILOT", "0")
 
             time.sleep(0.1)
         except Exception as e:

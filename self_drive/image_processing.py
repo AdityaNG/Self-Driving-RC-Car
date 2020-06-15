@@ -14,6 +14,7 @@ def region_of_interest(img, vertices):
     masked_image = cv2.bitwise_and(img, mask)
     return masked_image
 
+
 def drow_the_lines(img, lines):
     img = np.copy(img)
     blank_image = np.zeros((img.shape[0], img.shape[1], 3), dtype=np.uint8)
@@ -24,6 +25,7 @@ def drow_the_lines(img, lines):
 
     img = cv2.addWeighted(img, 0.8, blank_image, 1, 0.0)
     return img
+
 
 # = cv2.imread('road.jpg')
 #image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
