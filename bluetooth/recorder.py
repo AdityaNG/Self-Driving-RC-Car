@@ -43,11 +43,12 @@ def loop():
 	try:
 		accel_val = float(av)
 		steering_angle = float(sa)
-		log("accel_val=", av, "\tsteering_angle=", sa)
+		#log("accel_val=", av, "\tsteering_angle=", sa)
 	except:
-		log("accel_val=", av, "\tsteering_angle=", sa, "[ERROR]")
+		#log("accel_val=", av, "\tsteering_angle=", sa, "[ERROR]")
+		pass
 
-	if now-last_command_time()<15 and rec!="0": # Stop recording if idle for more than 15 seconds
+	if now-last_command_time()<15: # Stop recording if idle for more than 15 seconds
 		filename = os.path.join(os.getcwd(), 'training_data', rec, 'data.csv')
 		log("RECORDING TO ", filename)
 		if not os.path.exists(os.path.dirname(filename)):
@@ -82,7 +83,8 @@ def loop():
 def main():
 	while True:
 		try:
-			loop()
+			if prefs.get_pref("rec")!="0":
+				loop()
 		except Exception as e:
 			log("RECORDER - ", e)
 

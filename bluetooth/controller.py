@@ -43,7 +43,7 @@ def BUZZER_PATTERN(pattern_total, delay_time=0.5):
     BUZZER_thread = threading.Thread(target=BACKGROUND_BUZZER_PATTERN, args=(pattern_total, delay_time))
     BUZZER_thread.start()
 
-BUZZER_PATTERN("b b b b")
+#BUZZER_PATTERN("b b b b")
 
 GPIO.output(BUZZER_PIN,GPIO.HIGH)
 
