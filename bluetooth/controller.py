@@ -333,6 +333,7 @@ shutdown_request = 0
 
 def main():
     global shutdown_request, AUTOPILOT, LAST_DATA
+    FIRST_COMMAND = True
     while True:
         try:
             
@@ -344,7 +345,12 @@ def main():
             steering_angle = 0
             
             SPEED_MODE = 1
+            
             for event in gamepad.read_loop():
+
+                if FIRST_COMMAND:
+                    BUZZER_PATTERN("b b", 0.1)
+
                 #accel_val = 0
                 #steering_angle = 0
 
