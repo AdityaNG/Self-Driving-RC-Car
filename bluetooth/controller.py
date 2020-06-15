@@ -8,6 +8,9 @@ import errno
 import shutil
 import threading
 
+def log(a):
+    print("[CONTROLLER]", a)
+
 #import sys
 #sys.path.append("../self_drive")
 #import drive
@@ -182,7 +185,7 @@ def tank_mover(steering_angle, accel_val):
 
         out = "p" + str(abs(steering_angle)) + "; tp" + str(abs(steering_angle))
         if out!=last_out:
-            #print(out)
+            #log(out)
             last_out = out
         return
 
@@ -192,7 +195,7 @@ def tank_mover(steering_angle, accel_val):
     
     out = "p" + str(abs(accel_val * tf)) + "; tp" + str(abs(accel_val * (1 - abs(tf))))
     if out!=last_out:
-        #print(out)
+        #log(out)
         last_out = out
 
 
@@ -218,16 +221,16 @@ def autopilot_loop():
                 try:
                     accel_val = float(prefs.get_pref("accel_val_auto"))
                 except:
-                    print("accel_val_auto error")
+                    log("accel_val_auto error")
                     pass
                 try:
                     steering_angle = float(prefs.get_pref("steering_angle_auto"))
                 except:
-                    print("steering_angle_auto error")
+                    log("steering_angle_auto error")
                     pass
                     #accel_val, steering_angle = drive.telemetry(LAST_DATA, recorder.CURRENT_FRAME)
 
-                if abs(prefs.get_pref_time("accel_val_auto") - now) <= 3 or abs(prefs.get_pref_time("steering_angle_auto") - now) <= 3:
+                if abs(prefs.get_pref_time("accel_val_auto") - now) <= 0.5 or abs(prefs.get_pref_time("steering_angle_auto") - now) <= 0.5:
                     loop(accel_val, steering_angle)
                     LAST_DATA["accel_val"] = accel_val
                     LAST_DATA["steering_angle"] = steering_angle
@@ -236,7 +239,7 @@ def autopilot_loop():
 
             time.sleep(0.1)
         except Exception as e:
-            print("AUTOPILOT - ", e)
+            log("AUTOPILOT - ", e)
 
 
 AUTOPILOT_thread = threading.Thread(target=autopilot_loop)
@@ -250,18 +253,18 @@ def loop(accel_val, steering_angle, rec_toggle=False):
         if prefs.get_pref("rec")=="0":
             BUZZER_PATTERN("b b b", 0.3)
             LED_PATTERN("R R_")
-            print("Rec ON")
+            log("Rec ON")
             prefs.set_pref("rec", str(time.time()))
         else:
             BUZZER_PATTERN("b", 1)
             LED_PATTERN("R R")
-            print("Rec OFF")
+            log("Rec OFF")
             prefs.set_pref("rec", "0")
 
     if AUTOPILOT:
-        print("accel_val", round(accel_val, 3), "\t\tsteering_angle", round(steering_angle, 3), "\t[AUTOPilot]")
+        log("accel_val", round(accel_val, 3), "\t\tsteering_angle", round(steering_angle, 3), "\t[AUTOPilot]")
     else:
-        print("accel_val", round(accel_val, 3), "\t\tsteering_angle", round(steering_angle, 3), "\t[MANUAL]")
+        log("accel_val", round(accel_val, 3), "\t\tsteering_angle", round(steering_angle, 3), "\t[MANUAL]")
 
     av = str(accel_val)
     prefs.set_pref("accel_val", av)
@@ -298,14 +301,14 @@ def speed_calculator():
             prefs.set_pref("speed", speed)
             time.sleep(0.25)
         except Exception as e:
-            print("speed_calculator error - ", e)
+            log("speed_calculator error - ", e)
             time.sleep(1)
     
 
 speed_calculator_thread = threading.Thread(target=speed_calculator)
 speed_calculator_thread.start()
-#import recorder
 
+#import recorder
 #CAMERA_thread = threading.Thread(target=recorder.start_camera_loop)
 #CAMERA_thread.start()
 
@@ -316,98 +319,102 @@ from evdev import InputDevice, categorize, ecodes
 # TODO : Web interface to pair new device and 
 gamepad = InputDevice('/dev/input/event0')
 
-#prints out device info at start
-print(gamepad)
+#logs out device info at start
+log(gamepad)
 
 shutdown_request = 0
 
-while True:
-    try:
-        LAST_DATA = dict()
-        LAST_DATA["accel_val"] = 0         # 0 to 100
-        LAST_DATA["steering_angle"] = 0    # 0 to 1
-        LAST_DATA["speed"] = 0             # 0 to 100
+def main():
+    while True:
+        try:
+            LAST_DATA = dict()
+            LAST_DATA["accel_val"] = 0         # 0 to 100
+            LAST_DATA["steering_angle"] = 0    # 0 to 1
+            LAST_DATA["speed"] = 0             # 0 to 100
 
-        accel_val = 0
-        steering_angle = 0
-        
-        SPEED_MODE = 1
-        for event in gamepad.read_loop():
-            #accel_val = 0
-            #steering_angle = 0
-
-            if event.code == 16 and event.value==-1 and event.type==3:
-                AUTOPILOT = True
-                BUZZER_PATTERN("b b b", 0.1)
-                LED_PATTERN("B B_")
+            accel_val = 0
+            steering_angle = 0
             
-            if event.code == 16 and event.value==0 and event.type==3:
-                if AUTOPILOT:
-                    AUTOPILOT = False
+            SPEED_MODE = 1
+            for event in gamepad.read_loop():
+                #accel_val = 0
+                #steering_angle = 0
+
+                if event.code == 16 and event.value==-1 and event.type==3:
+                    AUTOPILOT = True
                     BUZZER_PATTERN("b b b", 0.1)
-                    LED_PATTERN("G")
+                    LED_PATTERN("B B_")
+                
+                if event.code == 16 and event.value==0 and event.type==3:
+                    if AUTOPILOT:
+                        AUTOPILOT = False
+                        BUZZER_PATTERN("b b b", 0.1)
+                        LED_PATTERN("G")
 
-            rec_toggle = False
-            if event.code == 16 and event.value==1 and event.type==3:
-                rec_toggle = True
-            
-            if event.code == 17 and event.value==1 and event.type==3:
-                print("Compile event triggered")
-                BUZZER_PATTERN("b b", 0.1)
-                if prefs.get_pref("rec")=="0":
-                    LED_PATTERN("B B")
-                    os.system('python3 compile.py > logs/compile.txt &')
-                else:
-                    LED_PATTERN("R R_", 0.25)
-                    print("Did not fire compile [currently recording]")
-            
-            now = time.time()
-            if event.code == 17 and event.value==-1 and event.type==3:
-                if shutdown_request==0:
-                    print("Shutdown request triggered")
-                    shutdown_request = now
-                    LED_PATTERN("RB"*4, 0.25)
-            
-            if event.code == 17 and event.value==0 and event.type==3:
-                if now - shutdown_request < 2 and shutdown_request!=0:    
-                    print("Shutdown request dropped")
-                    LED_PATTERN("G_")
-                    shutdown_request = 0
-            
-            if shutdown_request!=0:
-                if now - shutdown_request >= 2: # Shutdown button pressed for 2 seconds or more
-                    print("SHUTDOWN SIGNAL")
-                    LED_PATTERN("R_")
-                    BUZZER_PATTERN("b b b b b", 0.1)
-                    time.sleep(0.5)
-                    os.system("halt")
+                rec_toggle = False
+                if event.code == 16 and event.value==1 and event.type==3:
+                    rec_toggle = True
+                
+                if event.code == 17 and event.value==1 and event.type==3:
+                    log("Compile event triggered")
+                    BUZZER_PATTERN("b b", 0.1)
+                    if prefs.get_pref("rec")=="0":
+                        LED_PATTERN("B B")
+                        os.system('python3 compile.py > logs/compile.txt &')
+                    else:
+                        LED_PATTERN("R R_", 0.25)
+                        log("Did not fire compile [currently recording]")
+                
+                now = time.time()
+                if event.code == 17 and event.value==-1 and event.type==3:
+                    if shutdown_request==0:
+                        log("Shutdown request triggered")
+                        shutdown_request = now
+                        LED_PATTERN("RB"*4, 0.25)
+                
+                if event.code == 17 and event.value==0 and event.type==3:
+                    if now - shutdown_request < 2 and shutdown_request!=0:    
+                        log("Shutdown request dropped")
+                        LED_PATTERN("G_")
+                        shutdown_request = 0
+                
+                if shutdown_request!=0:
+                    if now - shutdown_request >= 2: # Shutdown button pressed for 2 seconds or more
+                        log("SHUTDOWN SIGNAL")
+                        LED_PATTERN("R_")
+                        BUZZER_PATTERN("b b b b b", 0.1)
+                        time.sleep(0.5)
+                        os.system("halt")
 
-            if event.type!=0:
-                #filters by event type
-                #print(type(event.code), event.code)
-                if event.code == 1:
-                    accel_val = corrected_reading(event.value) * 100
-                elif event.code == 2:
-                    steering_angle = corrected_reading(event.value)
-                elif event.code == 304: # A
-                    SPEED_MODE = 1
-                elif event.code == 305: # B 
-                    SPEED_MODE = 2
-                elif event.code == 307: # X
-                    SPEED_MODE = 3
-                elif event.code == 308: # Y
-                    SPEED_MODE = 4
-            if abs(accel_val) > 25*SPEED_MODE:
-                if accel_val!=0: # To prevent divide by zero error
-                    accel_val = 25*SPEED_MODE * accel_val / abs(accel_val)
-                else:
-                    accel_val = 25*SPEED_MODE
+                if event.type!=0:
+                    #filters by event type
+                    #log(type(event.code), event.code)
+                    if event.code == 1:
+                        accel_val = corrected_reading(event.value) * 100
+                    elif event.code == 2:
+                        steering_angle = corrected_reading(event.value)
+                    elif event.code == 304: # A
+                        SPEED_MODE = 1
+                    elif event.code == 305: # B 
+                        SPEED_MODE = 2
+                    elif event.code == 307: # X
+                        SPEED_MODE = 3
+                    elif event.code == 308: # Y
+                        SPEED_MODE = 4
+                if abs(accel_val) > 25*SPEED_MODE:
+                    if accel_val!=0: # To prevent divide by zero error
+                        accel_val = 25*SPEED_MODE * accel_val / abs(accel_val)
+                    else:
+                        accel_val = 25*SPEED_MODE
 
 
-            loop(accel_val, steering_angle, rec_toggle)
-            LAST_DATA["accel_val"] = accel_val
-            LAST_DATA["steering_angle"] = steering_angle
-            
-    except Exception as e:
-        pass
-        print(e)
+                loop(accel_val, steering_angle, rec_toggle)
+                LAST_DATA["accel_val"] = accel_val
+                LAST_DATA["steering_angle"] = steering_angle
+                
+        except Exception as e:
+            log(e)
+
+
+if __name__ == "__main__":
+    main()

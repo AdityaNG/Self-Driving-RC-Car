@@ -59,5 +59,11 @@ def video_feed():
                         mimetype='multipart/x-mixed-replace; boundary=--frame')
                         #mimetype='multipart/x-mixed-replace; boundary=--jpgboundary')
 
-if __name__ == '__main__':
+
+def main():
         app.run(host='0.0.0.0', port=8080, debug=False, threaded=True)
+
+
+if __name__ == '__main__':
+        main()
+        

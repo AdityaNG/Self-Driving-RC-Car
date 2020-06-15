@@ -10,6 +10,7 @@ import os
 import shutil
 #matrix math
 import numpy as np
+import math
 #real-time server
 #import socketio
 #concurrent networking 
@@ -35,6 +36,9 @@ import cv2 as cv2
 import time
 import requests
 
+def sigmoid(x):
+    return 1 / (1 + math.exp(-x))
+
 #initialize our server
 #sio = socketio.Server()
 #our flask (web) app
@@ -45,10 +49,11 @@ prev_image_array = None
 
 #set min/max speed for our autonomous car
 MAX_SPEED = 90
-MIN_SPEED = 50
+MIN_SPEED = 70
 
 #and a speed limit
 speed_limit = MAX_SPEED
+
 
 #registering event handler for the server
 def telemetry(data, image):
@@ -87,11 +92,15 @@ def telemetry(data, image):
                 speed_limit = MAX_SPEED
             throttle = 1.0 - steering_angle**2 - (speed/speed_limit)**2
 
-            print('{} {} {}'.format(steering_angle, throttle, speed))
-            #send_control(steering_angle, throttle)
+            throttle = throttle * 100
+            steering_angle = 2*sigmoid(10* steering_angle) -1
 
+            if 1 - abs(steering_angle) < 0.3:
+                print('{} {} {} STEER'.format(steering_angle, throttle, speed))
+            else:
+                print('{} {} {}'.format(steering_angle, throttle, speed))
 
-            prediction["accel_val"] = throttle * 100
+            prediction["accel_val"] = throttle
             prediction["steering_angle"] = steering_angle
         except Exception as e:
             print(e)

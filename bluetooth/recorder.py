@@ -75,9 +75,12 @@ def loop():
 		with open(filename, 'a') as fd: # Append to file
 			fd.write(myCsvRow + '\n')
 
+def main():
+	while True:
+		try:
+			loop()
+		except Exception as e:
+			print("RECORDER - ", e)
 
-while True:
-	try:
-		loop()
-	except Exception as e:
-		print("RECORDER - ", e)
+if __name__ == "__main__":
+    main()
