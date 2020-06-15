@@ -38,11 +38,11 @@ def loop():
 def main():
     launch_all()
     while True:
-		try:
-			loop()
-		except Exception as e:
-			print("RECORDER - ", e)
-
+        try:
+            loop()    
+        except Exception as e:
+            print("RECORDER - ", e)
+            
         time.sleep(5)
 
 if __name__ == "__main__":
