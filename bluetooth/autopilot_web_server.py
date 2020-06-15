@@ -6,6 +6,8 @@ import time
 import prefs
 import json
 
+def log():
+        print("[AUTO]", a)
 
 app = Flask(__name__)
 
@@ -20,7 +22,7 @@ def index():
                 for d in params:
                         prefs.set_pref(d, params[d])
                         prefs.set_pref("last_message", str(time.time()))
-                        print("GOT : ", params)
+                        log("GOT : ", params)
         except Exception as e:
                 PAGE = "{'status': 'not ok', 'error': '" + str(e) + "' }"
         return PAGE
@@ -34,7 +36,7 @@ def get():
                 params = ("accel_val_auto", "steering_angle_auto", "speed")
                 for d in params:
                         PAGE[d] = round(float(prefs.get_pref(d)), 5)
-                        print("GOT : ", params)
+                        log("GOT : ", params)
                 
                 PAGE = json.dumps(PAGE)
         except Exception as e:

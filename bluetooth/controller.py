@@ -9,7 +9,7 @@ import shutil
 import threading
 
 def log(a):
-    print("[CONTROLLER]", a)
+    print("[CONT]", a)
 
 #import sys
 #sys.path.append("../self_drive")
@@ -325,6 +325,7 @@ log(gamepad)
 shutdown_request = 0
 
 def main():
+    global shutdown_request, AUTOPILOT
     while True:
         try:
             LAST_DATA = dict()
