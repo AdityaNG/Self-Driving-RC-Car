@@ -12,6 +12,8 @@ import threading
 import time
 import sys
 
+from camera_pi import Camera
+
 import controller
 import autopilot_web_server
 import recorder
@@ -27,10 +29,10 @@ THREADS[0].setName("Controller")
 THREADS.append(threading.Thread(target=autopilot_web_server.main))
 THREADS[1].setName("Autopilot Webserver")
 
-THREADS.append(threading.Thread(target=recorder.main))
+THREADS.append(threading.Thread(target=recorder.main, args=Camera))
 THREADS[2].setName("Recorder")
 
-THREADS.append(threading.Thread(target=local_autopilot.main))
+THREADS.append(threading.Thread(target=local_autopilot.main, args=Camera))
 THREADS[3].setName("Local Autopilot")
 
 #THREADS.append(threading.Thread(target=controller.main))

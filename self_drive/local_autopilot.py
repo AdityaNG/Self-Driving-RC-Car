@@ -24,6 +24,9 @@ import prefs
 def sigmoid(x):
     return 1 / (1 + math.exp(-x))
 
+
+Camera = 0
+
 #initialize our server
 #sio = socketio.Server()
 #our flask (web) app
@@ -127,12 +130,15 @@ def autopilot_loop():
             print(e)
             pass
 
-def main():
+def main(c):
+    global Camera
+    Camera = c
     while True:
         try:
             autopilot_loop()
         except Exception as e:
             print("AUTOPILOT error - ", e)
 
-if __name__ == "__main__":
-    main()
+if __name__ == '__main__':
+    from camera_pi import Camera
+    main(Camera)
