@@ -12,8 +12,13 @@ import shutil
 #camera = picamera.PiCamera()
 #camera.capture('example.jpg')
 
+def log(*a):
+	print("[RECO]", a)
+
+
 def last_command_time():
 	return min(( float(prefs.get_pref_time("accel_val")), float(prefs.get_pref_time("steering_angle"))))
+
 
 time.sleep(10) # Wait 10 seconds for server to start up
 cap = cv2.VideoCapture('http://localhost:8080/stream.mjpg')
@@ -32,20 +37,19 @@ def loop():
 
 	accel_val = 0
 	steering_angle = 0
+	rec = prefs.get_pref("rec")
 	av = prefs.get_pref("accel_val")
 	sa = prefs.get_pref("steering_angle")
-	print("accel_val=", av, "\tsteering_angle=", sa, end="")
 	try:
 		accel_val = float(av)
 		steering_angle = float(sa)
-		print("")
+		log("accel_val=", av, "\tsteering_angle=", sa)
 	except:
-		pass
-		print("\tERROR")
+		log("accel_val=", av, "\tsteering_angle=", sa, "[ERROR]")
 
 	if now-last_command_time()<15: # Stop recording if idle for more than 15 seconds
 		filename = os.path.join(os.getcwd(), 'training_data', rec, 'data.csv')
-		#print("RECORDING TO ", filename)
+		log("RECORDING TO ", filename)
 		if not os.path.exists(os.path.dirname(filename)):
 			try:
 				os.makedirs(os.path.dirname(filename))
@@ -70,7 +74,7 @@ def loop():
 
 		#myCsvRow = ",".join(list(map(str, [data_imagefile, steering_angle, speed, throttle, brakes])))
 		myCsvRow = ",".join(list(map(str, [data_imagefile, steering_angle, accel_val])))
-		print('Append Row : ', myCsvRow)
+		log('Append Row : ', myCsvRow)
 
 		with open(filename, 'a') as fd: # Append to file
 			fd.write(myCsvRow + '\n')
@@ -80,7 +84,7 @@ def main():
 		try:
 			loop()
 		except Exception as e:
-			print("RECORDER - ", e)
+			log("RECORDER - ", e)
 
 if __name__ == "__main__":
     main()
