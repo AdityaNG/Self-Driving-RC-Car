@@ -122,7 +122,7 @@ def autopilot_loop():
         telemetry_data["steering_angle_auto"] = float(prefs.get_pref("steering_angle_auto"))
         telemetry_data["speed"] = float(prefs.get_pref("speed"))
         
-        log("accel_val", round(telemetry_data["accel_val_auto"], 3), "steering_angle", round(telemetry_data["steering_angle_auto"], 3), "[AUTOPILOT]")
+        #log("accel_val", round(telemetry_data["accel_val_auto"], 3), "steering_angle", round(telemetry_data["steering_angle_auto"], 3), "[AUTOPILOT]")
 
         accel_val, steering_angle = telemetry(telemetry_data, frame)
 
