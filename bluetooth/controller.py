@@ -75,6 +75,8 @@ def BUZZER_PATTERN(pattern_total, delay_time=0.5):
 
 GPIO.output(BUZZER_PIN,GPIO.HIGH)
 
+BUZZER_PATTERN("b", 0.1)
+
 RED_PIN = 10
 GREEN_PIN = 11
 BLUE_PIN = 9
