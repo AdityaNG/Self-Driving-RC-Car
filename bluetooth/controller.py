@@ -19,6 +19,36 @@ AUTOPILOT = False
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)
 
+# Forawrd / Backward Pins
+in1 = 27
+in2 = 17
+en = 22
+
+temp1=1
+
+# Left / Right Pins
+tin1 = 23
+tin2 = 24
+ten = 25
+
+steering_angle = 75
+
+GPIO.setup(in1,GPIO.OUT)
+GPIO.setup(in2,GPIO.OUT)
+GPIO.setup(en,GPIO.OUT)
+GPIO.output(in1,GPIO.LOW)
+GPIO.output(in2,GPIO.LOW)
+p=GPIO.PWM(en,1000)
+p.start(25)
+
+GPIO.setup(tin1,GPIO.OUT)
+GPIO.setup(tin2,GPIO.OUT)
+GPIO.setup(ten,GPIO.OUT)
+GPIO.output(tin1,GPIO.LOW)
+GPIO.output(tin2,GPIO.LOW)
+tp=GPIO.PWM(ten,1000)
+tp.start(25)
+
 """
 # GPIO Pins don't provide enough current to drive Fan
 FAN_PIN = 12
@@ -42,8 +72,6 @@ def BACKGROUND_BUZZER_PATTERN(pattern_total, delay_time=0.5):
 def BUZZER_PATTERN(pattern_total, delay_time=0.5):
     BUZZER_thread = threading.Thread(target=BACKGROUND_BUZZER_PATTERN, args=(pattern_total, delay_time))
     BUZZER_thread.start()
-
-BUZZER_PATTERN("b b", 0.1)
 
 GPIO.output(BUZZER_PIN,GPIO.HIGH)
 
@@ -88,49 +116,32 @@ def BACKGROUND_LED_PATTERN(pattern_total, delay_time=0.5):
         elif " " == str(pattern):
             pass # All blank
 
+
 # TODO : Play out complex LED patterns async
 def LED_PATTERN(pattern_total, delay_time=0.5):
     LED_thread = threading.Thread(target=BACKGROUND_LED_PATTERN, args=(pattern_total, delay_time))
     LED_thread.start()
 
-# Bluetooth connect 
-while "event0" not in os.listdir("/dev/input/"):
-    LED_PATTERN("B B B B B_", 0.25)
-    os.system('./bluetooth_connect.sh')
-    time.sleep(10) # Wait
 
-LED_PATTERN("B B G G G G G_", 0.25)
+def connect_bluetooth_loop():
+    BUZZER_PATTERN("b b", 0.1)
+    # Bluetooth connect 
+    while not bluetooth_connected():
+        LED_PATTERN("B B B B B_", 0.25)
+        os.system('./bluetooth_connect.sh')
+        time.sleep(10) # Wait
+
+    BUZZER_PATTERN("b b", 0.1)
+    LED_PATTERN("B B G G G G G_", 0.25)
 
 
-# Forawrd / Backward Pins
-in1 = 27
-in2 = 17
-en = 22
+def bluetooth_connected():
+    return "event0" in os.listdir("/dev/input/")
 
-temp1=1
 
-# Left / Right Pins
-tin1 = 23
-tin2 = 24
-ten = 25
+if not bluetooth_connected():
+    connect_bluetooth_loop()
 
-steering_angle = 75
-
-GPIO.setup(in1,GPIO.OUT)
-GPIO.setup(in2,GPIO.OUT)
-GPIO.setup(en,GPIO.OUT)
-GPIO.output(in1,GPIO.LOW)
-GPIO.output(in2,GPIO.LOW)
-p=GPIO.PWM(en,1000)
-p.start(25)
-
-GPIO.setup(tin1,GPIO.OUT)
-GPIO.setup(tin2,GPIO.OUT)
-GPIO.setup(ten,GPIO.OUT)
-GPIO.output(tin1,GPIO.LOW)
-GPIO.output(tin2,GPIO.LOW)
-tp=GPIO.PWM(ten,1000)
-tp.start(25)
 
 global tank_controls
 tank_controls = False;
@@ -429,6 +440,10 @@ def main():
                 
         except Exception as e:
             log(e)
+            if ("No such device" in str(e)):
+                log("Bluetooth connection lost")
+                # TODO : Reconnect to BT
+
 
 
 if __name__ == "__main__":

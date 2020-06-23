@@ -15,6 +15,7 @@ import sys
 from camera_pi import Camera
 
 import controller
+from controller import bluetooth_connected, connect_bluetooth_loop
 import autopilot_web_server
 import recorder
 
@@ -53,15 +54,18 @@ def launch_all():
 def loop():
     for t in THREADS:
         if not t.is_alive():
-            log("[Thread] ", t.name, " - Died")
+            log(t.name, " - Died")
 
 def main():
+    if not bluetooth_connected():
+        connect_bluetooth_loop()
+
     launch_all()
     while True:
         try:
             loop()    
         except Exception as e:
-            log("RECORDER - ", e)
+            log("Runner error - ", e)
             
         time.sleep(5)
 
