@@ -40,7 +40,7 @@ model = None
 prev_image_array = None
 
 #set min/max speed for our autonomous car
-MAX_SPEED = 150
+MAX_SPEED = 200
 MIN_SPEED = 20
 
 #and a speed limit
