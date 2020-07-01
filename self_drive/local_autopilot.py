@@ -40,8 +40,8 @@ model = None
 prev_image_array = None
 
 #set min/max speed for our autonomous car
-MAX_SPEED = 3
-MIN_SPEED = 1
+MAX_SPEED = 35
+MIN_SPEED = 20
 
 #and a speed limit
 speed_limit = MAX_SPEED
@@ -92,8 +92,11 @@ def telemetry(data, image):
             if throttle>100:
                 throttle = 100
             
-            if throttle<-100:
-                throttle = -100
+            #if throttle<-100:
+                #throttle = -100
+
+            if throttle<0:
+                throttle = 0
 
             steering_angle = 2*sigmoid(10* steering_angle) -1
 
