@@ -16,7 +16,7 @@ last_dir_pts = []
 last_dir_mag = []
 img1_cache = False
 img2_cache = False
-def get_direction(img_in, history_frames=20, frame_skip=0, scale_percent=10):
+def get_direction(img_in, history_frames=20, frame_skip=0, scale_percent=10, frame_border=10):
 	"""
 		Returns a touple (x, y) giving the direction of motion and its magnitude
 	"""
@@ -35,10 +35,10 @@ def get_direction(img_in, history_frames=20, frame_skip=0, scale_percent=10):
 		dsize = (width, height)
 
 		region_of_interest_vertices = [
-			(10, 10),
-			(10, height-10),
-			(width-10, height-10),
-			(width-10, 10)
+			(frame_border, 			frame_border),
+			(frame_border, 			height-frame_border),
+			(width-frame_border, 	height-frame_border),
+			(width-frame_border, 	frame_border)
 		]
 
 		img2_cache = prev_frames[0]
@@ -56,7 +56,7 @@ def get_direction(img_in, history_frames=20, frame_skip=0, scale_percent=10):
 			img1 = cv2.cvtColor(img1, cv2.COLOR_RGB2GRAY)
 			img2 = cv2.cvtColor(img2, cv2.COLOR_RGB2GRAY)
 
-			dir_point = minimize_error(img1, img2, region_of_interest_vertices, width, height)
+			dir_point = minimize_error(img1, img2, region_of_interest_vertices, width, height, frame_border=frame_border)
 
 			img1 = region_of_interest(img1, np.array([region_of_interest_vertices], np.int32),)
 			img2 = region_of_interest(img2, np.array([region_of_interest_vertices], np.int32),)
@@ -115,7 +115,7 @@ def get_direction(img_in, history_frames=20, frame_skip=0, scale_percent=10):
 
 
 
-def minimize_error(img1, img2, region_of_interest_vertices, width, height):
+def minimize_error(img1, img2, region_of_interest_vertices, width, height, frame_border=10):
 	img1 = region_of_interest(img1, np.array([region_of_interest_vertices], np.int32),)
 
 	offset_x = 0
@@ -125,7 +125,7 @@ def minimize_error(img1, img2, region_of_interest_vertices, width, height):
 	min_sum = sum(res_img.flatten())
 	original_error = min_sum
 
-	for i in range(-10, 10, 2):
+	for i in range(-frame_border, frame_border, 2):
 		x = i # x<20
 		y = 0 #
 		region_of_interest_offset = []
@@ -156,7 +156,7 @@ def minimize_error(img1, img2, region_of_interest_vertices, width, height):
 	min_sum = sum(res_img.flatten())
 	original_error = min_sum
 
-	for i in range(-10, 10, 2):
+	for i in range(-frame_border, frame_border, 2):
 		x = 0 # x<20
 		y = i #
 		region_of_interest_offset = []

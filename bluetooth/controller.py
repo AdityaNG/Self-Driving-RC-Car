@@ -333,7 +333,7 @@ def speed_calculator():
             global Camera
 
             frame = decodeImage(Camera().get_frame())
-            x, y = image_processing.get_direction(frame, history_frames=5, frame_skip=0, scale_percent=10)
+            x, y = image_processing.get_direction(frame, history_frames=50, frame_skip=0, scale_percent=10)
             log("speed_calculator", abs(y))
             prefs.set_pref("speed", abs(y))
             time.sleep(0.25)
