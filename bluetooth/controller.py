@@ -15,6 +15,8 @@ def log(*a):
 #sys.path.append("../self_drive")
 #import drive
 AUTOPILOT = False
+sys.path.append("../self_drive")
+import image_processing
 
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)
@@ -311,13 +313,21 @@ def corrected_reading(val):
     return res
 
 
+def decodeImage(image_bytes):
+    return cv2.imdecode(np.frombuffer(image_bytes, np.uint8), -1)
+
 def speed_calculator():
     while True:
         try:
-            speed = float(prefs.get_pref("speed"))
-            accel_val = float(prefs.get_pref("accel_val"))
-            speed = chase_value(accel_val, speed, 0.5)
-            prefs.set_pref("speed", speed)
+            #speed = float(prefs.get_pref("speed"))
+            #accel_val = float(prefs.get_pref("accel_val"))
+            #speed = chase_value(accel_val, speed, 0.5)
+
+            global Camera
+
+            frame = decodeImage(Camera().get_frame())
+            x, y = image_processing.get_direction(frame, history_frames=5, frame_skip=0, scale_percent=10)
+            prefs.set_pref("speed", abs(y))
             time.sleep(0.25)
         except Exception as e:
             log("speed_calculator error - ", e)
@@ -344,7 +354,11 @@ log(gamepad)
 
 shutdown_request = 0
 
-def main():
+
+def main(c):
+    global Camera
+    Camera = c
+
     global shutdown_request, AUTOPILOT, LAST_DATA
     FIRST_COMMAND = True
     while True:
@@ -449,4 +463,5 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    from camera_pi import Camera
+    main(Camera)
