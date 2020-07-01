@@ -117,10 +117,15 @@ def autopilot_loop():
     frame = decodeImage(Camera().get_frame())
     if frame.any():
         now = time.time()
+
+        x, y = image_processing.get_direction(frame, history_frames=20, frame_skip=0)
+
         telemetry_data = dict()
         telemetry_data["accel_val_auto"] = float(prefs.get_pref("accel_val_auto"))
         telemetry_data["steering_angle_auto"] = float(prefs.get_pref("steering_angle_auto"))
-        telemetry_data["speed"] = float(prefs.get_pref("speed"))
+        
+        telemetry_data["speed"] = float(y)
+        #telemetry_data["speed"] = float(prefs.get_pref("speed"))
         
         #log("accel_val", round(telemetry_data["accel_val_auto"], 3), "steering_angle", round(telemetry_data["steering_angle_auto"], 3), "[AUTOPILOT]")
 

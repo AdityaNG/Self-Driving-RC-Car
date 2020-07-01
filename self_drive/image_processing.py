@@ -198,6 +198,7 @@ def minimize_error(img1, img2, region_of_interest_vertices, width, height):
 	dir_point = (offset_x, offset_y)
 	return dir_point
 
+
 def region_of_interest(img, vertices):
     mask = np.zeros_like(img)
     #channel_count = img.shape[2]
