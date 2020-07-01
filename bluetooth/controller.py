@@ -324,6 +324,7 @@ def decodeImage(image_bytes):
 
 
 def speed_calculator():
+    time.sleep(10) 
     while True:
         try:
             #speed = float(prefs.get_pref("speed"))
@@ -336,7 +337,7 @@ def speed_calculator():
             x, y = image_processing.get_direction(frame, history_frames=30, frame_skip=0, scale_percent=10)
             log("speed_calculator", abs(y))
             prefs.set_pref("speed", abs(y))
-            time.sleep(0.25)
+            #time.sleep(0.25)
         except Exception as e:
             log("speed_calculator error - ", e)
             prefs.set_pref("speed", 0)
