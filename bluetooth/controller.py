@@ -286,10 +286,12 @@ def loop(accel_val, steering_angle, rec_toggle=False):
             log("Rec OFF")
             prefs.set_pref("rec", "0")
 
+    speed = prefs.get_pref("speed")
+
     if AUTOPILOT:
-        log("accel_val", round(accel_val, 3), "steering_angle", round(steering_angle, 3), "[AUTOPilot]")
+        log("accel_val", round(accel_val, 3), "steering_angle", round(steering_angle, 3), "speed", speed, "[AUTOPilot]")
     else:
-        log("accel_val", round(accel_val, 3), "steering_angle", round(steering_angle, 3), "[MANUAL]")
+        log("accel_val", round(accel_val, 3), "steering_angle", round(steering_angle, 3), "speed", speed, "[MANUAL]")
 
     av = str(accel_val)
     prefs.set_pref("accel_val", av)
