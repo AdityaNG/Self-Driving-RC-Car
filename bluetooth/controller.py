@@ -8,6 +8,7 @@ import errno
 import shutil
 import threading
 import sys
+import cv2
 
 def log(*a):
     print("[CONT]", a)
