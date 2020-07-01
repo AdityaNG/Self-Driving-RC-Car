@@ -118,7 +118,7 @@ def autopilot_loop():
     if frame.any():
         now = time.time()
 
-        x, y = image_processing.get_direction(frame)
+        x, y = image_processing.get_direction(frame, history_frames=5, frame_skip=0, scale_percent=10)
 
         telemetry_data = dict()
         telemetry_data["accel_val_auto"] = float(prefs.get_pref("accel_val_auto"))
