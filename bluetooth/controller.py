@@ -55,6 +55,9 @@ GPIO.output(tin2,GPIO.LOW)
 tp=GPIO.PWM(ten,1000)
 tp.start(25)
 
+ir_pin = 21
+GPIO.setup(ir_pin,GPIO.IN)
+
 """
 # GPIO Pins don't provide enough current to drive Fan
 FAN_PIN = 12
@@ -327,17 +330,22 @@ def speed_calculator():
     time.sleep(10) 
     while True:
         try:
+
+            reading = GPIO.input(port_or_pin)  
+            
+            log("speed_calculator", reading)
+
             #speed = float(prefs.get_pref("speed"))
             #accel_val = float(prefs.get_pref("accel_val"))
             #speed = chase_value(accel_val, speed, 0.5)
 
-            global Camera
-
-            frame = decodeImage(Camera().get_frame())
-            x, y = image_processing.get_direction(frame, history_frames=15, frame_skip=0, scale_percent=10)
-            log("speed_calculator", abs(y))
-            prefs.set_pref("speed", abs(y))
-            #time.sleep(0.25)
+            #global Camera
+            #frame = decodeImage(Camera().get_frame())
+            #x, y = image_processing.get_direction(frame, history_frames=15, frame_skip=0, scale_percent=10)
+            #log("speed_calculator", abs(y))
+            #prefs.set_pref("speed", abs(y))
+            
+            #log("speed_calculator", prefs.get_pref("speed"))
         except Exception as e:
             log("speed_calculator error - ", e)
             prefs.set_pref("speed", 0)
