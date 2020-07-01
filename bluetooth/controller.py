@@ -7,6 +7,7 @@ import os
 import errno
 import shutil
 import threading
+import sys
 
 def log(*a):
     print("[CONT]", a)
