@@ -8,7 +8,9 @@ import errno
 import shutil
 import threading
 import sys
+
 import cv2
+import numpy as np
 
 def log(*a):
     print("[CONT]", a)
@@ -317,6 +319,7 @@ def corrected_reading(val):
 
 def decodeImage(image_bytes):
     return cv2.imdecode(np.frombuffer(image_bytes, np.uint8), -1)
+
 
 def speed_calculator():
     while True:
