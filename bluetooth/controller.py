@@ -331,7 +331,7 @@ def speed_calculator():
     while True:
         try:
 
-            reading = GPIO.input(port_or_pin)  
+            reading = GPIO.input(ir_pin)  
             
             log("speed_calculator", reading)
 
