@@ -257,8 +257,8 @@ def autopilot_loop():
                     loop(accel_val, steering_angle)
                     LAST_DATA["accel_val"] = accel_val
                     LAST_DATA["steering_angle"] = steering_angle
-                    LAST_DATA["speed"] = chase_value(accel_val, LAST_DATA["speed"], 0.25)
-                    prefs.set_pref("speed", LAST_DATA["speed"])
+                    LAST_DATA["speed"] = prefs.get_pref("speed") #chase_value(accel_val, LAST_DATA["speed"], 0.25)
+                    #prefs.set_pref("speed", LAST_DATA["speed"])
             else:
                 prefs.set_pref("AUTOPILOT", "0")
 
