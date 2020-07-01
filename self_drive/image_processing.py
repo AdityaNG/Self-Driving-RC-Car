@@ -75,7 +75,7 @@ def get_direction(img_in, history_frames=20, frame_skip=0, scale_percent=10, fra
 				last_dir.remove(last_dir[0])
 
 			
-			r = math.sqrt(dir_point[0]**2 + dir_point[1]**2)
+			r = 10 * math.sqrt(dir_point[0]**2 + dir_point[1]**2)
 
 
 			last_dir_mag.append(r)
