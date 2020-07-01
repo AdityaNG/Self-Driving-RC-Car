@@ -92,7 +92,7 @@ def telemetry(data, image):
             if throttle>100:
                 throttle = 100
             
-            if throttle<100:
+            if throttle<-100:
                 throttle = -100
 
             steering_angle = 2*sigmoid(10* steering_angle) -1
