@@ -5,6 +5,9 @@ import prefs
 def log(*a):
     print("[WSPS]", a)
 
+def chase_value(goal, chase, chase_factor=0.5):
+    return chase + (goal-chase)*chase_factor
+
 wheel_speed_pow_pin = 26
 GPIO.setup(wheel_speed_pow_pin,GPIO.OUT)
 GPIO.output(wheel_speed_pow_pin,GPIO.HIGH)
@@ -20,7 +23,7 @@ gear_ratio = 1.086956522 # gear_ratio is chosen such that wheel_speed_counter * 
 def speed_calculator():
     global wheel_speed_counter, wheel_speed_counter_last_set, wheel_speed_delay
     prefs.set_pref("speed", 0)
-    time.sleep(10) 
+    #time.sleep(10) 
     while True:
         try:
             now = time.time()
