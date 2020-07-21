@@ -361,10 +361,10 @@ def speed_calculator():
 
                 speed = float(prefs.get_pref("speed"))
                 #accel_val = float(prefs.get_pref("accel_val"))
-                speed = chase_value(wheel_speed_counter * gear_ratio, speed, 0.5)
+                speed = chase_value(wheel_speed_counter * gear_ratio, speed, 0.75)
                 prefs.set_pref("speed", abs(speed))
                 
-                log("speed_calculator", speed, wheel_speed_counter)
+                log("speed_calculator", speed, wheel_speed_counter*gear_ratio, wheel_speed_counter)
 
                 wheel_speed_counter_last_set = now
                 wheel_speed_counter = 0
