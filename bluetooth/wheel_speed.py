@@ -50,7 +50,11 @@ def speed_calculator():
                     speed = float(prefs.get_pref("speed"))
                     rpm = float(wheel_speed_counter) / wheel_speed_delay * 60
                     #accel_val = float(prefs.get_pref("accel_val"))
-                    speed = chase_value(wheel_speed_counter * gear_ratio, speed, 0.75)
+                    if (wheel_speed_counter!=0):
+                        speed = chase_value(wheel_speed_counter * gear_ratio, speed, 0.75)
+                    else:
+                        speed = 0
+                    
                     prefs.set_pref("speed", abs(speed))
                     prefs.set_pref("rpm", abs(int(rpm)))
 
