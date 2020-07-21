@@ -220,6 +220,7 @@ def tank_mover(steering_angle, accel_val):
 
 
 def set_steering(steering_angle, accel_val=0):
+    steering_angle = steering_angle * -1
     if steering_angle>0:
         # Left
         GPIO.output(tin1,GPIO.HIGH)
@@ -290,10 +291,10 @@ def loop(accel_val, steering_angle, rec_toggle=False):
     speed = prefs.get_pref("speed")
 
     if AUTOPILOT:
-        #log("accel_val", round(accel_val, 3), "steering_angle", round(steering_angle, 3), "speed", speed, "[AUTOPilot]")
+        log("accel_val", round(accel_val, 3), "steering_angle", round(steering_angle, 3), "speed", speed, "[AUTOPilot]")
         pass
     else:
-        #log("accel_val", round(accel_val, 3), "steering_angle", round(steering_angle, 3), "speed", speed, "[MANUAL]")
+        log("accel_val", round(accel_val, 3), "steering_angle", round(steering_angle, 3), "speed", speed, "[MANUAL]")
         pass
 
     av = str(accel_val)

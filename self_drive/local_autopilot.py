@@ -69,8 +69,8 @@ def telemetry(data, image):
             #if cv2.waitKey(1) & 0xFF == ord('q'):
                 #exit()
 
-            image = utils.preprocess(image) # apply the preprocessing
-            image = np.array([image])       # the model expects 4D array
+            #image = utils.preprocess(image) # apply the preprocessing
+            #image = np.array([image])       # the model expects 4D array
 
             # predict the steering angle for the image
             #steering_angle = float(model.predict(image, batch_size=1))

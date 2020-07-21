@@ -29,15 +29,22 @@ def index():
         return PAGE
 
 
+@app.route('/data')
+def index():
+        """Video streaming home page."""
+        PAGE = "{'status': 'ok'}"
+        return PAGE
+
+
 @app.route('/get')
 def get():
         """Video streaming home page."""
         PAGE = dict()
         try:
-                params = ("accel_val_auto", "steering_angle_auto", "speed")
+                params = ("accel_val_auto", "steering_angle_auto", "AUTOPILOT", "accel_val", "steering_angle", "speed", "rpm", "rec")
+                log("GOT Request")
                 for d in params:
                         PAGE[d] = round(float(prefs.get_pref(d)), 5)
-                        log("GOT Request : ", params)
                 
                 PAGE = json.dumps(PAGE)
         except Exception as e:

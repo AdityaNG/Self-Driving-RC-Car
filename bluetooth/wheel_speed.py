@@ -17,8 +17,9 @@ GPIO.setup(wheel_speed_data_pin,GPIO.IN)
 #GPIO.output(wheel_speed_data_pin,GPIO.HIGH)
 
 wheel_speed_counter = 0
+wheel_speed_counter_fault = 100
 wheel_speed_counter_last_set = time.time()
-wheel_speed_delay = 1 # Calculate every 1 seconds
+wheel_speed_delay = 1.0 # Calculate every 1 seconds
 gear_ratio = 1.086956522 # gear_ratio is chosen such that wheel_speed_counter * gear_ratio <= 100
 def speed_calculator():
     global wheel_speed_counter, wheel_speed_counter_last_set, wheel_speed_delay
@@ -36,18 +37,24 @@ def speed_calculator():
             
             
             if abs(now - wheel_speed_counter_last_set)>=wheel_speed_delay:
+                if wheel_speed_counter>wheel_speed_counter_fault:
+                    log("speed_calculator FAULT")
+                    prefs.set_pref("speed", 0)
+                    prefs.set_pref("rpm", 0)
+                else:
+                    #log("speed_calculator", reading)
 
-                #log("speed_calculator", reading)
+                    speed = float(prefs.get_pref("speed"))
+                    rpm = float(wheel_speed_counter) / wheel_speed_delay * 60
+                    #accel_val = float(prefs.get_pref("accel_val"))
+                    speed = chase_value(wheel_speed_counter * gear_ratio, speed, 0.75)
+                    prefs.set_pref("speed", abs(speed))
+                    prefs.set_pref("rpm", abs(int(rpm)))
 
-                speed = float(prefs.get_pref("speed"))
-                #accel_val = float(prefs.get_pref("accel_val"))
-                speed = chase_value(wheel_speed_counter * gear_ratio, speed, 0.75)
-                prefs.set_pref("speed", abs(speed))
-                
-                log("speed_calculator", speed, wheel_speed_counter*gear_ratio, wheel_speed_counter)
+                    log("speed_calculator", speed, wheel_speed_counter*gear_ratio, wheel_speed_counter)
 
-                wheel_speed_counter_last_set = now
-                wheel_speed_counter = 0
+                    wheel_speed_counter_last_set = now
+                    wheel_speed_counter = 0
 
             #global Camera
             #frame = decodeImage(Camera().get_frame())
