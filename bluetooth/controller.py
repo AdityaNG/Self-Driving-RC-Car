@@ -348,6 +348,7 @@ def speed_calculator():
             if reading:
                 wheel_speed_counter += 1
                 while GPIO.input(wheel_speed_data_pin) == 1:
+                    time.sleep(1)
                     pass # Wait for the sensor to read 0 again before reading the next 1
             
             now = time.time()
