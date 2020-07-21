@@ -8,6 +8,9 @@ def log(*a):
 def chase_value(goal, chase, chase_factor=0.5):
     return chase + (goal-chase)*chase_factor
 
+GPIO.setwarnings(False)
+GPIO.setmode(GPIO.BCM)
+
 wheel_speed_pow_pin = 26
 GPIO.setup(wheel_speed_pow_pin,GPIO.OUT)
 GPIO.output(wheel_speed_pow_pin,GPIO.HIGH)
