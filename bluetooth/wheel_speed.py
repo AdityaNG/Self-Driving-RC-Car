@@ -33,6 +33,9 @@ gear_ratio = 1.086956522 # gear_ratio is chosen such that wheel_speed_counter * 
 def speed_calculator():
     global wheel_speed_counter, wheel_speed_counter_last_set, wheel_speed_delay
     global MPU_last_set, MPU_delay, MPU_sensor
+
+    gyroscope_data_old = {'x':0, 'y':0, 'z': 0}
+
     prefs.set_pref("speed", 0)
     #time.sleep(10) 
     while True:
@@ -73,6 +76,14 @@ def speed_calculator():
             if abs(now - MPU_last_set)>=MPU_delay:
                 accelerometer_data = MPU_sensor.get_accel_data()
                 gyroscope_data = MPU_sensor.get_gyro_data()
+
+                tmp = gyroscope_data
+
+                for k in gyroscope_data:
+                    gyroscope_data[k] = chase_value(gyroscope_data[k], gyroscope_data_old[k], 0.75)
+                
+                gyroscope_data_old = tmp
+
                 prefs.set_pref("accelerometer_data", str(accelerometer_data))
                 prefs.set_pref("gyroscope_data", str(gyroscope_data))
                 MPU_last_set = now
