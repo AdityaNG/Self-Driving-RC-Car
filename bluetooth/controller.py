@@ -58,6 +58,15 @@ tp.start(25)
 ir_pin = 21
 GPIO.setup(ir_pin,GPIO.IN)
 
+wheel_speed_pow_pin = 26
+GPIO.setup(wheel_speed_pow_pin,GPIO.OUT)
+GPIO.output(wheel_speed_pow_pin,GPIO.HIGH)
+
+wheel_speed_data_pin = 19
+GPIO.setup(wheel_speed_data_pin,GPIO.IN)
+#GPIO.output(wheel_speed_data_pin,GPIO.HIGH)
+
+
 """
 # GPIO Pins don't provide enough current to drive Fan
 FAN_PIN = 12
@@ -326,13 +335,25 @@ def decodeImage(image_bytes):
     return cv2.imdecode(np.frombuffer(image_bytes, np.uint8), -1)
 
 
+wheel_speed_counter = 0
+wheel_speed_counter_last_set = time.time()
+wheel_speed_delay = 1 # Calculate every 1 seconds
 def speed_calculator():
+    global wheel_speed_counter, wheel_speed_counter_last_set, wheel_speed_delay
     time.sleep(10) 
     while True:
         try:
 
-            reading = GPIO.input(ir_pin)  
+            reading = GPIO.input(wheel_speed_data_pin)  
+            if reading:
+                wheel_speed_counter += 1
             
+            now = time.time()
+            if abs(now - wheel_speed_counter_last_set)>=wheel_speed_delay:
+                log("speed_calculator - counts", wheel_speed_counter)
+                wheel_speed_counter_last_set = now
+                wheel_speed_counter = 0
+
             log("speed_calculator", reading)
 
             #speed = float(prefs.get_pref("speed"))
@@ -372,9 +393,9 @@ log(gamepad)
 shutdown_request = 0
 
 
-def main(c):
-    global Camera
-    Camera = c
+def main():
+    #global Camera
+    #Camera = c
 
     global shutdown_request, AUTOPILOT, LAST_DATA
     FIRST_COMMAND = True
@@ -480,5 +501,6 @@ def main(c):
 
 
 if __name__ == "__main__":
-    from camera_pi import Camera
-    main(Camera)
+    #from camera_pi import Camera
+    #main(Camera)
+    main()

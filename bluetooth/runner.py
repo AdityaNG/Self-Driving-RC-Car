@@ -24,7 +24,8 @@ import local_autopilot
 
 THREADS = []
 
-THREADS.append(threading.Thread(target=controller.main, args=(Camera, ) ))
+#THREADS.append(threading.Thread(target=controller.main, args=(Camera, ) ))
+THREADS.append(threading.Thread(target=controller.main))
 THREADS[0].setName("Controller")
 
 THREADS.append(threading.Thread(target=autopilot_web_server.main, args=(Camera, ) ))
