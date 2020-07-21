@@ -347,6 +347,8 @@ def speed_calculator():
             reading = GPIO.input(wheel_speed_data_pin)  
             if reading:
                 wheel_speed_counter += 1
+                while GPIO.input(wheel_speed_data_pin) == 1:
+                    pass # Wait for the sensor to read 0 again before reading the next 1
             
             now = time.time()
             if abs(now - wheel_speed_counter_last_set)>=wheel_speed_delay:
@@ -354,7 +356,7 @@ def speed_calculator():
                 wheel_speed_counter_last_set = now
                 wheel_speed_counter = 0
 
-            log("speed_calculator", reading)
+            #log("speed_calculator", reading)
 
             #speed = float(prefs.get_pref("speed"))
             #accel_val = float(prefs.get_pref("accel_val"))
