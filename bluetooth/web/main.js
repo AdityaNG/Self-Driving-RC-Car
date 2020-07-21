@@ -17,14 +17,14 @@ function httpGet(theUrl) {
     return xmlHttp.responseText;
 }
 
-setTimeout(function() {
+setInterval(function() {
 	try {
 		data = JSON.parse(httpGet("http://" + document.location.hostname + ':8080' + '/get'))
 		//data = JSON.parse('{"accel_val_auto": "None", "steering_angle_auto": "None", "AUTOPILOT": "0", "accel_val": "0.0", "steering_angle": "-0.0", "speed": "0", "rpm": "0", "accelerometer_data": "{\'x\': 3.545812658691406, \'y\': -3.0023288818359375, \'z\': -8.29351455078125}", "gyroscope_data": "{\'x\': -0.7099236641221374, \'y\': 1.6106870229007633, \'z\': 0.5038167938931297}", "rec": "1595330673.7393475"}')
 		gryodata = JSON.parse(data.gyroscope_data.split("'").join('"'))
 		set_dir_pos(gryodata.x, gryodata.y, gryodata.z)
 	} catch (e) {
-		
+
 	}
 }, 1000);
 
