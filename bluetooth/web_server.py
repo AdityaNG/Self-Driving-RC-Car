@@ -81,8 +81,9 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
                         self.send_response(301)
                         self.send_header('Location', '/index.html')
                         self.end_headers()
-                """elif self.path == '/stream.mjpg':
-                        self.send_response(200)
+                elif self.path == '/stream.mjpg':
+                        self.send_response(404)
+                        return
                         self.send_header('Age', 0)
                         self.send_header('Cache-Control', 'no-cache, private')
                         self.send_header('Pragma', 'no-cache')
@@ -102,7 +103,7 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
                         except Exception as e:
                                 logging.warning(
                                         'Removed streaming client %s: %s',
-                                        self.client_address, str(e))"""
+                                        self.client_address, str(e))
                 else:
                         SERVER_PATH = "web/"
                         try:
