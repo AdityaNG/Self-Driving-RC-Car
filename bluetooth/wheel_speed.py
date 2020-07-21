@@ -1,6 +1,9 @@
 import RPi.GPIO as GPIO
 import time
 import prefs
+from mpu6050 import mpu6050
+
+MPU_sensor = mpu6050(0x68)
 
 def log(*a):
     print("[WSPS]", a)
@@ -18,6 +21,9 @@ GPIO.output(wheel_speed_pow_pin,GPIO.HIGH)
 wheel_speed_data_pin = 19
 GPIO.setup(wheel_speed_data_pin,GPIO.IN)
 #GPIO.output(wheel_speed_data_pin,GPIO.HIGH)
+
+MPU_delay = 0.05
+MPU_last_set = time.time()
 
 wheel_speed_counter = 0
 wheel_speed_counter_fault = 100
@@ -63,6 +69,12 @@ def speed_calculator():
                 wheel_speed_counter_last_set = now
                 wheel_speed_counter = 0
 
+            if abs(now - MPU_last_set)>=MPU_delay:
+                accelerometer_data = sensor.get_accel_data()
+                gyroscope_data = sensor.get_gyro_data()
+                prefs.set_pref("accelerometer_data", str(accelerometer_data))
+                prefs.set_pref("gyroscope_data", str(gyroscope_data))
+                MPU_last_set = now
             #global Camera
             #frame = decodeImage(Camera().get_frame())
             #x, y = image_processing.get_direction(frame, history_frames=15, frame_skip=0, scale_percent=10)

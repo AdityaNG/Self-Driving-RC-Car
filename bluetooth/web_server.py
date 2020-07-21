@@ -11,12 +11,14 @@ from os import curdir, sep
 from urllib.parse import parse_qs
 import time
 import os
+import json
 
 import prefs
 
 #f = open('index.html')
 #PAGE=f.read()
-
+def log(*a):
+        print("[DATA]", a)
 
 class StreamingOutput(object):
         def __init__(self):
@@ -50,6 +52,7 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
                                 #print("GOT : ", params)
                         except Exception as e:
                                 PAGE = "{'status': 'not ok', 'error': '" + str(e) + "' }"
+                        
                         self.send_response(200)
                         self.send_header('Content-Type', 'text/json')
                         content = PAGE.encode('utf-8')
@@ -57,20 +60,17 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
                         self.end_headers()
                         self.wfile.write(content)
                 elif "/get" in self.path:
-                        PAGE = "{'status': 'Searching'}"
+                        PAGE = dict()
                         try:
-                                req = self.path.split("/")[2]
-                                #print(req)
+                                req_params = ("accel_val_auto", "steering_angle_auto", "AUTOPILOT", "accel_val", "steering_angle", "speed", "rpm", "rec")
+                                log("GOT Request")
+                                for d in req_params:
+                                        PAGE[d] = round(float(prefs.get_pref(d)), 5)
                                 
-
-                                PAGE = prefs.get_pref(req)
-                                if PAGE=="":
-                                    PAGE = "NULL"
-                                
-                                #print("GOT : ", {req: PAGE})
-                                #PAGE = str(params)
+                                PAGE = json.dumps(PAGE)
                         except Exception as e:
                                 PAGE = "{'status': 'not ok', 'error': '" + str(e) + "' }"
+                        
                         self.send_response(200)
                         self.send_header('Content-Type', 'text/json')
                         content = PAGE.encode('utf-8')
@@ -127,7 +127,7 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
                         except Exception as e:
                                 self.send_error(404)
                                 self.end_headers()
-                                print(e)
+                                log("web_server error ", e)
 
 class StreamingServer(socketserver.ThreadingMixIn, server.HTTPServer):
         allow_reuse_address = True
@@ -151,9 +151,9 @@ if __name__ == "__main__":
             #Uncomment the next line to change your Pi's Camera rotation (in degrees)
             camera.rotation = 180
             camera.start_recording(output, format='mjpeg')
-            print("Camera opened, starting server at port 8080")
+            log("Camera opened, starting server at port 8080")
             main(camera)
 
     except:
-        print("Camera Error")
-        main()
+        log("Camera Error")
+        main(False)
