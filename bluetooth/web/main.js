@@ -7,12 +7,22 @@ function supportsGamepads() {
 
 last_press = new Date().getTime();
 
+// Dummy data
+// {"accel_val_auto": "None", "steering_angle_auto": "None", "AUTOPILOT": "0", "accel_val": "0.0", "steering_angle": "-0.0", "speed": "0", "rpm": "0", "accelerometer_data": "{'x': 3.545812658691406, 'y': -3.0023288818359375, 'z': -8.29351455078125}", "gyroscope_data": "{'x': -0.7099236641221374, 'y': 1.6106870229007633, 'z': 0.5038167938931297}", "rec": "1595330673.7393475"}
+
 function httpGet(theUrl) {
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
     xmlHttp.send( null );
     return xmlHttp.responseText;
 }
+
+setTimeout(function() {
+	data = JSON.parse(httpGet('/get')
+	//data = JSON.parse('{"accel_val_auto": "None", "steering_angle_auto": "None", "AUTOPILOT": "0", "accel_val": "0.0", "steering_angle": "-0.0", "speed": "0", "rpm": "0", "accelerometer_data": "{\'x\': 3.545812658691406, \'y\': -3.0023288818359375, \'z\': -8.29351455078125}", "gyroscope_data": "{\'x\': -0.7099236641221374, \'y\': 1.6106870229007633, \'z\': 0.5038167938931297}", "rec": "1595330673.7393475"}')
+	gryodata = JSON.parse(data.gyroscope_data.split("'").join('"'))
+	set_dir_pos(gryodata.x, gryodata.y, gryodata.z)
+}, 1000);
 
 function checkAvailable (argument) {
 	if (supportsGamepads()) {
@@ -305,7 +315,7 @@ function handleFrame(timestamp) {
     m = message.replace("{{steering_angle}}", steering_angle).replace("{{accel_val}}", accel_val).replace("{{rec}}", rec)
     if (m != last_message) {
         res = httpGet(document.location.origin + m)
-	console.log(res)
+		//console.log(res)
         last_message = m
     }
 

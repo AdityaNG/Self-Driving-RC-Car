@@ -1,12 +1,109 @@
 <html>
 	<head>
+		<style>
+			.model {
+			  pointer-events: none;
+			  display: block;
+			  width: 50vmin;
+			  height: 50vmin;
+			}
+			.model--medium {
+			  width: 37.5vmin;
+			  height: 37.5vmin;
+			}
+			.model--small {
+			  width: 25vmin;
+			  height: 25vmin;
+			}
+			.model--tiny {
+			  width: 15vmin;
+			  height: 15vmin;
+			}
+			.model--abs {
+			  position: absolute;
+			  left: 50%;
+			  top: 50%;
+			  margin: -25vmin;
+			}
+			.model--abs.model--medium {
+			  margin: -18.75vmin;
+			}
+			.model--abs.model--small {
+			  margin: -12.5vmin;
+			}
+			.model--abs.model--tiny {
+			  margin: -7.5vmin;
+			}
+			.model--spaced {
+			  margin: 1.5rem;
+			}
+		  
+			.model-wrap {
+			  margin: auto;
+			  position: relative;
+			}
+		  
+			.test {
+			  margin-bottom: 20em;
+			}
+			.test__output {
+			  font-size: 0;
+			  text-align: center;
+			  border:1px solid blue;
+			  padding:2rem;
+			}
+			.test .model {
+			  display: inline-block;
+			}
+			.test--fail {
+			  color: #c00;
+			  background: rgba(200,0,0,.2)
+			}
+			.test--fail::before {
+			  content: 'FAILING TEST'
+			}
+		  
+			.test--6 .model {
+			  transition: 1s transform;
+			}
+		  
+		  
+			@keyframes spin-xyz {
+			  to {
+				transform: rotateX(360deg) rotateY(360deg) rotateZ(360deg);
+			  }
+			}
+			@keyframes spin-x {
+			  to {
+				transform: rotateX(360deg);
+			  }
+			}
+			@keyframes spin-y {
+			  to {
+				transform: rotateY(360deg);
+			  }
+			}
+			@keyframes spin-z {
+			  to {
+				transform: rotateZ(360deg);
+			  }
+			}
+			@keyframes swing-x {
+			  from {
+				transform: translateX(-25vw);
+			  }
+			  to {
+				transform: translateX(25vw);
+			  }
+			}
+		  </style>
 		<link rel="stylesheet" href="jquery-ui.css">
 		<link rel="stylesheet" href="jquery.contextMenu.css">
 		<script src="jquery-1.12.4.js"></script>
 		<script type="text/javascript" src="jquery.contextMenu.js"></script>
 		<script src="jquery-ui.js"></script>
 		<link href="jquery-ui.css" rel="stylesheet">
-		<script type="text/javascript" src="main.js"></script>
+		<script type="text/javascript" src="main.js?v=0.0.1"></script>
 		<script type="text/javascript" src="fontawesome.js"></script>
 		
 		<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -98,6 +195,35 @@
 
 		<h2>RPi Interface</h2>
 		<p>By <a href="https://adityang5.wixsite.com/mysite">Aditya NG</a> </p>
+
+
+		<button class="accordion">Car Data</button>
+		<div class="panel">
+			<!--- START -->
+
+			<div class="test test--6">
+				<div class="test__info">
+				<h2>Car View</h2>
+				</div>
+				<div class="test__output">
+				<x-model id="sketchpad" class="model carView model--small" src="scene.gltf"></x-model>
+				</div>
+			</div>
+			
+			<script>
+				function set_dir_pos(x, y, z) {
+					$("#sketchpad")[0].style.webkitTransform = "rotateX(" + String(x) + "deg) " + "rotateY(" + String(y) + "deg) " + "rotateZ(" + String(z) + "deg)";
+				}
+				set_dir_pos(0,90,0)
+			</script>
+				
+
+		<script src="assets/js/vendor/custom-element-polyfill.min.js"></script>
+		<script src="assets/js/vendor/three.min.js"></script>
+		<script src="assets/js/vendor/three-gltf-loader.min.js"></script>
+		<script src="dist/model-element.min.js"></script>
+				<!--- END -->
+		</div>
 
 		<button class="accordion">Video Feed</button>
 		<div class="panel">
