@@ -26,7 +26,7 @@ setInterval(function() {
 	} catch (e) {
 
 	}
-}, 1000);
+}, 100);
 
 function checkAvailable (argument) {
 	if (supportsGamepads()) {

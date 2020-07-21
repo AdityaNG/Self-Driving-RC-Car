@@ -209,10 +209,34 @@
 				<x-model id="sketchpad" class="model carView model--small" src="scene.gltf"></x-model>
 				</div>
 			</div>
-			
+
 			<script>
+				caches = {}
+				function normalize_data(key, val) {
+					if (!caches[key])
+						caches[key] = []
+					
+					caches[key].push(val)
+
+					if (caches[key].length>5)
+						caches[key].shift()
+
+					sum_of_key = 0.0
+					for (i=0; i<caches[key].length; i++)
+						sum_of_key += caches[key][i]
+					
+					avg = sum_of_key/caches[key].length
+
+					if (Math.abs(avg-val)>=45) {
+						caches[key] = []
+						return val
+					}
+
+					return avg
+				}
+
 				function set_dir_pos(x, y, z) {
-					$("#sketchpad")[0].style.webkitTransform = "rotateX(" + String(x) + "deg) " + "rotateY(" + String(y) + "deg) " + "rotateZ(" + String(z) + "deg)";
+					$("#sketchpad")[0].style.webkitTransform = "rotateX(" + String(normalize_data('x', x)) + "deg) " + "rotateY(" + String(normalize_data('y', y)) + "deg) " + "rotateZ(" + String(normalize_data('z', z)) + "deg)";
 				}
 				set_dir_pos(0,90,0)
 			</script>
