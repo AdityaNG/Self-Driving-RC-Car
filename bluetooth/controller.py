@@ -364,9 +364,9 @@ def speed_calculator():
                 speed = float(prefs.get_pref("speed"))
                 #accel_val = float(prefs.get_pref("accel_val"))
                 speed = chase_value(wheel_speed_counter * gear_ratio, speed, 0.5)
-                prefs.set_pref("speed", abs(speed), wheel_speed_counter)
+                prefs.set_pref("speed", abs(speed))
                 
-                log("speed_calculator", speed)
+                log("speed_calculator", speed, wheel_speed_counter)
 
             #global Camera
             #frame = decodeImage(Camera().get_frame())
