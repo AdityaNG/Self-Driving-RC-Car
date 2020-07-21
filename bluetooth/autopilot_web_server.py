@@ -30,7 +30,7 @@ def index():
 
 
 @app.route('/data')
-def index():
+def data_path():
         """Video streaming home page."""
         PAGE = "{'status': 'ok'}"
         return PAGE
