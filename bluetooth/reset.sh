@@ -1,1 +1,1 @@
-cd .. ; ./update.sh ; cd bluetooth ; ./start.sh 
+cd .. ; ./update.sh ; cd bluetooth ; ./start_no_threads.sh 
