@@ -116,6 +116,12 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
                                                 PAGE = f.read()
                                                 self.send_header('Content-Type', 'image/png')
                                                 content = PAGE
+                                elif self.path.endswith('.bin'):
+                                                #print('Inside IF')
+                                                f = open(os.path.join(SERVER_PATH, self.path[1:]) , 'rb')
+                                                PAGE = f.read()
+                                                self.send_header('Content-Type', 'application/octet-stream')
+                                                content = PAGE
                                 else:
                                                 f = open(os.path.join(SERVER_PATH, self.path[1:]), 'r')
                                                 PAGE = f.read()
