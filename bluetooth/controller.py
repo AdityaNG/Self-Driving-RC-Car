@@ -356,8 +356,6 @@ def speed_calculator():
             
             
             if abs(now - wheel_speed_counter_last_set)>=wheel_speed_delay:
-                wheel_speed_counter_last_set = now
-                wheel_speed_counter = 0
 
                 #log("speed_calculator", reading)
 
@@ -367,6 +365,9 @@ def speed_calculator():
                 prefs.set_pref("speed", abs(speed))
                 
                 log("speed_calculator", speed, wheel_speed_counter)
+
+                wheel_speed_counter_last_set = now
+                wheel_speed_counter = 0
 
             #global Camera
             #frame = decodeImage(Camera().get_frame())
