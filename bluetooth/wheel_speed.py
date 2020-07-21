@@ -32,6 +32,7 @@ wheel_speed_delay = 1.0 # Calculate every 1 seconds
 gear_ratio = 1.086956522 # gear_ratio is chosen such that wheel_speed_counter * gear_ratio <= 100
 def speed_calculator():
     global wheel_speed_counter, wheel_speed_counter_last_set, wheel_speed_delay
+    global MPU_last_set, MPU_delay
     prefs.set_pref("speed", 0)
     #time.sleep(10) 
     while True:
