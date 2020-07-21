@@ -122,6 +122,12 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
                                                 PAGE = f.read()
                                                 self.send_header('Content-Type', 'application/octet-stream')
                                                 content = PAGE
+                                elif self.path.endswith('.js'):
+                                                #print('Inside IF')
+                                                f = open(os.path.join(SERVER_PATH, self.path[1:]) , 'r')
+                                                PAGE = f.read()
+                                                self.send_header('Content-Type', 'text/javascript')
+                                                content = PAGE
                                 else:
                                                 f = open(os.path.join(SERVER_PATH, self.path[1:]), 'r')
                                                 PAGE = f.read()
