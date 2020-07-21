@@ -9,8 +9,8 @@ import shutil
 import threading
 import sys
 
-import cv2
-import numpy as np
+#import cv2
+#import numpy as np
 
 def log(*a):
     print("[CONT]", a)
@@ -54,17 +54,6 @@ GPIO.output(tin1,GPIO.LOW)
 GPIO.output(tin2,GPIO.LOW)
 tp=GPIO.PWM(ten,1000)
 tp.start(25)
-
-ir_pin = 21
-GPIO.setup(ir_pin,GPIO.IN)
-
-wheel_speed_pow_pin = 26
-GPIO.setup(wheel_speed_pow_pin,GPIO.OUT)
-GPIO.output(wheel_speed_pow_pin,GPIO.HIGH)
-
-wheel_speed_data_pin = 19
-GPIO.setup(wheel_speed_data_pin,GPIO.IN)
-#GPIO.output(wheel_speed_data_pin,GPIO.HIGH)
 
 
 """
@@ -332,58 +321,6 @@ def corrected_reading(val):
     res = round(res, 4)
     return res
 
-
-def decodeImage(image_bytes):
-    return cv2.imdecode(np.frombuffer(image_bytes, np.uint8), -1)
-
-
-wheel_speed_counter = 0
-wheel_speed_counter_last_set = time.time()
-wheel_speed_delay = 1 # Calculate every 1 seconds
-gear_ratio = 0.769230769
-def speed_calculator():
-    global wheel_speed_counter, wheel_speed_counter_last_set, wheel_speed_delay
-    time.sleep(10) 
-    while True:
-        try:
-            now = time.time()
-            reading = GPIO.input(wheel_speed_data_pin)  
-            if reading:
-                wheel_speed_counter += 1
-                while GPIO.input(wheel_speed_data_pin) == 1:
-                    time.sleep(0.01)
-                    pass # Wait for the sensor to read 0 again before reading the next 1
-            
-            
-            if abs(now - wheel_speed_counter_last_set)>=wheel_speed_delay:
-
-                #log("speed_calculator", reading)
-
-                speed = float(prefs.get_pref("speed"))
-                #accel_val = float(prefs.get_pref("accel_val"))
-                speed = chase_value(wheel_speed_counter * gear_ratio, speed, 0.75)
-                prefs.set_pref("speed", abs(speed))
-                
-                log("speed_calculator", speed, wheel_speed_counter*gear_ratio, wheel_speed_counter)
-
-                wheel_speed_counter_last_set = now
-                wheel_speed_counter = 0
-
-            #global Camera
-            #frame = decodeImage(Camera().get_frame())
-            #x, y = image_processing.get_direction(frame, history_frames=15, frame_skip=0, scale_percent=10)
-            #log("speed_calculator", abs(y))
-            #prefs.set_pref("speed", abs(y))
-            
-            #log("speed_calculator", prefs.get_pref("speed"))
-        except Exception as e:
-            log("speed_calculator error - ", e)
-            prefs.set_pref("speed", 0)
-            time.sleep(1)
-    
-
-speed_calculator_thread = threading.Thread(target=speed_calculator)
-speed_calculator_thread.start()
 
 #import recorder
 #CAMERA_thread = threading.Thread(target=recorder.start_camera_loop)

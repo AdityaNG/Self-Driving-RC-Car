@@ -18,6 +18,7 @@ import controller
 from controller import bluetooth_connected, connect_bluetooth_loop
 import autopilot_web_server
 import recorder
+import wheel_speed
 
 sys.path.append("../self_drive")
 import local_autopilot
@@ -36,6 +37,9 @@ THREADS[2].setName("Recorder")
 
 THREADS.append(threading.Thread(target=local_autopilot.main, args=(Camera, ) ))
 THREADS[3].setName("Local Autopilot")
+
+THREADS.append(threading.Thread(target=wheel_speed.main))
+THREADS[4].setName("Wheel Speed")
 
 #THREADS.append(threading.Thread(target=controller.main))
 #THREADS.append(threading.Thread(target=controller.main))
