@@ -72,6 +72,7 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
                                 PAGE = "{'status': 'not ok', 'error': '" + str(e) + "' }"
                         
                         self.send_response(200)
+                        self.send_header('Access-Control-Allow-Origin', '*')
                         self.send_header('Content-Type', 'text/json')
                         content = PAGE.encode('utf-8')
                         self.send_header('Content-Length', len(content))
