@@ -43,9 +43,6 @@
 			  position: relative;
 			}
 		  
-			.test {
-			  margin-bottom: 20em;
-			}
 			.test__output {
 			  font-size: 0;
 			  text-align: center;
@@ -103,7 +100,7 @@
 		<script type="text/javascript" src="jquery.contextMenu.js"></script>
 		<script src="jquery-ui.js"></script>
 		<link href="jquery-ui.css" rel="stylesheet">
-		<script type="text/javascript" src="main.js?v=0.0.1"></script>
+		<script type="text/javascript" src="gauge.min.js"></script>
 		<script type="text/javascript" src="fontawesome.js"></script>
 		
 		<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -206,9 +203,11 @@
 				<h2>Car View</h2>
 				</div>
 				<div class="test__output">
-				<x-model id="sketchpad" class="model carView model--small" src="scene.gltf"></x-model>
+					<x-model id="sketchpad" class="model carView model--small" src="scene.gltf"></x-model>
 				</div>
 			</div>
+
+			<canvas id="gauge"></canvas>
 
 			<script>
 				caches = {}
@@ -343,5 +342,6 @@
 			<div id="gamepads_table"></div>
 		</div>
 		
+		<script type="text/javascript" src="main.js?v=0.0.1"></script>
 	</body>
 </html>

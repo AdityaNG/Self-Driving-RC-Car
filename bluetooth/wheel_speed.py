@@ -80,7 +80,7 @@ def speed_calculator():
                 tmp = gyroscope_data
 
                 for k in gyroscope_data:
-                    gyroscope_data[k] = chase_value(gyroscope_data[k], gyroscope_data_old[k], 0.75)
+                    gyroscope_data[k] = chase_value(gyroscope_data[k], gyroscope_data_old[k], 0.5)
                 
                 gyroscope_data_old = tmp
 

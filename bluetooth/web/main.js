@@ -17,12 +17,46 @@ function httpGet(theUrl) {
     return xmlHttp.responseText;
 }
 
+var opts = {
+	angle: -0.25,
+	lineWidth: 0.2,
+	radiusScale:0.9,
+	pointer: {
+	  length: 0.6,
+	  strokeWidth: 0.05,
+	  color: '#000000'
+	},
+	staticLabels: {
+	  font: "10px sans-serif",
+	  labels: [0, 30, 60, 85, 100],
+	  fractionDigits: 0
+	},
+	staticZones: [
+	   {strokeStyle: "#30B32D", min: 0, max: 60},
+	   {strokeStyle: "#FFDD00", min: 60, max: 85},
+	   {strokeStyle: "#F03E3E", min: 85, max: 100},
+	],
+	limitMax: false,
+	limitMin: false,
+	highDpiSupport: true
+  };
+  var target = document.getElementById('gauge'); // your canvas element
+  var gauge = new Gauge(target).setOptions(opts); // create sexy gauge!
+  gauge.maxValue = 100; // set max gauge value
+  gauge.setMinValue(0);  // Prefer setter over gauge.minValue = 0
+  gauge.animationSpeed = 32; // set animation speed (32 is default value)
+  gauge.set(0); // set actual value
+
+
+
 setInterval(function() {
 	try {
 		data = JSON.parse(httpGet("http://" + document.location.hostname + ':8080' + '/get'))
 		//data = JSON.parse('{"accel_val_auto": "None", "steering_angle_auto": "None", "AUTOPILOT": "0", "accel_val": "0.0", "steering_angle": "-0.0", "speed": "0", "rpm": "0", "accelerometer_data": "{\'x\': 3.545812658691406, \'y\': -3.0023288818359375, \'z\': -8.29351455078125}", "gyroscope_data": "{\'x\': -0.7099236641221374, \'y\': 1.6106870229007633, \'z\': 0.5038167938931297}", "rec": "1595330673.7393475"}')
-		gryodata = JSON.parse(data.gyroscope_data.split("'").join('"'))
-		set_dir_pos(gryodata.x, gryodata.y, gryodata.z)
+		gyrodata = JSON.parse(data.gyroscope_data.split("'").join('"'))
+		set_dir_pos(gyrodata.x, gyrodata.y, gyrodata.z)
+
+		gauge.set(Number(data.rpm)); // set actual value
 	} catch (e) {
 
 	}
