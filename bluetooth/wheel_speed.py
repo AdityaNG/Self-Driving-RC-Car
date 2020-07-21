@@ -56,8 +56,8 @@ def speed_calculator():
 
                     log("speed_calculator", speed, wheel_speed_counter*gear_ratio, wheel_speed_counter)
 
-                    wheel_speed_counter_last_set = now
-                    wheel_speed_counter = 0
+                wheel_speed_counter_last_set = now
+                wheel_speed_counter = 0
 
             #global Camera
             #frame = decodeImage(Camera().get_frame())
