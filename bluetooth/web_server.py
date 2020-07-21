@@ -62,10 +62,10 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
                 elif "/get" in self.path:
                         PAGE = dict()
                         try:
-                                req_params = ("accel_val_auto", "steering_angle_auto", "AUTOPILOT", "accel_val", "steering_angle", "speed", "rpm", "rec")
+                                req_params = ("accel_val_auto", "steering_angle_auto", "AUTOPILOT", "accel_val", "steering_angle", "speed", "rpm", "accelerometer_data", "gyroscope_data", "rec")
                                 log("GOT Request")
                                 for d in req_params:
-                                        PAGE[d] = round(float(prefs.get_pref(d)), 5)
+                                        PAGE[d] = prefs.get_pref(d)
                                 
                                 PAGE = json.dumps(PAGE)
                         except Exception as e:
