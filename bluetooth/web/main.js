@@ -56,7 +56,7 @@ setInterval(function() {
 		gyrodata = JSON.parse(data.gyroscope_data.split("'").join('"'))
 		set_dir_pos(gyrodata.x, gyrodata.y, gyrodata.z)
 
-		gauge.set(Number(data.rpm)); // set actual value
+		gauge.set(Number(data.speed)); // set actual value
 	} catch (e) {
 
 	}
