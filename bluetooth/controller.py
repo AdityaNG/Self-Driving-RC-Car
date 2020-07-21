@@ -301,9 +301,11 @@ def loop(accel_val, steering_angle, rec_toggle=False):
     speed = prefs.get_pref("speed")
 
     if AUTOPILOT:
-        log("accel_val", round(accel_val, 3), "steering_angle", round(steering_angle, 3), "speed", speed, "[AUTOPilot]")
+        #log("accel_val", round(accel_val, 3), "steering_angle", round(steering_angle, 3), "speed", speed, "[AUTOPilot]")
+        pass
     else:
-        log("accel_val", round(accel_val, 3), "steering_angle", round(steering_angle, 3), "speed", speed, "[MANUAL]")
+        #log("accel_val", round(accel_val, 3), "steering_angle", round(steering_angle, 3), "speed", speed, "[MANUAL]")
+        pass
 
     av = str(accel_val)
     prefs.set_pref("accel_val", av)
@@ -337,7 +339,7 @@ def decodeImage(image_bytes):
 
 wheel_speed_counter = 0
 wheel_speed_counter_last_set = time.time()
-wheel_speed_delay = 1 # Calculate every 1 seconds
+wheel_speed_delay = 3 # Calculate every 1 seconds
 def speed_calculator():
     global wheel_speed_counter, wheel_speed_counter_last_set, wheel_speed_delay
     time.sleep(10) 
