@@ -339,7 +339,7 @@ def decodeImage(image_bytes):
 
 wheel_speed_counter = 0
 wheel_speed_counter_last_set = time.time()
-wheel_speed_delay = 1 # Calculate every 1 seconds
+wheel_speed_delay = 0.5 # Calculate every 1 seconds
 def speed_calculator():
     global wheel_speed_counter, wheel_speed_counter_last_set, wheel_speed_delay
     time.sleep(10) 
