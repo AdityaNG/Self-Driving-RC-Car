@@ -45,7 +45,7 @@ GPIO.setup(en,GPIO.OUT)
 GPIO.output(in1,GPIO.LOW)
 GPIO.output(in2,GPIO.LOW)
 p=GPIO.PWM(en,1000)
-p.start(25)
+p.start(0)
 
 GPIO.setup(tin1,GPIO.OUT)
 GPIO.setup(tin2,GPIO.OUT)
@@ -53,7 +53,7 @@ GPIO.setup(ten,GPIO.OUT)
 GPIO.output(tin1,GPIO.LOW)
 GPIO.output(tin2,GPIO.LOW)
 tp=GPIO.PWM(ten,1000)
-tp.start(25)
+tp.start(0)
 
 
 """
