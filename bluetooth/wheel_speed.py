@@ -28,7 +28,7 @@ MPU_last_set = time.time()
 wheel_speed_counter = 0
 wheel_speed_counter_fault = 100
 wheel_speed_counter_last_set = time.time()
-wheel_speed_delay = 1.0 # Calculate every 1 seconds
+wheel_speed_delay = 0.5 # Calculate every 1 seconds
 gear_ratio = 1.086956522 # gear_ratio is chosen such that wheel_speed_counter * gear_ratio <= 100
 
 def increment_wheel_speed_counter(channel):
