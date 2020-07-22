@@ -207,6 +207,17 @@
 				</div>
 			</div>
 
+			<select id="car-views" name="car-views">
+				<option value="free">free</option>
+				<option value="top">top</option>
+				<option value="bottom">bottom</option>
+				<option value="left">left</option>
+				<option value="right">right</option>
+				<option value="front">front</option>
+				<option value="back">back</option>
+				<option value="mouse">mouse</option>
+			  </select>
+
 			<canvas id="gauge"></canvas>
 
 			<script>
@@ -235,6 +246,32 @@
 				}
 
 				function set_dir_pos(x, y, z) {
+					switch(document.getElementById("car-views").value) {
+						case "top":
+							x = -90
+							break
+						case "bottom":
+							x = 90
+							break
+						case "left":
+							y = 90
+							break
+						case "right":
+							y = -90
+							break
+						case "front":
+							y = 0
+							break
+						case "back":
+							y = 180
+							break
+						case "mouse":
+							// TODO 
+							break
+						default:
+							break
+					}
+
 					$("#sketchpad")[0].style.webkitTransform = "rotateX(" + String(normalize_data('x', x)) + "deg) " + "rotateY(" + String(normalize_data('y', y)) + "deg) " + "rotateZ(" + String(normalize_data('z', z)) + "deg)";
 				}
 				set_dir_pos(0,90,0)
@@ -342,6 +379,6 @@
 			<div id="gamepads_table"></div>
 		</div>
 		
-		<script type="text/javascript" src="main.js?v=0.0.1"></script>
+		<script type="text/javascript" src="main.js?v=0.0.3"></script>
 	</body>
 </html>

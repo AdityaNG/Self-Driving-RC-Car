@@ -74,6 +74,9 @@ def speed_calculator():
                     else:
                         speed = 0
                     
+                    if speed>100:
+                        speed = 100
+
                     prefs.set_pref("speed", abs(speed))
                     prefs.set_pref("rpm", abs(int(rpm)))
 
