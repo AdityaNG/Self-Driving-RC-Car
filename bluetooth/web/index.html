@@ -248,22 +248,22 @@
 				function set_dir_pos(x, y, z) {
 					switch(document.getElementById("car-views").value) {
 						case "top":
-							x = -90
+							x += -90
 							break
 						case "bottom":
-							x = 90
+							x += 90
 							break
 						case "left":
-							y = 90
+							y += 90
 							break
 						case "right":
-							y = -90
+							y += -90
 							break
 						case "front":
-							y = 0
+							y += 0
 							break
 						case "back":
-							y = 180
+							y += 180
 							break
 						case "mouse":
 							// TODO 
