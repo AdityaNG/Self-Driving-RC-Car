@@ -51,14 +51,18 @@ var opts = {
 
 setInterval(function() {
 	try {
-		data = JSON.parse(httpGet("http://" + document.location.hostname + ':8080' + '/get'))
+		host = document.location.hostname
+		if (document.getElementById("hostname").value) 
+			host = document.getElementById("hostname").value
+
+		data = JSON.parse(httpGet("http://" + host + ':8080' + '/get'))
 		//data = JSON.parse('{"accel_val_auto": "None", "steering_angle_auto": "None", "AUTOPILOT": "0", "accel_val": "0.0", "steering_angle": "-0.0", "speed": "0", "rpm": "0", "accelerometer_data": "{\'x\': 3.545812658691406, \'y\': -3.0023288818359375, \'z\': -8.29351455078125}", "gyroscope_data": "{\'x\': -0.7099236641221374, \'y\': 1.6106870229007633, \'z\': 0.5038167938931297}", "rec": "1595330673.7393475"}')
 		gyrodata = JSON.parse(data.gyroscope_data.split("'").join('"'))
 		set_dir_pos(gyrodata.x, gyrodata.y, gyrodata.z)
 
 		gauge.set(Number(data.speed)); // set actual value
 	} catch (e) {
-
+		
 	}
 }, 100);
 

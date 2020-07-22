@@ -40,8 +40,8 @@ model = None
 prev_image_array = None
 
 #set min/max speed for our autonomous car
-MAX_SPEED = 35
-MIN_SPEED = 20
+MAX_SPEED = 65
+MIN_SPEED = 35
 
 #and a speed limit
 speed_limit = MAX_SPEED
@@ -54,11 +54,25 @@ def telemetry(data, image):
     prediction["steering_angle_auto"] = 0    # 0 to 1
     if data:
         # The current steering angle of the car
-        steering_angle = float(data["steering_angle_auto"])
+        steering_angle = 0.0
+        try:
+            steering_angle = float(data["steering_angle_auto"])
+        except:
+            pass
         # The current throttle of the car, how hard to push peddle
-        throttle = float(data["accel_val_auto"])
+        throttle = 0.0
+        try:
+            throttle = float(data["accel_val_auto"])
+        except:
+            pass
+        
         # The current speed of the car
-        speed = float(data["speed"])
+        speed = 0.0
+        try:
+            speed = float(data["speed"])
+        except:
+            pass
+        
         # The current image from the center camera of the car
         #image = Image.open(BytesIO(base64.b64decode(data["image"])))
         try:
@@ -139,9 +153,11 @@ def autopilot_loop():
 
         accel_val, steering_angle = telemetry(telemetry_data, frame)
 
+        steering_angle = 0
+
         prefs.set_pref("accel_val_auto", accel_val)
-        #prefs.set_pref("steering_angle_auto", steering_angle)
-        prefs.set_pref("steering_angle_auto", 0.0)
+        prefs.set_pref("steering_angle_auto", steering_angle)
+        
 
 
 def main(c):
