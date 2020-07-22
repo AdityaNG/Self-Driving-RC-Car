@@ -35,7 +35,7 @@ def increment_wheel_speed_counter(channel):
     global wheel_speed_counter
     wheel_speed_counter += 1
 
-GPIO.add_event_detect(wheel_speed_data_pin, GPIO.FALLING, callback=increment_wheel_speed_counter, bouncetime=100)  
+GPIO.add_event_detect(wheel_speed_data_pin, GPIO.FALLING, callback=increment_wheel_speed_counter, bouncetime=50)  
 
 def speed_calculator():
     global wheel_speed_counter, wheel_speed_counter_last_set, wheel_speed_delay
