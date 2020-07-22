@@ -248,6 +248,7 @@ def autopilot_loop():
                 except:
                     log("accel_val_auto error")
                     pass
+                
                 try:
                     steering_angle = float(prefs.get_pref("steering_angle_auto"))
                 except:

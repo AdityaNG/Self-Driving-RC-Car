@@ -54,25 +54,11 @@ def telemetry(data, image):
     prediction["steering_angle_auto"] = 0    # 0 to 1
     if data:
         # The current steering angle of the car
-        steering_angle = 0.0
-        try:
-            steering_angle = float(data["steering_angle_auto"])
-        except:
-            pass
+        steering_angle = float(data["steering_angle_auto"])
         # The current throttle of the car, how hard to push peddle
-        throttle = 0.0
-        try:
-            throttle = float(data["accel_val_auto"])
-        except:
-            pass
-        
+        throttle = float(data["accel_val_auto"])
         # The current speed of the car
-        speed = 0.0
-        try:
-            speed = float(data["speed"])
-        except:
-            pass
-        
+        speed = float(data["speed"])
         # The current image from the center camera of the car
         #image = Image.open(BytesIO(base64.b64decode(data["image"])))
         try:
@@ -143,9 +129,21 @@ def autopilot_loop():
         now = time.time()
 
         telemetry_data = dict()
-        telemetry_data["accel_val_auto"] = float(prefs.get_pref("accel_val_auto"))
-        telemetry_data["steering_angle_auto"] = float(prefs.get_pref("steering_angle_auto"))
-        telemetry_data["speed"] = float(prefs.get_pref("speed"))
+        telemetry_data["accel_val_auto"] = 0.0
+        telemetry_data["steering_angle_auto"] = 0.0
+        telemetry_data["speed"] = 0.0
+        try:
+            telemetry_data["accel_val_auto"] = float(prefs.get_pref("accel_val_auto"))
+        except:
+            pass
+        try:
+            telemetry_data["steering_angle_auto"] = float(prefs.get_pref("steering_angle_auto"))
+        except:
+            pass
+        try:
+            telemetry_data["speed"] = float(prefs.get_pref("speed"))
+        except:
+            pass
 
         #telemetry_data["speed"] = float(abs(y))
         
