@@ -193,7 +193,8 @@ def main(c):
         try:
             now = time.time()
             if prefs.get_pref("AUTOPILOT")=="1":# and abs(now - prefs.get_pref_time("AUTOPILOT")) < 1:
-                autopilot_loop()
+                #autopilot_loop()
+                throttle_loop()
             else:
                 time.sleep(1)
         except Exception as e:
