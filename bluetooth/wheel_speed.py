@@ -30,6 +30,13 @@ wheel_speed_counter_fault = 100
 wheel_speed_counter_last_set = time.time()
 wheel_speed_delay = 1.0 # Calculate every 1 seconds
 gear_ratio = 1.086956522 # gear_ratio is chosen such that wheel_speed_counter * gear_ratio <= 100
+
+def increment_wheel_speed_counter(channel):
+    global wheel_speed_counter
+    wheel_speed_counter += 1
+
+GPIO.add_event_detect(wheel_speed_data_pin, GPIO.FALLING, callback=increment_wheel_speed_counter, bouncetime=10)  
+
 def speed_calculator():
     global wheel_speed_counter, wheel_speed_counter_last_set, wheel_speed_delay
     global MPU_last_set, MPU_delay, MPU_sensor
@@ -41,12 +48,13 @@ def speed_calculator():
     while True:
         try:
             now = time.time()
-            reading = GPIO.input(wheel_speed_data_pin)  
-            if reading:
-                wheel_speed_counter += 1
-                while GPIO.input(wheel_speed_data_pin) == 1:
-                    time.sleep(0.01)
-                    pass # Wait for the sensor to read 0 again before reading the next 1
+            
+            #reading = GPIO.input(wheel_speed_data_pin)  
+            #if reading:
+                #wheel_speed_counter += 1
+                #while GPIO.input(wheel_speed_data_pin) == 1:
+                    #time.sleep(0.01)
+                    #pass # Wait for the sensor to read 0 again before reading the next 1
             
             
             if abs(now - wheel_speed_counter_last_set)>=wheel_speed_delay:
