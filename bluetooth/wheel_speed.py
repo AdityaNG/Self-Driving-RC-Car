@@ -26,9 +26,9 @@ MPU_delay = 0.05
 MPU_last_set = time.time()
 
 wheel_speed_counter = 0
-wheel_speed_counter_fault = 100
+wheel_speed_counter_fault = 20
 wheel_speed_counter_last_set = time.time()
-wheel_speed_delay = 0.5 # Calculate every 1 seconds
+wheel_speed_delay = 0.3 # Calculate every 1 seconds
 gear_ratio = 4.761904762 # gear_ratio is chosen such that wheel_speed_counter * gear_ratio <= 100
 
 def increment_wheel_speed_counter(channel):
@@ -58,7 +58,7 @@ def speed_calculator():
             
             
             if abs(now - wheel_speed_counter_last_set)>=wheel_speed_delay:
-                if wheel_speed_counter>wheel_speed_counter_fault:
+                if wheel_speed_counter > wheel_speed_counter_fault:
                     log("speed_calculator FAULT")
                     prefs.set_pref("speed", 0)
                     prefs.set_pref("rpm", 0)
