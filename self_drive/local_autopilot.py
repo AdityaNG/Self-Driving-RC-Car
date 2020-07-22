@@ -46,9 +46,9 @@ MIN_SPEED = 35
 #and a speed limit
 speed_limit = MAX_SPEED
 
-
+OLD_FRAME = False
 #registering event handler for the server
-def telemetry(data, image):
+def telemetry(data, image=False):
     prediction = dict()
     prediction["accel_val_auto"] = 0         # 0 to 100
     prediction["steering_angle_auto"] = 0    # 0 to 1
@@ -62,8 +62,9 @@ def telemetry(data, image):
         # The current image from the center camera of the car
         #image = Image.open(BytesIO(base64.b64decode(data["image"])))
         try:
-            image = np.asarray(image)       # from PIL image to numpy array
-            image = image_processing.process(image)
+            if type(image)!=type(False):
+                image = np.asarray(image)       # from PIL image to numpy array
+                image = image_processing.process(image)
 
             #cv2.imshow('stream', image)
             #if cv2.waitKey(1) & 0xFF == ord('q'):
@@ -155,8 +156,35 @@ def autopilot_loop():
 
         prefs.set_pref("accel_val_auto", accel_val)
         prefs.set_pref("steering_angle_auto", steering_angle)
-        
 
+def throttle_loop():
+    now = time.time()
+
+    telemetry_data = dict()
+    telemetry_data["accel_val_auto"] = 0.0
+    telemetry_data["steering_angle_auto"] = 0.0
+    telemetry_data["speed"] = 0.0
+    try:
+        telemetry_data["accel_val_auto"] = float(prefs.get_pref("accel_val_auto"))
+    except:
+        pass
+    try:
+        telemetry_data["steering_angle_auto"] = float(prefs.get_pref("steering_angle_auto"))
+    except:
+        pass
+    try:
+        telemetry_data["speed"] = float(prefs.get_pref("speed"))
+    except:
+        pass
+
+        #telemetry_data["speed"] = float(abs(y))
+        
+        #log("accel_val", round(telemetry_data["accel_val_auto"], 3), "steering_angle", round(telemetry_data["steering_angle_auto"], 3), "[AUTOPILOT]")
+
+    accel_val, steering_angle = telemetry(telemetry_data)
+
+
+    prefs.set_pref("accel_val_auto", accel_val)
 
 def main(c):
     global Camera
