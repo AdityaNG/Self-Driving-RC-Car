@@ -28,7 +28,7 @@ GPIO.setup(wheel_speed_data_pin,GPIO.IN)
 MPU_delay = 0.05
 MPU_last_set = time.time()
 
-power_delay = 0.5
+power_delay = 0.1
 power_last_set = time.time()
 
 
