@@ -62,7 +62,7 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
                 elif "/get" in self.path:
                         PAGE = dict()
                         try:
-                                req_params = ("accel_val_auto", "steering_angle_auto", "AUTOPILOT", "accel_val", "steering_angle", "speed", "rpm", "accelerometer_data", "gyroscope_data", "rec")
+                                req_params = ("accel_val_auto", "steering_angle_auto", "AUTOPILOT", "accel_val", "steering_angle", "speed", "rpm", "accelerometer_data", "gyroscope_data", "voltage", "current", "rec")
                                 log("GOT Request")
                                 for d in req_params:
                                         PAGE[d] = prefs.get_pref(d)
