@@ -2,6 +2,8 @@ import RPi.GPIO as GPIO
 import time
 import prefs
 from mpu6050 import mpu6050
+import serial
+ser = serial.Serial('/dev/ttyUSB0', 115200, bytesize=serial.EIGHTBITS, parity=serial.PARITY_NONE, stopbits=serial.STOPBITS_ONE, timeout=1, xonxoff=0, rtscts=0)
 
 MPU_sensor = mpu6050(0x68)
 
@@ -24,6 +26,10 @@ GPIO.setup(wheel_speed_data_pin,GPIO.IN)
 
 MPU_delay = 0.05
 MPU_last_set = time.time()
+
+power_delay = 0.5
+power_last_set = time.time()
+
 
 wheel_speed_counter = 0
 wheel_speed_counter_fault = 20
@@ -55,7 +61,13 @@ def speed_calculator():
                 #while GPIO.input(wheel_speed_data_pin) == 1:
                     #time.sleep(0.01)
                     #pass # Wait for the sensor to read 0 again before reading the next 1
-            
+            if abs(now - power_last_set)>= power_delay:
+                power_last_set = now
+                voltage,current,power,energy = list(map(float, ser.readline().decode("utf-8").replace('\r','').replace('\n','').split(",")))
+                prefs.set_pref("voltage", voltage)
+                prefs.set_pref("current", current)
+                #prefs.set_pref("power", currpowerent)
+                #prefs.set_pref("energy", current)
             
             if abs(now - wheel_speed_counter_last_set)>=wheel_speed_delay:
                 if wheel_speed_counter > wheel_speed_counter_fault:
