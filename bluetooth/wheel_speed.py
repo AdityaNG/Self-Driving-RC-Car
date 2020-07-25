@@ -70,6 +70,7 @@ def speed_calculator():
                 prefs.set_pref("current", current)
                 #prefs.set_pref("power", currpowerent)
                 #prefs.set_pref("energy", current)
+                log("power_sensor", voltage, current)
             
             if abs(now - wheel_speed_counter_last_set)>=wheel_speed_delay:
                 if wheel_speed_counter > wheel_speed_counter_fault:
@@ -94,7 +95,7 @@ def speed_calculator():
                     prefs.set_pref("speed", abs(speed))
                     prefs.set_pref("rpm", abs(int(rpm)))
 
-                    log("speed_calculator", speed, wheel_speed_counter*gear_ratio, wheel_speed_counter)
+                    #log("speed_calculator", speed, wheel_speed_counter*gear_ratio, wheel_speed_counter)
 
                 wheel_speed_counter_last_set = now
                 wheel_speed_counter = 0
