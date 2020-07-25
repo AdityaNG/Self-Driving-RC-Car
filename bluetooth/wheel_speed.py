@@ -3,6 +3,7 @@ import time
 import prefs
 from mpu6050 import mpu6050
 import serial
+
 ser = serial.Serial('/dev/ttyUSB0', 115200, bytesize=serial.EIGHTBITS, parity=serial.PARITY_NONE, stopbits=serial.STOPBITS_ONE, timeout=1, xonxoff=0, rtscts=0)
 
 MPU_sensor = mpu6050(0x68)
@@ -46,6 +47,7 @@ GPIO.add_event_detect(wheel_speed_data_pin, GPIO.FALLING, callback=increment_whe
 def speed_calculator():
     global wheel_speed_counter, wheel_speed_counter_last_set, wheel_speed_delay
     global MPU_last_set, MPU_delay, MPU_sensor
+    global power_last_set, power_delay, ser
 
     gyroscope_data_old = {'x':0, 'y':0, 'z': 0}
 
