@@ -102,4 +102,4 @@ def prefs_server_online():
 
 if not prefs_server_online():
     p = Process(target=start_prefs_server)
-    p.start()
+    #p.start()
