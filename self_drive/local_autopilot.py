@@ -162,7 +162,7 @@ def autopilot_loop():
         prefs.set_pref("steering_angle_auto", steering_angle)
 
 def throttle_loop():
-    time.sleep(1)
+    #time.sleep(1)
     now = time.time()
 
     telemetry_data = dict()
