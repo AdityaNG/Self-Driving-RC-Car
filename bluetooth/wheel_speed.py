@@ -4,7 +4,7 @@ import prefs
 from mpu6050 import mpu6050
 import serial
 
-ser = serial.Serial('/dev/ttyUSB1', 115200, bytesize=serial.EIGHTBITS, parity=serial.PARITY_NONE, stopbits=serial.STOPBITS_ONE, timeout=1, xonxoff=0, rtscts=0)
+ser = serial.Serial(list(filter(lambda f: "USB" in f, os.listdir('/dev/')))[0], 115200, bytesize=serial.EIGHTBITS, parity=serial.PARITY_NONE, stopbits=serial.STOPBITS_ONE, timeout=1, xonxoff=0, rtscts=0)
 
 MPU_sensor = mpu6050(0x68)
 
@@ -105,17 +105,17 @@ def speed_calculator():
                     #speed = chase_value( calculated_speed, speed, 0.2)
                     speed = calculated_speed
                     
-                    if speed>100:
-                        speed = 100
+                    #if speed>100:
+                    #    speed = 100
 
-                    if speed<5 or calculated_speed<5:
-                        speed = 0
+                    #if speed<5 or calculated_speed<5:
+                    #    speed = 0
 
                     prefs.set_pref("speed", abs(speed))
                     prefs.set_pref("rpm", abs(int(rpm)))
 
 
-                    log("speed_calculator", speed, rpm)
+                    #log("speed_calculator", speed, rpm)
 
 
             if abs(now - MPU_last_set)>=MPU_delay:
