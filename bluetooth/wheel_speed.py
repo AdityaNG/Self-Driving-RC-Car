@@ -4,7 +4,7 @@ import prefs
 from mpu6050 import mpu6050
 import serial
 
-ser = serial.Serial('/dev/ttyUSB0', 115200, bytesize=serial.EIGHTBITS, parity=serial.PARITY_NONE, stopbits=serial.STOPBITS_ONE, timeout=1, xonxoff=0, rtscts=0)
+ser = serial.Serial('/dev/ttyUSB1', 115200, bytesize=serial.EIGHTBITS, parity=serial.PARITY_NONE, stopbits=serial.STOPBITS_ONE, timeout=1, xonxoff=0, rtscts=0)
 
 MPU_sensor = mpu6050(0x68)
 
