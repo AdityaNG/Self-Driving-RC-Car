@@ -80,7 +80,8 @@ def speed_calculator():
                 #while GPIO.input(wheel_speed_data_pin) == 1:
                     #time.sleep(0.01)
                     #pass # Wait for the sensor to read 0 again before reading the next 1
-            if abs(now - last_data_set)>= data_delay:
+            #if abs(now - last_data_set)>= data_delay:
+            if True:
                 last_data_set = now
                 rpm, voltage,current,power,energy = list(map(float, ser.readline().decode("utf-8").replace('\r','').replace('\n','').split(",")))
                 prefs.set_pref("voltage", voltage)
