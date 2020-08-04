@@ -47,6 +47,35 @@ var opts = {
   gauge.animationSpeed = 32; // set animation speed (32 is default value)
   gauge.set(0); // set actual value
 
+  var currentopts = {
+	angle: -0.25,
+	lineWidth: 0.2,
+	radiusScale:0.9,
+	pointer: {
+	  length: 0.6,
+	  strokeWidth: 0.05,
+	  color: '#000000'
+	},
+	staticLabels: {
+	  font: "10px sans-serif",
+	  labels: [0, 1, 2],
+	  fractionDigits: 0
+	},
+	staticZones: [
+	   {strokeStyle: "#30B32D", min: 0, max: 1},
+	   {strokeStyle: "#FFDD00", min: 1, max: 1.5},
+	   {strokeStyle: "#F03E3E", min: 1.5, max: 2},
+	],
+	limitMax: false,
+	limitMin: false,
+	highDpiSupport: true
+  };
+  var currenttarget = document.getElementById('currentgauge'); // your canvas element
+  var currentgauge = new Gauge(currenttarget).setOptions(currentopts); // create sexy currentgauge!
+  currentgauge.maxValue = 2; // set max currentgauge value
+  currentgauge.setMinValue(0);  // Prefer setter over currentgauge.minValue = 0
+  currentgauge.animationSpeed = 32; // set animation speed (32 is default value)
+  currentgauge.set(0); // set actual value
 
 
 setInterval(function() {
@@ -62,6 +91,7 @@ setInterval(function() {
 			set_dir_pos(gyrodata.x, gyrodata.y, gyrodata.z)
 
 			gauge.set(Number(data.speed)); // set actual value
+			currentgauge.set(Number(data.current)); // set actual value
 		}
 	} catch (e) {
 

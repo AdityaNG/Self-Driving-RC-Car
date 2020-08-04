@@ -28,8 +28,8 @@ GPIO.setup(wheel_speed_data_pin,GPIO.IN)
 MPU_delay = 0.05
 MPU_last_set = time.time()
 
-power_delay = 0.1
-power_last_set = time.time()
+data_delay = 0.1
+last_data_set = time.time()
 
 
 wheel_speed_counter = 0
@@ -38,16 +38,11 @@ wheel_speed_counter_last_set = time.time()
 wheel_speed_delay = 0.3 # Calculate every 1 seconds
 gear_ratio = 4.761904762 # gear_ratio is chosen such that wheel_speed_counter * gear_ratio <= 100
 
-def increment_wheel_speed_counter(channel):
-    global wheel_speed_counter
-    wheel_speed_counter += 1
-
-GPIO.add_event_detect(wheel_speed_data_pin, GPIO.FALLING, callback=increment_wheel_speed_counter, bouncetime=45)  
 
 def speed_calculator():
     global wheel_speed_counter, wheel_speed_counter_last_set, wheel_speed_delay
     global MPU_last_set, MPU_delay, MPU_sensor
-    global power_last_set, power_delay, ser
+    global last_data_set, data_delay, ser
 
     gyroscope_data_old = {'x':0, 'y':0, 'z': 0}
 
@@ -63,17 +58,16 @@ def speed_calculator():
                 #while GPIO.input(wheel_speed_data_pin) == 1:
                     #time.sleep(0.01)
                     #pass # Wait for the sensor to read 0 again before reading the next 1
-            if abs(now - power_last_set)>= power_delay:
-                power_last_set = now
-                voltage,current,power,energy = list(map(float, ser.readline().decode("utf-8").replace('\r','').replace('\n','').split(",")))
+            if abs(now - last_data_set)>= data_delay:
+                last_data_set = now
+                rpm, voltage,current,power,energy = list(map(float, ser.readline().decode("utf-8").replace('\r','').replace('\n','').split(",")))
                 prefs.set_pref("voltage", voltage)
                 prefs.set_pref("current", current)
                 #prefs.set_pref("power", currpowerent)
                 #prefs.set_pref("energy", current)
                 log("power_sensor", voltage, current)
-            
-            if abs(now - wheel_speed_counter_last_set)>=wheel_speed_delay:
-                if wheel_speed_counter > wheel_speed_counter_fault:
+                
+                if False: # Todo finish fault trigger
                     log("speed_calculator FAULT")
                     prefs.set_pref("speed", 0)
                     prefs.set_pref("rpm", 0)
@@ -81,7 +75,7 @@ def speed_calculator():
                     #log("speed_calculator", reading)
 
                     speed = float(prefs.get_pref("speed"))
-                    rpm = float(wheel_speed_counter) / wheel_speed_delay * 60
+                    
                     #accel_val = float(prefs.get_pref("accel_val"))
                     if (wheel_speed_counter!=0):
                         #speed = chase_value(float(wheel_speed_counter) / wheel_speed_delay * gear_ratio, speed, 0.75)
@@ -97,8 +91,6 @@ def speed_calculator():
 
                     #log("speed_calculator", speed, wheel_speed_counter*gear_ratio, wheel_speed_counter)
 
-                wheel_speed_counter_last_set = now
-                wheel_speed_counter = 0
 
             if abs(now - MPU_last_set)>=MPU_delay:
                 accelerometer_data = MPU_sensor.get_accel_data()

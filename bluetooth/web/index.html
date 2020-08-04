@@ -222,7 +222,17 @@
 
 			<input type="checkbox" id="start">
 
-			<canvas id="gauge"></canvas>
+			<table>
+				<tr>
+					<th>Wheel Speed</th>
+					<th>Current</th>
+				</tr>
+				<tr>
+					<td><canvas id="gauge"></canvas></td>
+					<td><canvas id="currentgauge"></canvas></td>
+				</tr>
+			</table>
+
 
 			<script>
 				caches = {}
@@ -383,6 +393,6 @@
 			<div id="gamepads_table"></div>
 		</div>
 		
-		<script type="text/javascript" src="main.js?v=0.0.5"></script>
+		<script type="text/javascript" src="main.js?v=0.0.6"></script>
 	</body>
 </html>
