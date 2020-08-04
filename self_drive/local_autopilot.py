@@ -21,6 +21,11 @@ import sys
 sys.path.append("../bluetooth")
 import prefs
 
+from simple_pid import PID
+pid = PID(1, 0.1, 0.05, setpoint=40)
+
+
+
 
 def log(*a):
     print("[CVAT]", a)
@@ -102,6 +107,10 @@ def telemetry(data, image=False):
 
             if throttle<0:
                 throttle = 0
+
+            global pid
+            #pid.setpoint = 40
+            throttle = pid(speed)
 
             steering_angle = 2*sigmoid(10* steering_angle) -1
 
