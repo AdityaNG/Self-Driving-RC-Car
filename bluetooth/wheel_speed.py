@@ -38,6 +38,25 @@ wheel_speed_counter_last_set = time.time()
 wheel_speed_delay = 0.3 # Calculate every 1 seconds
 gear_ratio = 4.761904762 # gear_ratio is chosen such that wheel_speed_counter * gear_ratio <= 100
 
+# Starting Power Sensor
+print("Starting Aux Sensor")
+aux_sensor_count = 0
+AUX_SENSOR_STATUS = False
+tmp_read = ser.readline().decode("utf-8")
+while tmp_read != "Starting Power Sensor":
+    tmp_read = ser.readline().decode("utf-8")
+    aux_sensor_count+=1
+    if aux_sensor_count>20:
+        AUX_SENSOR_STATUS = False
+        break
+
+if tmp_read == "Starting Power Sensor":
+        AUX_SENSOR_STATUS = True
+
+if AUX_SENSOR_STATUS:
+    print("Aux Sensor ONLINE")
+else:
+    print("Aux Sensor OFFLINE")
 
 def speed_calculator():
     global wheel_speed_counter, wheel_speed_counter_last_set, wheel_speed_delay
