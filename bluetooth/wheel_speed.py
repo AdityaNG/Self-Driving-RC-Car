@@ -102,8 +102,8 @@ def speed_calculator():
                     
                     calculated_speed = rpm / 60.0 * gear_ratio
 
-                    speed = chase_value( calculated_speed, speed, 0.2)
-                    #speed = rpm / 60.0 * gear_ratio 
+                    #speed = chase_value( calculated_speed, speed, 0.2)
+                    speed = calculated_speed
                     
                     if speed>100:
                         speed = 100
