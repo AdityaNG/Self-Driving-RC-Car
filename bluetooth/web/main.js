@@ -58,13 +58,13 @@ var opts = {
 	},
 	staticLabels: {
 	  font: "10px sans-serif",
-	  labels: [0, 1, 2],
+	  labels: [0, 1, 2, 3],
 	  fractionDigits: 0
 	},
 	staticZones: [
 	   {strokeStyle: "#30B32D", min: 0, max: 1},
-	   {strokeStyle: "#FFDD00", min: 1, max: 1.5},
-	   {strokeStyle: "#F03E3E", min: 1.5, max: 2},
+	   {strokeStyle: "#FFDD00", min: 1, max: 2},
+	   {strokeStyle: "#F03E3E", min: 2, max: 3},
 	],
 	limitMax: false,
 	limitMin: false,
@@ -72,7 +72,7 @@ var opts = {
   };
   var currenttarget = document.getElementById('currentgauge'); // your canvas element
   var currentgauge = new Gauge(currenttarget).setOptions(currentopts); // create sexy currentgauge!
-  currentgauge.maxValue = 2; // set max currentgauge value
+  currentgauge.maxValue = 3; // set max currentgauge value
   currentgauge.setMinValue(0);  // Prefer setter over currentgauge.minValue = 0
   currentgauge.animationSpeed = 32; // set animation speed (32 is default value)
   currentgauge.set(0); // set actual value

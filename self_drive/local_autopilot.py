@@ -136,15 +136,15 @@ def autopilot_loop():
         try:
             telemetry_data["accel_val_auto"] = float(prefs.get_pref("accel_val_auto"))
         except:
-            pass
+            prefs.set_pref("accel_val_auto", 0.0)
         try:
             telemetry_data["steering_angle_auto"] = float(prefs.get_pref("steering_angle_auto"))
         except:
-            pass
+            prefs.set_pref("steering_angle_auto", 0.0)
         try:
             telemetry_data["speed"] = float(prefs.get_pref("speed"))
         except:
-            pass
+            prefs.set_pref("speed", 0.0)
 
         #telemetry_data["speed"] = float(abs(y))
         
