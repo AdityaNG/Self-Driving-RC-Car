@@ -54,6 +54,7 @@ speed_limit = MAX_SPEED
 OLD_FRAME = False
 #registering event handler for the server
 def telemetry(data, image=False):
+    global pid
     prediction = dict()
     prediction["accel_val_auto"] = 0         # 0 to 100
     prediction["steering_angle_auto"] = 0    # 0 to 1
@@ -95,12 +96,12 @@ def telemetry(data, image=False):
 
             throttle = throttle * 100
 
+            throttle = pid(speed)
+
             if throttle>100:
                 throttle = 100
             
 
-            if throttle>15:
-                throttle = 15
 
             #if throttle<-100:
                 #throttle = -100
@@ -108,9 +109,9 @@ def telemetry(data, image=False):
             if throttle<0:
                 throttle = 0
 
-            global pid
+            
             #pid.setpoint = 40
-            throttle = pid(speed)
+            
 
             steering_angle = 2*sigmoid(10* steering_angle) -1
 
