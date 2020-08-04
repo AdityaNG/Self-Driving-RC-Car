@@ -65,14 +65,14 @@ def speed_calculator():
                 prefs.set_pref("current", current)
                 #prefs.set_pref("power", currpowerent)
                 #prefs.set_pref("energy", current)
-                log("power_sensor", voltage, current)
+                #log("power_sensor", voltage, current)
                 
                 if False: # Todo finish fault trigger
                     log("speed_calculator FAULT")
                     prefs.set_pref("speed", 0)
                     prefs.set_pref("rpm", 0)
                 else:
-                    #log("speed_calculator", reading)
+                    log("speed_calculator", reading)
 
                     speed = float(prefs.get_pref("speed"))
                     
