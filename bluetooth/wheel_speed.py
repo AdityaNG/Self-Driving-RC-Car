@@ -77,7 +77,7 @@ def speed_calculator():
                     
                     #accel_val = float(prefs.get_pref("accel_val"))
                     
-                    speed = chase_value( float(wheel_speed_counter) / wheel_speed_delay * gear_ratio , speed, 0.75)
+                    speed = chase_value( rpm / 60.0 * gear_ratio , speed, 0.75)
                     #speed = float(wheel_speed_counter) / wheel_speed_delay * gear_ratio
                     
                     if speed>100:
