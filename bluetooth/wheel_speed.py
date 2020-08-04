@@ -5,7 +5,7 @@ from mpu6050 import mpu6050
 import serial
 import os
 
-ser = serial.Serial(list(filter(lambda f: "USB" in f, os.listdir('/dev/')))[0], 115200, bytesize=serial.EIGHTBITS, parity=serial.PARITY_NONE, stopbits=serial.STOPBITS_ONE, timeout=1, xonxoff=0, rtscts=0)
+ser = serial.Serial('/dev/' + list(filter(lambda f: "USB" in f, os.listdir('/dev/')))[0], 115200, bytesize=serial.EIGHTBITS, parity=serial.PARITY_NONE, stopbits=serial.STOPBITS_ONE, timeout=1, xonxoff=0, rtscts=0)
 
 MPU_sensor = mpu6050(0x68)
 
