@@ -72,7 +72,7 @@ def speed_calculator():
                     prefs.set_pref("speed", 0)
                     prefs.set_pref("rpm", 0)
                 else:
-                    log("speed_calculator", reading)
+                    
 
                     speed = float(prefs.get_pref("speed"))
                     
@@ -89,7 +89,8 @@ def speed_calculator():
                     prefs.set_pref("speed", abs(speed))
                     prefs.set_pref("rpm", abs(int(rpm)))
 
-                    #log("speed_calculator", speed, wheel_speed_counter*gear_ratio, wheel_speed_counter)
+
+                    log("speed_calculator", speed, wheel_speed_counter*gear_ratio, wheel_speed_counter)
 
 
             if abs(now - MPU_last_set)>=MPU_delay:
