@@ -43,7 +43,7 @@ print("Starting Aux Sensor")
 aux_sensor_count = 0
 AUX_SENSOR_STATUS = False
 tmp_read = ser.readline().decode("utf-8")
-while tmp_read != "Starting Power Sensor":
+while "Starting" not in tmp_read:
     tmp_read = ser.readline().decode("utf-8")
     aux_sensor_count+=1
     if aux_sensor_count>20:
@@ -51,7 +51,7 @@ while tmp_read != "Starting Power Sensor":
         break
     time.sleep(0.01)
 
-if tmp_read == "Starting Power Sensor":
+if "Starting" in tmp_read:
         AUX_SENSOR_STATUS = True
 
 if AUX_SENSOR_STATUS:
