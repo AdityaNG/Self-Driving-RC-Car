@@ -100,11 +100,14 @@ def speed_calculator():
                     
                     #accel_val = float(prefs.get_pref("accel_val"))
                     
-                    #speed = chase_value( rpm / 60.0 * gear_ratio , speed, 0.75)
-                    speed = rpm / 60.0 * gear_ratio 
+                    speed = chase_value( rpm / 60.0 * gear_ratio , speed, 0.75)
+                    #speed = rpm / 60.0 * gear_ratio 
                     
                     if speed>100:
                         speed = 100
+
+                    if speed<5:
+                        speed = 0
 
                     prefs.set_pref("speed", abs(speed))
                     prefs.set_pref("rpm", abs(int(rpm)))
