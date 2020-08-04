@@ -56,6 +56,8 @@ if "Starting" in tmp_read:
 
 if AUX_SENSOR_STATUS:
     print("Aux Sensor ONLINE")
+    SENSOR_DATA = ser.readline().decode("utf-8").replace('\r','').replace('\n','').split(",")
+    print(SENSOR_DATA)
 else:
     print("Aux Sensor OFFLINE")
 
@@ -97,8 +99,8 @@ def speed_calculator():
                     
                     #accel_val = float(prefs.get_pref("accel_val"))
                     
-                    speed = chase_value( rpm / 60.0 * gear_ratio , speed, 0.75)
-                    #speed = float(wheel_speed_counter) / wheel_speed_delay * gear_ratio
+                    #speed = chase_value( rpm / 60.0 * gear_ratio , speed, 0.75)
+                    speed = rpm / 60.0 * gear_ratio 
                     
                     if speed>100:
                         speed = 100
@@ -107,7 +109,7 @@ def speed_calculator():
                     prefs.set_pref("rpm", abs(int(rpm)))
 
 
-                    log("speed_calculator", speed, wheel_speed_counter*gear_ratio, wheel_speed_counter)
+                    log("speed_calculator", speed, rpm)
 
 
             if abs(now - MPU_last_set)>=MPU_delay:
