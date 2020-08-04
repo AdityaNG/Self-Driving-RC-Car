@@ -101,10 +101,8 @@ def telemetry(data, image=False):
             if throttle>100:
                 throttle = 100
             
-
-
-            #if throttle<-100:
-                #throttle = -100
+            if throttle>25:
+                throttle = 25
 
             if throttle<0:
                 throttle = 0
