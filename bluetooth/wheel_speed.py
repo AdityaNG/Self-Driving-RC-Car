@@ -49,6 +49,7 @@ while tmp_read != "Starting Power Sensor":
     if aux_sensor_count>20:
         AUX_SENSOR_STATUS = False
         break
+    time.sleep(0.01)
 
 if tmp_read == "Starting Power Sensor":
         AUX_SENSOR_STATUS = True
