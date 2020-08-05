@@ -23,7 +23,8 @@ import prefs
 
 from simple_pid import PID
 pid = PID(1, 0.001, 1, setpoint=40)
-pid.output_limits = (0, 100)    
+#pid.output_limits = (0, 100)    
+pid.output_limits = (-100, 100)    
 
 
 def log(*a):
@@ -92,20 +93,21 @@ def telemetry(data, image=False):
                 speed_limit = MIN_SPEED  # slow down
             else:
                 speed_limit = MAX_SPEED
-            throttle = 1.0 - steering_angle**2 - (speed/speed_limit)**2
+            
+            #throttle = 1.0 - steering_angle**2 - (speed/speed_limit)**2
 
-            throttle = throttle * 100
+            #throttle = throttle * 100
 
             throttle = pid(speed)
 
-            if throttle>100:
-                throttle = 100
+            #if throttle>100:
+            #    throttle = 100
             
-            if throttle>25:
-                throttle = 25
+            #if throttle>25:
+            #    throttle = 25
 
-            if throttle<0:
-                throttle = 0
+            #if throttle<0:
+            #    throttle = 0
 
             
             #pid.setpoint = 40
