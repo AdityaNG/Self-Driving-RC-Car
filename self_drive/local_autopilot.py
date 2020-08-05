@@ -28,7 +28,7 @@ pid.output_limits = (-5, 75)
 
 
 def log(*a):
-    #print("[CVAT]", a)
+    print("[CVAT]", a)
     pass
 
 def sigmoid(x):
@@ -116,9 +116,11 @@ def telemetry(data, image=False):
             steering_angle = 2*sigmoid(10* steering_angle) -1
 
             if 1 - abs(steering_angle) < 0.3:
-                log('{} {} {} STEER'.format(steering_angle, throttle, speed))
+                #log('{} {} {} STEER'.format(steering_angle, throttle, speed))
+                pass
             else:
-                log('{} {} {}'.format(steering_angle, throttle, speed))
+                #log('{} {} {}'.format(steering_angle, throttle, speed))
+                pass
 
             prediction["accel_val"] = throttle
             prediction["steering_angle"] = steering_angle
@@ -198,7 +200,7 @@ def throttle_loop():
 
     accel_val, steering_angle = telemetry(telemetry_data)
 
-
+    log(telemetry_data["speed"], "\t -> \t", accel_val)
     prefs.set_pref("accel_val_auto", accel_val)
 
 def main(c):
