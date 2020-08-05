@@ -13,7 +13,10 @@ def log(*a):
     print("[WSPS]", a)
 
 def chase_value(goal, chase, chase_factor=0.5):
-    return chase + (goal-chase)*chase_factor
+    res = chase + (goal-chase)*chase_factor
+    if abs(goal-chase) <  0.9 * goal:
+        return res
+    return goal
 
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)
