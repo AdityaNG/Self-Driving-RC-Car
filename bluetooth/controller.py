@@ -13,7 +13,8 @@ import sys
 #import numpy as np
 
 def log(*a):
-    print("[CONT]", a)
+    #print("[CONT]", a)
+    pass
 
 #import sys
 #sys.path.append("../self_drive")
