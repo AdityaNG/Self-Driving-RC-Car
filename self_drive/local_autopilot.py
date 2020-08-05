@@ -24,7 +24,7 @@ import prefs
 from simple_pid import PID
 pid = PID(1, 0.01, 0.1, setpoint=40)
 #pid.output_limits = (0, 100)    
-pid.output_limits = (-10, 75)    
+pid.output_limits = (-5, 75)    
 
 
 def log(*a):
