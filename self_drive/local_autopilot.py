@@ -27,7 +27,8 @@ pid.output_limits = (0, 100)
 
 
 def log(*a):
-    print("[CVAT]", a)
+    #print("[CVAT]", a)
+    pass
 
 def sigmoid(x):
     return 1 / (1 + math.exp(-x))
