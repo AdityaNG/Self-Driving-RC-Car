@@ -22,7 +22,7 @@ sys.path.append("../bluetooth")
 import prefs
 
 from simple_pid import PID
-pid = PID(1, 0.01, 2, setpoint=40)
+pid = PID(1, 0.001, 1, setpoint=40)
 pid.output_limits = (0, 100)    
 
 
