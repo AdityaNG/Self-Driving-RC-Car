@@ -295,7 +295,7 @@ def loop(accel_val, steering_angle, rec_toggle=False):
         log("accel_val", round(accel_val, 3), "steering_angle", round(steering_angle, 3), "speed", speed, "[AUTOPilot]")
         pass
     else:
-        log("accel_val", round(accel_val, 3), "steering_angle", round(steering_angle, 3), "speed", speed, "[MANUAL]")
+        #log("accel_val", round(accel_val, 3), "steering_angle", round(steering_angle, 3), "speed", speed, "[MANUAL]")
         pass
 
     av = str(accel_val)
