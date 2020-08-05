@@ -200,7 +200,7 @@ def throttle_loop():
 
     accel_val, steering_angle = telemetry(telemetry_data)
 
-    log(telemetry_data["speed"], "\t -> \t", accel_val)
+    print(telemetry_data["speed"], "\t -> \t", accel_val)
     prefs.set_pref("accel_val_auto", accel_val)
 
 def main(c):
@@ -211,7 +211,8 @@ def main(c):
             now = time.time()
             if prefs.get_pref("AUTOPILOT")=="1":# and abs(now - prefs.get_pref_time("AUTOPILOT")) < 1:
                 #autopilot_loop()
-                throttle_loop()
+                for i in range(1000):
+                    throttle_loop()
             else:
                 time.sleep(1)
         except Exception as e:

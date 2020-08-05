@@ -115,8 +115,8 @@ def speed_calculator():
                     prefs.set_pref("speed", abs(speed))
                     prefs.set_pref("rpm", abs(int(rpm)))
 
-
-                    #log("speed_calculator", speed, rpm)
+                    if prefs.get_pref("AUTOPILOT")!="1":
+                        log("speed_calculator", speed, rpm)
 
 
             if abs(now - MPU_last_set)>=MPU_delay:
