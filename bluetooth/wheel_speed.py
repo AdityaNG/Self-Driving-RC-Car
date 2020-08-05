@@ -37,7 +37,7 @@ wheel_speed_counter = 0
 wheel_speed_counter_fault = 20
 wheel_speed_counter_last_set = time.time()
 wheel_speed_delay = 0.3 # Calculate every 1 seconds
-gear_ratio = 4.761904762 # gear_ratio is chosen such that wheel_speed_counter * gear_ratio <= 100
+gear_ratio = 4.444444444 # gear_ratio is chosen such that wheel_speed_counter * gear_ratio <= 100
 
 # Starting Power Sensor
 print("Starting Aux Sensor")
