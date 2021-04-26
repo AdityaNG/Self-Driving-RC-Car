@@ -1,4 +1,5 @@
 # Self Driving Car Project
+![alt text](https://github.com/AdityaNG/Self-Driving-RC-Car/blob/master/images/predict.gif "Predicitons")
 ![alt text](https://github.com/AdityaNG/Self-Driving-RC-Car/blob/master/images/webInterface.png "Web Interface")
 ## Description
 To build the software infrastructure needed for:
